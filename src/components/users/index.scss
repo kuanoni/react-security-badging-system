@@ -1,0 +1,48 @@
+.container {
+	height: 100vh;
+	overflow: auto;
+}
+
+#searchbar {
+	display: flex;
+	position: sticky;
+	top: 0;
+	height: 40px;
+	padding: 0.4rem;
+	background-color: #04aa6d;
+	z-index: 1;
+}
+
+table {
+	position: relative;
+	text-align: left;
+	border-collapse: collapse;
+
+	th,
+	td {
+		border: 1px solid #ddd;
+		padding: 0.25rem;
+	}
+
+	th {
+		position: sticky;
+		top: 40px;
+		padding: 0.6rem 1.5rem 0.6rem 0.6rem;
+		text-align: left;
+		background-color: #04aa6d;
+		color: white;
+		border: none;
+	}
+
+	tr:nth-child(even) {
+		background-color: #f2f2f2;
+	}
+
+	tr:hover {
+		background-color: #ddd;
+	}
+}
+
+.table-thumbnail {
+	width: 50px;
+}
