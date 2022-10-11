@@ -10,27 +10,26 @@ const UsersTable = () => {
 	const fetchSize = 20;
 
 	const filterUrlText = useMemo(() => {
-		return searchbar ? '/filter?key=' + searchSetting + '&value=' + searchbar : '';
+		return searchbar ? '?' + searchSetting + '=' + searchbar : '';
 	}, [searchbar, searchSetting]);
 
-	const fetchData = async (start, fSize) => {
-		let fetchUrl = 'https://dummyjson.com/users';
+	const fetchData = async (page, fSize) => {
+		let fetchUrl = 'https://63445b7f242c1f347f84bcb2.mockapi.io/users';
 
 		if (filterUrlText) fetchUrl += filterUrlText;
-		else fetchUrl += '?limit=' + fSize + '&skip=' + start;
+		else fetchUrl += '?page=' + (page + 1) + '&limit=' + fSize;
 
 		const fetchedUsers = await fetch(fetchUrl).then((res) => res.json());
 
 		console.log(fetchUrl);
 
-		if (fetchedUsers) return fetchedUsers.users;
+		if (fetchedUsers) return fetchedUsers;
 	};
 
 	const { data, fetchNextPage, isFetching } = useInfiniteQuery(
 		['table-data', searchbar, searchSetting], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
 		async ({ pageParam = 0 }) => {
-			const start = pageParam * fetchSize;
-			const fetchedData = fetchData(start, fetchSize);
+			const fetchedData = fetchData(pageParam, fetchSize);
 			return fetchedData;
 		},
 		{
@@ -41,19 +40,19 @@ const UsersTable = () => {
 	);
 
 	const flatData = useMemo(() => {
-		return data?.pages.flat() ?? [];
+		return data?.pages?.flat() ?? [];
 	}, [data]);
 
 	const usersColumns = useMemo(
 		() => [
 			{
-				Header: '',
-				accessor: 'image',
+				Header: 'Picture',
+				accessor: 'avatar',
 				Cell: ({ value }) => (
 					<img
 						src={value ? value : 'https://robohash.org/hicveldicta.png?size=50x50&set=set1'}
 						alt=''
-						className='table-thumbnail'
+						className='avatar'
 					/>
 				),
 			},
@@ -68,6 +67,21 @@ const UsersTable = () => {
 			{
 				Header: 'Last Name',
 				accessor: 'lastName',
+			},
+			{
+				Header: 'Status',
+				accessor: 'cardholderProfile.status',
+				Cell: ({ value }) => {
+					return value ? (
+						<div className='badge green-txt'>Active</div>
+					) : (
+						<div className='badge red-txt'>Expired</div>
+					);
+				},
+			},
+			{
+				Header: 'Group',
+				accessor: 'cardholderProfile.group',
 			},
 		],
 		[]

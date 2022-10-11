@@ -17,6 +17,7 @@ table {
 	position: relative;
 	text-align: left;
 	border-collapse: collapse;
+	width: 100%;
 
 	th,
 	td {
@@ -27,7 +28,6 @@ table {
 	th {
 		position: sticky;
 		top: 40px;
-		padding: 0.6rem 1.5rem 0.6rem 0.6rem;
 		text-align: left;
 		background-color: #04aa6d;
 		color: white;
@@ -43,6 +43,14 @@ table {
 	}
 }
 
-.table-thumbnail {
-	width: 50px;
+.avatar {
+	width: 45px;
+}
+
+.green-txt {
+	color: green;
+}
+
+.red-txt {
+	color: red;
 }
