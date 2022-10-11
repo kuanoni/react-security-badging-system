@@ -58,6 +58,10 @@ const Cardholders = () => {
 		}
 	};
 
+	const editUser = (id) => {
+		console.log(id);
+	};
+
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbar(value);
 	}, 300);
@@ -80,7 +84,7 @@ const Cardholders = () => {
 				</select>
 			</div>
 			<div className='table-container'>
-				<UsersTable data={flatData} />
+				<UsersTable data={flatData} editUser={editUser} />
 			</div>
 		</div>
 	);

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 
-const UsersTable = ({ data }) => {
+const UsersTable = ({ data, editUser }) => {
 	const usersColumns = useMemo(
 		() => [
 			{
@@ -15,13 +15,9 @@ const UsersTable = ({ data }) => {
 					/>
 				),
 				style: {
-					maxWidth: '100px',
+					width: '100px',
 				},
 			},
-			// {
-			// 	Header: 'Id',
-			// 	accessor: 'id',
-			// },
 			{
 				Header: 'First Name',
 				accessor: 'firstName',
@@ -40,10 +36,19 @@ const UsersTable = ({ data }) => {
 						<div className='badge red-txt'>Expired</div>
 					);
 				},
+				style: {
+					width: '150px',
+				},
 			},
 			{
 				Header: 'Group',
 				accessor: 'cardholderProfile.group',
+			},
+			{
+				accessor: 'id',
+				Cell: ({ value }) => {
+					return <button onClick={(e) => editUser(value)}>Edit</button>;
+				},
 			},
 		],
 		[]
