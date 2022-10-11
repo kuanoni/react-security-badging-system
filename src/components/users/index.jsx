@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
-import { useAsyncDebounce, useTable } from 'react-table';
+import { useAsyncDebounce } from 'react-table';
 import './index.scss';
 import UsersTable from './UsersTable';
 
 const Cardholders = () => {
+	const [editingUser, setEditingUser] = useState({});
 	const [totalUsers, setTotalUsers] = useState(0);
 	const [searchbar, setSearchbar] = useState('');
 	const [searchSetting, setSearchSetting] = useState('firstName');
@@ -15,7 +16,7 @@ const Cardholders = () => {
 		return searchbar ? '?' + searchSetting + '=' + searchbar : '';
 	}, [searchbar, searchSetting]);
 
-	const fetchData = async (page, fSize) => {
+	const fetchUsers = async (page, fSize) => {
 		let fetchUrl = 'https://63445b7f242c1f347f84bcb2.mockapi.io/users';
 
 		if (filterUrlText) fetchUrl += filterUrlText;
@@ -23,18 +24,27 @@ const Cardholders = () => {
 
 		const fetchedUsers = await fetch(fetchUrl).then((res) => res.json());
 
-		console.log(fetchUrl);
-
 		if (fetchedUsers) {
 			setTotalUsers(fetchedUsers.count);
 			return fetchedUsers.users;
 		}
 	};
 
+	const fetchUser = async (id) => {
+		let fetchUrl = 'https://63445b7f242c1f347f84bcb2.mockapi.io/users/' + id;
+
+		const fetchedUser = await fetch(fetchUrl).then((res) => res.json());
+
+		if (fetchedUser) {
+			setEditingUser(fetchedUser);
+			return fetchedUser;
+		}
+	};
+
 	const { data, fetchNextPage, isFetching } = useInfiniteQuery(
 		['table-data', searchbar, searchSetting], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
 		async ({ pageParam = 0 }) => {
-			const fetchedData = fetchData(pageParam, fetchSize);
+			const fetchedData = fetchUsers(pageParam, fetchSize);
 			return fetchedData;
 		},
 		{
@@ -59,7 +69,7 @@ const Cardholders = () => {
 	};
 
 	const editUser = (id) => {
-		console.log(id);
+		fetchUser(id);
 	};
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {

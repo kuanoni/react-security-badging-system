@@ -109,6 +109,22 @@ table {
 	aspect-ratio: 1 / 1;
 }
 
+.btn-edit-user {
+	color: $clr-text;
+	background-color: $clr-dark;
+	padding: 6px;
+	border: 1px solid $clr-hightlight;
+	border-radius: 10px;
+	cursor: pointer;
+
+	&:hover {
+		color: #000;
+		background-color: $clr-text-dark;
+		transform: scale(1.05);
+		transition: 0.1s ease;
+	}
+}
+
 .green-txt {
 	color: rgb(65, 224, 65);
 }

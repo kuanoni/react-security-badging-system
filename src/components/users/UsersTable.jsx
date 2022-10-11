@@ -45,9 +45,20 @@ const UsersTable = ({ data, editUser }) => {
 				accessor: 'cardholderProfile.group',
 			},
 			{
+				Header: 'WWID',
+				accessor: 'wwid',
+			},
+			{
 				accessor: 'id',
 				Cell: ({ value }) => {
-					return <button onClick={(e) => editUser(value)}>Edit</button>;
+					return (
+						<button className='btn-edit-user' onClick={(e) => editUser(value)}>
+							Edit
+						</button>
+					);
+				},
+				style: {
+					width: '4rem',
 				},
 			},
 		],
