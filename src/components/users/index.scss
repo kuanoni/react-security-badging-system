@@ -4,12 +4,14 @@ $clr-hightlight: #454545;
 $clr-text: #e7ebe5;
 $clr-text-dark: #c0c0c0;
 
-body {
+.container {
 	background-color: $clr-dark;
+	height: 100vh;
+	overflow: auto;
 }
 
-.container {
-	overflow: auto;
+.table-container {
+	position: relative;
 	padding: 1rem;
 	padding-top: 0;
 	background-color: $clr-dark;
@@ -17,6 +19,7 @@ body {
 
 #searchbar {
 	display: flex;
+	justify-content: flex-end;
 	position: sticky;
 	top: 0;
 	height: 64px;
@@ -41,8 +44,8 @@ body {
 		margin-left: 1rem;
 		color: $clr-text-dark;
 		background-color: transparent;
-		border-left: none;
-		border-right: none;
+		border: none;
+		border-bottom: 1px solid $clr-hightlight;
 		outline: none;
 
 		option {
@@ -53,46 +56,65 @@ body {
 
 table {
 	position: relative;
-	text-align: left;
-	border-collapse: collapse;
-	border: 1px solid $clr-hightlight;
 	width: 100%;
 	min-width: 870px;
+
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 1px solid $clr-hightlight;
+	border-top: none;
+
+	font-size: 13px;
+	font-weight: 300;
+	text-align: left;
 	user-select: none;
 
 	th,
 	td {
-		padding: 0.25rem;
+		padding: 0.25rem 0.5rem;
 	}
 
 	th {
+		position: sticky;
+		top: 64px;
+		z-index: 10;
+		margin-bottom: 0.5rem;
 		color: $clr-text-dark;
 		background-color: $clr-dark;
-		border-bottom: 1px solid $clr-hightlight;
+		border: 1px solid $clr-hightlight;
+		border-left: none;
+	}
+
+	td {
+		border-bottom: none;
 		border-right: 1px solid $clr-hightlight;
 	}
 
 	tr {
 		color: $clr-text;
 		background-color: $clr-base;
-		border-bottom: 1px solid $clr-dark;
 	}
 
 	tr:hover {
 		background-color: $clr-hightlight;
 	}
+
+	tbody > tr:first-child > td {
+		padding-top: 0.5rem;
+	}
 }
 
 .avatar {
-	width: 45px;
+	width: 30px;
 	margin-left: 4px;
 	border-radius: 50%;
+	aspect-ratio: 1 / 1;
 }
 
 .green-txt {
-	color: green;
+	color: rgb(65, 224, 65);
 }
 
 .red-txt {
-	color: red;
+	color: rgb(255, 65, 65);
 }

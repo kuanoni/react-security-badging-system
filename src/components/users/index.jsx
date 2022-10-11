@@ -9,7 +9,7 @@ const Cardholders = () => {
 	const [searchbar, setSearchbar] = useState('');
 	const [searchSetting, setSearchSetting] = useState('firstName');
 
-	const fetchSize = 20;
+	const fetchSize = 30;
 
 	const filterUrlText = useMemo(() => {
 		return searchbar ? '?' + searchSetting + '=' + searchbar : '';
@@ -52,7 +52,7 @@ const Cardholders = () => {
 		if (containerRefElement) {
 			const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
 
-			if (scrollHeight - scrollTop - clientHeight < 100 && !isFetching && flatData.length < totalUsers) {
+			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && flatData.length < totalUsers) {
 				fetchNextPage();
 			}
 		}
@@ -71,7 +71,7 @@ const Cardholders = () => {
 	}, [fetchNextPage]);
 
 	return (
-		<>
+		<div className='container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 			<div id='searchbar'>
 				<input type='text' placeholder='Search...' onChange={(e) => onChangeSearchbar(e.target.value)} />
 				<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
@@ -79,10 +79,10 @@ const Cardholders = () => {
 					<option value='lastName'>Last Name</option>
 				</select>
 			</div>
-			<div className='container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
+			<div className='table-container'>
 				<UsersTable data={flatData} />
 			</div>
-		</>
+		</div>
 	);
 };
 

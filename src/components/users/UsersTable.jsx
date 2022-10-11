@@ -14,11 +14,14 @@ const UsersTable = ({ data }) => {
 						className='avatar'
 					/>
 				),
+				style: {
+					maxWidth: '100px',
+				},
 			},
-			{
-				Header: 'Id',
-				accessor: 'id',
-			},
+			// {
+			// 	Header: 'Id',
+			// 	accessor: 'id',
+			// },
 			{
 				Header: 'First Name',
 				accessor: 'firstName',
@@ -46,6 +49,11 @@ const UsersTable = ({ data }) => {
 		[]
 	);
 
+	const getColumnStyle = (column) => {
+		if (column.style) return column.style;
+		else return {};
+	};
+
 	const tableInstance = useTable({
 		data,
 		columns: usersColumns,
@@ -59,7 +67,9 @@ const UsersTable = ({ data }) => {
 				{headerGroups.map((headerGroup) => (
 					<tr {...headerGroup.getHeaderGroupProps()}>
 						{headerGroup.headers.map((column) => (
-							<th {...column.getHeaderProps()}>{column.render('Header')}</th>
+							<th {...column.getHeaderProps()} style={{ ...getColumnStyle(column) }}>
+								{column.render('Header')}
+							</th>
 						))}
 					</tr>
 				))}
