@@ -2,8 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce, useTable } from 'react-table';
 import './index.scss';
+import UsersTable from './UsersTable';
 
-const UsersTable = () => {
+const Cardholders = () => {
+	const [totalUsers, setTotalUsers] = useState(0);
 	const [searchbar, setSearchbar] = useState('');
 	const [searchSetting, setSearchSetting] = useState('firstName');
 
@@ -23,7 +25,10 @@ const UsersTable = () => {
 
 		console.log(fetchUrl);
 
-		if (fetchedUsers) return fetchedUsers;
+		if (fetchedUsers) {
+			setTotalUsers(fetchedUsers.count);
+			return fetchedUsers.users;
+		}
 	};
 
 	const { data, fetchNextPage, isFetching } = useInfiniteQuery(
@@ -43,68 +48,11 @@ const UsersTable = () => {
 		return data?.pages?.flat() ?? [];
 	}, [data]);
 
-	const usersColumns = useMemo(
-		() => [
-			{
-				Header: 'Picture',
-				accessor: 'avatar',
-				Cell: ({ value }) => (
-					<img
-						src={value ? value : 'https://robohash.org/hicveldicta.png?size=50x50&set=set1'}
-						alt=''
-						className='avatar'
-					/>
-				),
-			},
-			{
-				Header: 'Id',
-				accessor: 'id',
-			},
-			{
-				Header: 'First Name',
-				accessor: 'firstName',
-			},
-			{
-				Header: 'Last Name',
-				accessor: 'lastName',
-			},
-			{
-				Header: 'Status',
-				accessor: 'cardholderProfile.status',
-				Cell: ({ value }) => {
-					return value ? (
-						<div className='badge green-txt'>Active</div>
-					) : (
-						<div className='badge red-txt'>Expired</div>
-					);
-				},
-			},
-			{
-				Header: 'Group',
-				accessor: 'cardholderProfile.group',
-			},
-		],
-		[]
-	);
-
-	const tableInstance = useTable({
-		data: flatData,
-		columns: usersColumns,
-	});
-
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
-
-	useEffect(() => {
-		fetchNextPage();
-	}, [fetchNextPage]);
-
-	const isEven = (idx) => idx % 2 === 0;
-
 	const fetchMoreOnBottomReached = (containerRefElement) => {
 		if (containerRefElement) {
 			const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
 
-			if (scrollHeight - scrollTop - clientHeight < 100 && !isFetching) {
+			if (scrollHeight - scrollTop - clientHeight < 100 && !isFetching && flatData.length < totalUsers) {
 				fetchNextPage();
 			}
 		}
@@ -118,43 +66,24 @@ const UsersTable = () => {
 		setSearchSetting(value);
 	};
 
+	useEffect(() => {
+		fetchNextPage();
+	}, [fetchNextPage]);
+
 	return (
 		<>
+			<div id='searchbar'>
+				<input type='text' placeholder='Search...' onChange={(e) => onChangeSearchbar(e.target.value)} />
+				<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
+					<option value='firstName'>First Name</option>
+					<option value='lastName'>Last Name</option>
+				</select>
+			</div>
 			<div className='container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-				<div id='searchbar'>
-					<input type='text' placeholder='Search...' onChange={(e) => onChangeSearchbar(e.target.value)} />
-					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
-						<option value='firstName'>First Name</option>
-						<option value='lastName'>Last Name</option>
-					</select>
-				</div>
-				<table {...getTableProps()}>
-					<thead>
-						{headerGroups.map((headerGroup) => (
-							<tr {...headerGroup.getHeaderGroupProps()}>
-								{headerGroup.headers.map((column) => (
-									<th {...column.getHeaderProps()}>{column.render('Header')}</th>
-								))}
-							</tr>
-						))}
-					</thead>
-					<tbody {...getTableBodyProps()}>
-						{rows.map((row, idx) => {
-							prepareRow(row);
-
-							return (
-								<tr {...row.getRowProps()} className={isEven(idx) ? 'dark' : 'light'}>
-									{row.cells.map((cell, idx) => (
-										<td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-									))}
-								</tr>
-							);
-						})}
-					</tbody>
-				</table>
+				<UsersTable data={flatData} />
 			</div>
 		</>
 	);
 };
 
-export default UsersTable;
+export default Cardholders;

@@ -1,50 +1,92 @@
+$clr-base: #303030;
+$clr-dark: #2b2b2b;
+$clr-hightlight: #454545;
+$clr-text: #e7ebe5;
+$clr-text-dark: #c0c0c0;
+
+body {
+	background-color: $clr-dark;
+}
+
 .container {
-	height: 100vh;
 	overflow: auto;
+	padding: 1rem;
+	padding-top: 0;
+	background-color: $clr-dark;
 }
 
 #searchbar {
 	display: flex;
 	position: sticky;
 	top: 0;
-	height: 40px;
-	padding: 0.4rem;
-	background-color: #04aa6d;
+	height: 64px;
+	padding: 1rem 1rem;
+	background-color: $clr-dark;
 	z-index: 1;
+
+	input {
+		color: $clr-text;
+		background-color: transparent;
+		border: none;
+		border-bottom: 1px solid $clr-hightlight;
+		caret-color: $clr-text;
+		outline: none;
+
+		&::placeholder {
+			color: $clr-text-dark;
+		}
+	}
+
+	select {
+		margin-left: 1rem;
+		color: $clr-text-dark;
+		background-color: transparent;
+		border-left: none;
+		border-right: none;
+		outline: none;
+
+		option {
+			color: black;
+		}
+	}
 }
 
 table {
 	position: relative;
 	text-align: left;
 	border-collapse: collapse;
+	border: 1px solid $clr-hightlight;
 	width: 100%;
+	min-width: 870px;
+	user-select: none;
 
 	th,
 	td {
-		border: 1px solid #ddd;
 		padding: 0.25rem;
 	}
 
 	th {
-		position: sticky;
-		top: 40px;
-		text-align: left;
-		background-color: #04aa6d;
-		color: white;
-		border: none;
+		color: $clr-text-dark;
+		background-color: $clr-dark;
+		border-bottom: 1px solid $clr-hightlight;
+		border-right: 1px solid $clr-hightlight;
 	}
 
-	tr:nth-child(even) {
-		background-color: #f2f2f2;
+	tr {
+		color: $clr-text;
+		background-color: $clr-base;
+		border-bottom: 1px solid $clr-dark;
 	}
 
 	tr:hover {
-		background-color: #ddd;
+		background-color: $clr-hightlight;
 	}
 }
 
 .avatar {
 	width: 45px;
+	margin-left: 4px;
+	border-radius: 50%;
 }
 
 .green-txt {
