@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 
-const UsersTable = ({ data, editUser }) => {
+const UsersTable = ({ data, openUserEditor }) => {
 	const usersColumns = useMemo(
 		() => [
 			{
@@ -52,7 +52,7 @@ const UsersTable = ({ data, editUser }) => {
 				accessor: 'id',
 				Cell: ({ value }) => {
 					return (
-						<button className='btn-edit-user' onClick={(e) => editUser(value)}>
+						<button className='btn-edit-user' onClick={(e) => openUserEditor(value)}>
 							Edit
 						</button>
 					);
@@ -62,7 +62,7 @@ const UsersTable = ({ data, editUser }) => {
 				},
 			},
 		],
-		[]
+		[openUserEditor]
 	);
 
 	const getColumnStyle = (column) => {
