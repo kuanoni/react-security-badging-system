@@ -91,7 +91,6 @@ const Cardholders = () => {
 	return (
 		<>
 			<UserModal user={editingUser} setUser={setEditingUser} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
-
 			<div className='container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 				<div id='searchbar'>
 					<input type='text' placeholder='Search...' onChange={(e) => onChangeSearchbar(e.target.value)} />

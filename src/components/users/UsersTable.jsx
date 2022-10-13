@@ -33,7 +33,7 @@ const UsersTable = ({ data, openUserEditor }) => {
 					return value ? (
 						<div className='badge green-txt'>Active</div>
 					) : (
-						<div className='badge red-txt'>Expired</div>
+						<div className='badge red-txt'>Inactive</div>
 					);
 				},
 				style: {
@@ -41,12 +41,12 @@ const UsersTable = ({ data, openUserEditor }) => {
 				},
 			},
 			{
-				Header: 'Group',
-				accessor: 'cardholderProfile.group',
+				Header: 'Type',
+				accessor: 'cardholderProfile.type',
 			},
 			{
-				Header: 'WWID',
-				accessor: 'wwid',
+				Header: 'Enployee ID',
+				accessor: 'employeeId',
 			},
 			{
 				accessor: 'id',
