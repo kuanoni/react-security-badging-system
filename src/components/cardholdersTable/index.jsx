@@ -86,7 +86,11 @@ const Cardholders = () => {
 				</div>
 				<div className='cardholder-table'>
 					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-						<CardholdersTable data={flatData} openCardholderEditor={openCardholderEditor} />
+						{Object.keys(flatData).length ? (
+							<CardholdersTable data={flatData} openCardholderEditor={openCardholderEditor} />
+						) : (
+							<div className='no-results'>No results...</div>
+						)}
 					</div>
 				</div>
 			</div>

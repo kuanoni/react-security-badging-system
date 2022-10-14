@@ -146,3 +146,9 @@ $searchbar-height: 64px;
 		}
 	}
 }
+
+.no-results {
+	padding: 1rem;
+	font-size: 16px;
+	color: $clr-text;
+}
