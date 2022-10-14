@@ -2,7 +2,7 @@
 
 $searchbar-height: 64px;
 
-.cardholder-page-container {
+.cardholder-page {
 	background-color: $clr-dark;
 	height: 100%;
 
@@ -42,7 +42,7 @@ $searchbar-height: 64px;
 		}
 	}
 
-	.cardholder-table {
+	.cardholder-section-container {
 		position: relative;
 		width: 100%;
 		height: calc(100% - $searchbar-height);

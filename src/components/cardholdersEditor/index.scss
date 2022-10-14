@@ -33,7 +33,6 @@
 			&-label {
 				margin-top: 0.5rem;
 				margin-bottom: 5px;
-				margin-left: 2px;
 				font-size: 0.8em;
 				color: $clr-text-dark;
 			}
@@ -103,43 +102,59 @@
 				margin-left: 2rem;
 			}
 
-			.user-edit {
+			.user-edit-toggle {
+				position: relative;
 				display: flex;
 				align-items: flex-start;
 				gap: 1rem;
 				margin-left: auto;
 
-				font-size: 1.25em;
-				font-weight: 600;
+				span {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				}
 
-				.user-info-checkbox {
-					appearance: none;
-					background-color: transparent;
-					margin: 0;
+				input[type='checkbox'] {
+					height: 0;
+					width: 0;
+					visibility: hidden;
+				}
 
-					font: inherit;
-					color: $clr-text;
-					width: 1.15em;
-					height: 1.15em;
-					border: 0.15em solid $clr-text;
-					border-radius: 0.15em;
-					transform: translateY(-0.07em);
+				label {
+					cursor: pointer;
+					text-indent: -9999px;
+					width: 40px;
+					height: 20px;
+					background: grey;
+					display: block;
+					border-radius: 100px;
+					position: relative;
+				}
 
-					display: grid;
-					place-content: center;
+				label:after {
+					content: '';
+					position: absolute;
+					top: 1px;
+					left: 1px;
+					width: 18px;
+					height: 18px;
+					background: #fff;
+					border-radius: 90px;
+					transition: 0.3s;
+				}
 
-					&:checked::before {
-						transform: scale(1);
-					}
+				input:checked + label {
+					background: #bada55;
+				}
 
-					&::before {
-						content: '';
-						width: 0.65em;
-						height: 0.65em;
-						transform: scale(0);
-						transition: 0.1s transform ease-in-out;
-						box-shadow: inset 1em 1em $clr-text-dark;
-					}
+				input:checked + label:after {
+					left: calc(100% - 1px);
+					transform: translateX(-100%);
+				}
+
+				label:active:after {
+					width: 130px;
 				}
 			}
 		}

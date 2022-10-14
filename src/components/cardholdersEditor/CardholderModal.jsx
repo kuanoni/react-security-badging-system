@@ -35,14 +35,12 @@ const CardholderModal = ({ cardholder, isOpen, closeModal }) => {
 							<div className='user-info-basic red-txt'>Inactive</div>
 						)}
 					</div>
-					<label className='user-edit'>
-						EDIT
-						<input
-							className='user-info-checkbox'
-							type='checkbox'
-							value={isEditing}
-							onChange={onChangeEditing}
-						/>
+					<label className='user-edit-toggle'>
+						<span>
+							EDIT
+							<input type='checkbox' id='switch' value={isEditing} onChange={onChangeEditing} />
+							<label for='switch'>Toggle</label>{' '}
+						</span>
 					</label>
 				</div>
 				<div className='user-info-body'>

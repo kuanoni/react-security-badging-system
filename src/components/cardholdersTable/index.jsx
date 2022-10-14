@@ -76,7 +76,7 @@ const Cardholders = () => {
 				isOpen={isModalOpen}
 				closeModal={closeCardholderEditor}
 			/>
-			<div className='cardholder-page-container'>
+			<div className='cardholder-page'>
 				<div id='searchbar'>
 					<input type='text' placeholder='Search...' onChange={(e) => onChangeSearchbar(e.target.value)} />
 					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
@@ -84,7 +84,7 @@ const Cardholders = () => {
 						<option value='lastName'>Last Name</option>
 					</select>
 				</div>
-				<div className='cardholder-table'>
+				<div className='cardholder-section-container'>
 					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 						{Object.keys(flatData).length ? (
 							<CardholdersTable data={flatData} openCardholderEditor={openCardholderEditor} />
