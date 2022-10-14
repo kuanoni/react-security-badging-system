@@ -45,7 +45,7 @@ const CardholdersTable = ({ data, openCardholderEditor }) => {
 				accessor: 'cardholderProfile.type',
 			},
 			{
-				Header: 'Enployee ID',
+				Header: 'Employee ID',
 				accessor: 'employeeId',
 			},
 			{

@@ -1,15 +1,16 @@
 @import '../../utillities/utillities.scss';
 
+$searchbar-height: 64px;
+
 .cardholder-page-container {
 	background-color: $clr-dark;
-	height: 100vh;
-	overflow: auto;
+	height: 100%;
 
 	#searchbar {
 		display: flex;
 		position: sticky;
 		top: 0;
-		height: 64px;
+		height: $searchbar-height;
 		padding: 1rem 1rem;
 		background-color: $clr-dark;
 		z-index: 1;
@@ -43,9 +44,28 @@
 
 	.table-container {
 		position: relative;
+		height: calc(100% - $searchbar-height);
 		padding: 1rem;
 		padding-top: 0;
 		background-color: $clr-dark;
+		overflow: auto;
+
+		&::-webkit-scrollbar {
+			width: 12px;
+			cursor: pointer;
+
+			&-thumb {
+				background-color: $clr-text-dark;
+				border-radius: 5px;
+				border: 3px solid $clr-dark;
+				cursor: pointer;
+
+				&:hover {
+					background-color: $clr-text;
+					cursor: pointer;
+				}
+			}
+		}
 
 		table {
 			position: relative;
@@ -65,7 +85,7 @@
 
 			th {
 				position: sticky;
-				top: 64px;
+				top: 0;
 				z-index: 10;
 				padding: 0.5rem;
 				margin-bottom: 0.5rem;
