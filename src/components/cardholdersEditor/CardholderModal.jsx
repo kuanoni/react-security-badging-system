@@ -4,12 +4,8 @@ import './index.scss';
 
 Modal.setAppElement('#root');
 
-const CardholderModal = ({ cardholder, isOpen, setIsOpen }) => {
+const CardholderModal = ({ cardholder, isOpen, closeModal }) => {
 	const [isEditing, setIsEditing] = useState(false);
-
-	const closeModal = () => {
-		setIsOpen(false);
-	};
 
 	if (Object.keys(cardholder).length === 0) {
 		return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
+import { fetchCardholder, fetchCardholders } from '../../api/fetch';
 import './index.scss';
 import CardholderModal from '../cardholdersEditor/CardholderModal';
 import CardholdersTable from './Table';
@@ -12,43 +13,16 @@ const Cardholders = () => {
 	const [searchbar, setSearchbar] = useState('');
 	const [searchSetting, setSearchSetting] = useState('firstName');
 
-	const fetchSize = 30;
-	const apiUrl = 'https://63445b7f242c1f347f84bcb2.mockapi.io/cardholders';
-
 	const filterUrlText = useMemo(() => {
 		return searchbar ? '?' + searchSetting + '=' + searchbar : '';
 	}, [searchbar, searchSetting]);
 
-	const fetchCardholders = async (page, fSize) => {
-		let fetchUrl = apiUrl;
-
-		if (filterUrlText) fetchUrl += filterUrlText;
-		else fetchUrl += '?page=' + (page + 1) + '&limit=' + fSize;
-
-		const fetchedCardholders = await fetch(fetchUrl).then((res) => res.json());
-
-		if (fetchedCardholders) {
-			setTotalCardholders(fetchedCardholders.count);
-			return fetchedCardholders.cardholders;
-		}
-	};
-
-	const fetchCardholder = async (id) => {
-		let fetchUrl = apiUrl + '/' + id;
-
-		const fetchedCardholder = await fetch(fetchUrl).then((res) => res.json());
-
-		if (fetchedCardholder) {
-			setEditingCardholder(fetchedCardholder);
-			return fetchedCardholder;
-		}
-	};
-
 	const { data, fetchNextPage, isFetching } = useInfiniteQuery(
 		['table-data', searchbar, searchSetting], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
 		async ({ pageParam = 0 }) => {
-			const fetchedData = fetchCardholders(pageParam, fetchSize);
-			return fetchedData;
+			const fetchedData = await fetchCardholders(pageParam, filterUrlText);
+			setTotalCardholders(fetchedData.count);
+			return fetchedData.cardholders;
 		},
 		{
 			getNextPageParam: (_lastGroup, groups) => groups.length,
@@ -75,9 +49,15 @@ const Cardholders = () => {
 		fetchNextPage();
 	}, [fetchNextPage]);
 
-	const openCardholderEditor = (id) => {
+	const openCardholderEditor = async (id) => {
 		setIsModalOpen(true);
-		fetchCardholder(id);
+		const cardholder = await fetchCardholder(id);
+		setEditingCardholder(cardholder);
+	};
+
+	const closeCardholderEditor = () => {
+		setIsModalOpen(false);
+		setEditingCardholder({});
 	};
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
@@ -94,7 +74,7 @@ const Cardholders = () => {
 				cardholder={editingCardholder}
 				setCardholder={setEditingCardholder}
 				isOpen={isModalOpen}
-				setIsOpen={setIsModalOpen}
+				closeModal={closeCardholderEditor}
 			/>
 			<div className='cardholder-page-container'>
 				<div id='searchbar'>
