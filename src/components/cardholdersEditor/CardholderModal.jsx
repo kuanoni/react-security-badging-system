@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import './index.scss';
 
 Modal.setAppElement('#root');
 
