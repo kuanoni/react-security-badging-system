@@ -104,8 +104,10 @@ const Cardholders = () => {
 						<option value='lastName'>Last Name</option>
 					</select>
 				</div>
-				<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-					<CardholdersTable data={flatData} openCardholderEditor={openCardholderEditor} />
+				<div className='cardholder-table'>
+					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
+						<CardholdersTable data={flatData} openCardholderEditor={openCardholderEditor} />
+					</div>
 				</div>
 			</div>
 		</>

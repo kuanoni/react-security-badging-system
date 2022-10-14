@@ -42,27 +42,33 @@ $searchbar-height: 64px;
 		}
 	}
 
-	.table-container {
+	.cardholder-table {
 		position: relative;
+		width: 100%;
 		height: calc(100% - $searchbar-height);
-		padding: 1rem;
-		padding-top: 0;
+	}
+
+	.table-container {
+		$padding: 1rem;
+		position: absolute;
+		top: 0;
+		bottom: $padding;
+		left: $padding;
+		right: $padding;
 		background-color: $clr-dark;
+		border: 1px solid $clr-hightlight;
 		overflow: auto;
 
 		&::-webkit-scrollbar {
 			width: 12px;
-			cursor: pointer;
 
 			&-thumb {
 				background-color: $clr-text-dark;
 				border-radius: 5px;
 				border: 3px solid $clr-dark;
-				cursor: pointer;
 
 				&:hover {
 					background-color: $clr-text;
-					cursor: pointer;
 				}
 			}
 		}
@@ -75,8 +81,6 @@ $searchbar-height: 64px;
 
 			border-collapse: separate;
 			border-spacing: 0;
-			border: 1px solid $clr-hightlight;
-			border-top: none;
 
 			font-size: 14px;
 			font-weight: 300;
@@ -92,6 +96,7 @@ $searchbar-height: 64px;
 				color: $clr-text-dark;
 				background-color: $clr-dark;
 				border: 1px solid $clr-hightlight;
+				border-top: none;
 				border-left: none;
 				font-weight: 300;
 			}
