@@ -3,15 +3,14 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-const UserModal = ({ user, setUser, isOpen, setIsOpen }) => {
+const CardholderModal = ({ cardholder, isOpen, setIsOpen }) => {
 	const [isEditing, setIsEditing] = useState(false);
 
 	const closeModal = () => {
-		setUser({});
 		setIsOpen(false);
 	};
 
-	if (Object.keys(user).length === 0) {
+	if (Object.keys(cardholder).length === 0) {
 		return (
 			<Modal isOpen={isOpen} onRequestClose={closeModal} className={'modal'} overlayClassName={'overlay'}></Modal>
 		);
@@ -26,14 +25,14 @@ const UserModal = ({ user, setUser, isOpen, setIsOpen }) => {
 			<Modal isOpen={isOpen} onRequestClose={closeModal} className={'modal'} overlayClassName={'overlay'}>
 				<div className='user-info-header'>
 					<div className='user-info-avatar'>
-						<img src={user?.avatar} alt='' />
+						<img src={cardholder?.avatar} alt='' />
 					</div>
 					<div className='user-info'>
-						<h1 className='user-info-title name'>{user?.firstName + ' ' + user?.lastName}</h1>
+						<h1 className='user-info-title name'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
 						<div className='user-info-label'>Email</div>
-						<div className='user-info-basic'>{user?.email}</div>
+						<div className='user-info-basic'>{cardholder?.email}</div>
 						<div className='user-info-label'>Status</div>
-						{user?.cardholderProfile?.status ? (
+						{cardholder?.cardholderProfile?.status ? (
 							<div className='user-info-basic green-txt'>Active</div>
 						) : (
 							<div className='user-info-basic red-txt'>Inactive</div>
@@ -57,35 +56,35 @@ const UserModal = ({ user, setUser, isOpen, setIsOpen }) => {
 							<input
 								className='user-info-input'
 								type='text'
-								defaultValue={user?.firstName}
+								defaultValue={cardholder?.firstName}
 								disabled={!isEditing}
 							/>
 							<label className='user-info-label'>Last name</label>
 							<input
 								className='user-info-input'
 								type='text'
-								defaultValue={user?.lastName}
+								defaultValue={cardholder?.lastName}
 								disabled={!isEditing}
 							/>
 							<label className='user-info-label'>Email</label>
 							<input
 								className='user-info-input'
 								type='text'
-								defaultValue={user?.email}
+								defaultValue={cardholder?.email}
 								disabled={!isEditing}
 							/>
 							<label className='user-info-label'>Job title</label>
 							<input
 								className='user-info-input'
 								type='text'
-								defaultValue={user?.title}
+								defaultValue={cardholder?.title}
 								disabled={!isEditing}
 							/>
 							<label className='user-info-label'>Employee ID</label>
 							<input
 								className='user-info-input'
 								type='text'
-								defaultValue={user?.employeeId}
+								defaultValue={cardholder?.employeeId}
 								disabled={!isEditing}
 							/>
 						</div>
@@ -99,7 +98,7 @@ const UserModal = ({ user, setUser, isOpen, setIsOpen }) => {
 							</select>
 							<label className='user-info-label'>Cardholder groups</label>
 							<ul className='user-info-list'>
-								{user?.cardholderProfile.accessGroups.map((group, i) => (
+								{cardholder?.cardholderProfile.accessGroups.map((group, i) => (
 									<li className='user-info-list-item' key={i}>
 										{group}
 									</li>
@@ -107,7 +106,7 @@ const UserModal = ({ user, setUser, isOpen, setIsOpen }) => {
 							</ul>
 							<label className='user-info-label'>Credentials</label>
 							<ul className='user-info-list'>
-								{user?.cardholderProfile.credentials.map((credential, i) => (
+								{cardholder?.cardholderProfile.credentials.map((credential, i) => (
 									<li className='user-info-list-item' key={i}>
 										{credential}
 									</li>
@@ -131,14 +130,14 @@ const UserModal = ({ user, setUser, isOpen, setIsOpen }) => {
 							<input
 								className='user-info-input'
 								type='text'
-								defaultValue={user?.cardholderProfile.activation.substring(0, 10)}
+								defaultValue={cardholder?.cardholderProfile.activation.substring(0, 10)}
 								disabled={true}
 							/>
 							<label className='user-info-label'>Expiration</label>
 							<input
 								className='user-info-input'
 								type='text'
-								defaultValue={user?.cardholderProfile.expiration.substring(0, 10)}
+								defaultValue={cardholder?.cardholderProfile.expiration.substring(0, 10)}
 								disabled={!isEditing}
 							/>
 						</div>
@@ -150,7 +149,9 @@ const UserModal = ({ user, setUser, isOpen, setIsOpen }) => {
 					</div>
 				</div>
 				<div className='user-info-footer'>
-					<button className='btn cancel'>Cancel</button>
+					<button className='btn cancel' onClick={(_) => closeModal()}>
+						Cancel
+					</button>
 					<button className='btn save'>Save</button>
 				</div>
 			</Modal>
@@ -158,4 +159,4 @@ const UserModal = ({ user, setUser, isOpen, setIsOpen }) => {
 	);
 };
 
-export default UserModal;
+export default CardholderModal;

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { useTable } from 'react-table';
 
-const UsersTable = ({ data, openUserEditor }) => {
-	const usersColumns = useMemo(
+const CardholdersTable = ({ data, openCardholderEditor }) => {
+	const cardholdersColumns = useMemo(
 		() => [
 			{
 				Header: 'Picture',
@@ -52,7 +52,7 @@ const UsersTable = ({ data, openUserEditor }) => {
 				accessor: 'id',
 				Cell: ({ value }) => {
 					return (
-						<button className='btn-edit-user' onClick={(e) => openUserEditor(value)}>
+						<button className='btn-edit-user' onClick={(e) => openCardholderEditor(value)}>
 							Edit
 						</button>
 					);
@@ -62,7 +62,7 @@ const UsersTable = ({ data, openUserEditor }) => {
 				},
 			},
 		],
-		[openUserEditor]
+		[openCardholderEditor]
 	);
 
 	const getColumnStyle = (column) => {
@@ -72,7 +72,7 @@ const UsersTable = ({ data, openUserEditor }) => {
 
 	const tableInstance = useTable({
 		data,
-		columns: usersColumns,
+		columns: cardholdersColumns,
 	});
 
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
@@ -107,4 +107,4 @@ const UsersTable = ({ data, openUserEditor }) => {
 	);
 };
 
-export default UsersTable;
+export default CardholdersTable;

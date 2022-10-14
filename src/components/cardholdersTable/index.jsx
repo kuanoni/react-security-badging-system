@@ -2,52 +2,52 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import './index.scss';
-import UserModal from './UserModal';
-import UsersTable from './UsersTable';
+import CardholderModal from '../cardholdersEditor/CardholderModal';
+import CardholdersTable from './Table';
 
 const Cardholders = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [editingUser, setEditingUser] = useState({});
-	const [totalUsers, setTotalUsers] = useState(0);
+	const [editingCardholder, setEditingCardholder] = useState({});
+	const [totalCardholders, setTotalCardholders] = useState(0);
 	const [searchbar, setSearchbar] = useState('');
 	const [searchSetting, setSearchSetting] = useState('firstName');
 
 	const fetchSize = 30;
-	const apiUrl = 'https://63445b7f242c1f347f84bcb2.mockapi.io/users';
+	const apiUrl = 'https://63445b7f242c1f347f84bcb2.mockapi.io/cardholders';
 
 	const filterUrlText = useMemo(() => {
 		return searchbar ? '?' + searchSetting + '=' + searchbar : '';
 	}, [searchbar, searchSetting]);
 
-	const fetchUsers = async (page, fSize) => {
+	const fetchCardholders = async (page, fSize) => {
 		let fetchUrl = apiUrl;
 
 		if (filterUrlText) fetchUrl += filterUrlText;
 		else fetchUrl += '?page=' + (page + 1) + '&limit=' + fSize;
 
-		const fetchedUsers = await fetch(fetchUrl).then((res) => res.json());
+		const fetchedCardholders = await fetch(fetchUrl).then((res) => res.json());
 
-		if (fetchedUsers) {
-			setTotalUsers(fetchedUsers.count);
-			return fetchedUsers.users;
+		if (fetchedCardholders) {
+			setTotalCardholders(fetchedCardholders.count);
+			return fetchedCardholders.cardholders;
 		}
 	};
 
-	const fetchUser = async (id) => {
+	const fetchCardholder = async (id) => {
 		let fetchUrl = apiUrl + '/' + id;
 
-		const fetchedUser = await fetch(fetchUrl).then((res) => res.json());
+		const fetchedCardholder = await fetch(fetchUrl).then((res) => res.json());
 
-		if (fetchedUser) {
-			setEditingUser(fetchedUser);
-			return fetchedUser;
+		if (fetchedCardholder) {
+			setEditingCardholder(fetchedCardholder);
+			return fetchedCardholder;
 		}
 	};
 
 	const { data, fetchNextPage, isFetching } = useInfiniteQuery(
 		['table-data', searchbar, searchSetting], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
 		async ({ pageParam = 0 }) => {
-			const fetchedData = fetchUsers(pageParam, fetchSize);
+			const fetchedData = fetchCardholders(pageParam, fetchSize);
 			return fetchedData;
 		},
 		{
@@ -65,7 +65,7 @@ const Cardholders = () => {
 		if (containerRefElement) {
 			const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
 
-			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && flatData.length < totalUsers) {
+			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && flatData.length < totalCardholders) {
 				fetchNextPage();
 			}
 		}
@@ -75,9 +75,9 @@ const Cardholders = () => {
 		fetchNextPage();
 	}, [fetchNextPage]);
 
-	const openUserEditor = (id) => {
+	const openCardholderEditor = (id) => {
 		setIsModalOpen(true);
-		fetchUser(id);
+		fetchCardholder(id);
 	};
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
@@ -90,7 +90,12 @@ const Cardholders = () => {
 
 	return (
 		<>
-			<UserModal user={editingUser} setUser={setEditingUser} isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+			<CardholderModal
+				cardholder={editingCardholder}
+				setCardholder={setEditingCardholder}
+				isOpen={isModalOpen}
+				setIsOpen={setIsModalOpen}
+			/>
 			<div className='container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 				<div id='searchbar'>
 					<input type='text' placeholder='Search...' onChange={(e) => onChangeSearchbar(e.target.value)} />
@@ -100,7 +105,7 @@ const Cardholders = () => {
 					</select>
 				</div>
 				<div className='table-container'>
-					<UsersTable data={flatData} openUserEditor={openUserEditor} />
+					<CardholdersTable data={flatData} openCardholderEditor={openCardholderEditor} />
 				</div>
 			</div>
 		</>
