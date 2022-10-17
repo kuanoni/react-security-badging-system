@@ -50,9 +50,10 @@ const Cardholders = () => {
 	}, [fetchNextPage]);
 
 	const openCardholderEditor = async (id) => {
-		setIsModalOpen(true);
-		const cardholder = await fetchCardholder(id);
-		setEditingCardholder(cardholder);
+		await fetchCardholder(id).then((cardholder) => {
+			setEditingCardholder(cardholder);
+			setIsModalOpen(true);
+		});
 	};
 
 	const closeCardholderEditor = () => {
@@ -71,6 +72,7 @@ const Cardholders = () => {
 	return (
 		<>
 			<CardholderModal
+				key={editingCardholder.id}
 				cardholder={editingCardholder}
 				setCardholder={setEditingCardholder}
 				isOpen={isModalOpen}
