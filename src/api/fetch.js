@@ -21,3 +21,13 @@ export const fetchCardholder = async (id) => {
 		return fetchedCardholder;
 	}
 };
+
+export const updateCardholder = async (id, newCardholder) => {
+	const response = await fetch(apiUrl + '/' + id, {
+		method: 'PUT',
+		mode: 'cors',
+		body: newCardholder,
+	});
+
+	return response;
+};

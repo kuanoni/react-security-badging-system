@@ -23,6 +23,31 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 	const [notes, setNotes] = useState('');
 
 	const saveCardholder = () => {
+		const newCardholder = {
+			firstName,
+			lastName,
+			email,
+			employeeId,
+			title,
+			cardholderProfile: {
+				status,
+				activation,
+				expiration,
+				type: cardholderType,
+				accessGroups: cardholderGroups,
+				credentials,
+			},
+			id: cardholder.id,
+		};
+
+		setIsSaving(true);
+		setIsEditing(false);
+
+		console.log(JSON.stringify(newCardholder));
+		updateCardholder(cardholder.id, newCardholder).then((response) => {
+			console.log(response);
+			setIsSaving(false);
+		});
 	};
 
 	return (
