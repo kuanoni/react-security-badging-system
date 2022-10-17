@@ -2,9 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import { fetchCardholder, fetchCardholders } from '../../api/fetch';
+import CardholdersTable from './CardholderTable';
+import CardholderModalContent from '../cardholderEditor/CardholderModalContent';
 import './index.scss';
-import CardholderModal from '../cardholdersEditor/CardholderModal';
-import CardholdersTable from './Table';
+import CardholderModal from '../cardholderEditor/CardholderModal';
 
 const Cardholders = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,12 +73,18 @@ const Cardholders = () => {
 	return (
 		<>
 			<CardholderModal
-				key={editingCardholder.id}
-				cardholder={editingCardholder}
-				setCardholder={setEditingCardholder}
 				isOpen={isModalOpen}
 				closeModal={closeCardholderEditor}
-			/>
+				overlayClassName={'overlay'}
+				modalClassName={'modal'}
+			>
+				<CardholderModalContent
+					key={editingCardholder.id}
+					cardholder={editingCardholder}
+					closeModal={closeCardholderEditor}
+				/>
+			</CardholderModal>
+
 			<div className='cardholder-page'>
 				<div id='searchbar'>
 					<input type='text' placeholder='Search...' onChange={(e) => onChangeSearchbar(e.target.value)} />
