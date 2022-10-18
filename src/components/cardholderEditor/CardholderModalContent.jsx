@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { updateCardholder } from '../../api/fetch';
 import './index.scss';
+import UserInfoLabeledInput from './UserInfoLabeledInput';
 import UserInfoList from './UserInfoList';
 
 const CardholderModalContent = ({ cardholder, closeModal }) => {
@@ -93,44 +94,34 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 				<div className='column'>
 					<div className='user-info-container'>
 						<h1 className='user-info-title'>General</h1>
-						<label className='user-info-label'>First name</label>
-						<input
-							className='user-info-input'
-							type='text'
+						<UserInfoLabeledInput
+							label={'First name'}
 							defaultValue={firstName}
-							onChange={(e) => setFirstName(e.target.value)}
+							handleChange={setFirstName}
 							disabled={!isEditing}
 						/>
-						<label className='user-info-label'>Last name</label>
-						<input
-							className='user-info-input'
-							type='text'
+						<UserInfoLabeledInput
+							label={'Last name'}
 							defaultValue={lastName}
-							onChange={(e) => setLastName(e.target.value)}
+							handleChange={setLastName}
 							disabled={!isEditing}
 						/>
-						<label className='user-info-label'>Email</label>
-						<input
-							className='user-info-input'
-							type='text'
+						<UserInfoLabeledInput
+							label={'Email'}
 							defaultValue={email}
-							onChange={(e) => setEmail(e.target.value)}
+							handleChange={setEmail}
 							disabled={!isEditing}
 						/>
-						<label className='user-info-label'>Job title</label>
-						<input
-							className='user-info-input'
-							type='text'
+						<UserInfoLabeledInput
+							label={'Job title'}
 							defaultValue={title}
-							onChange={(e) => setTitle(e.target.value)}
+							handleChange={setTitle}
 							disabled={!isEditing}
 						/>
-						<label className='user-info-label'>Employee ID</label>
-						<input
-							className='user-info-input'
-							type='text'
+						<UserInfoLabeledInput
+							label={'Employee ID'}
 							defaultValue={employeeId}
-							onChange={(e) => setEmployeeId(e.target.value)}
+							handleChange={setEmployeeId}
 							disabled={!isEditing}
 						/>
 					</div>
@@ -147,7 +138,13 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 							<option value={'contractor'}>Contractor</option>
 							<option value={'privledged visitor'}>Privledged Visitor</option>
 						</select>
-						<UserInfoList label={'Cardholder groups'} list={cardholderGroups} isEditing={isEditing} />
+						<UserInfoList
+							label={'Cardholder groups'}
+							list={cardholderGroups}
+							onAdd={handleAddAccessGroup}
+							onRemove={handleRemoveAccessGroup}
+							isEditing={isEditing}
+						/>
 						<UserInfoList label={'Credentials'} list={credentials} isEditing={isEditing} />
 					</div>
 				</div>
@@ -164,20 +161,16 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 							<option value={true}>Active</option>
 							<option value={false}>Inactive</option>
 						</select>
-						<label className='user-info-label'>Activation</label>
-						<input
-							className='user-info-input'
-							type='text'
-							defaultValue={activation?.substring(0, 10)}
-							onChange={(e) => setActivation(e.target.value)}
+						<UserInfoLabeledInput
+							label={'Activation'}
+							defaultValue={activation}
+							handleChange={setActivation}
 							disabled={!isEditing}
 						/>
-						<label className='user-info-label'>Expiration</label>
-						<input
-							className='user-info-input'
-							type='text'
-							defaultValue={expiration?.substring(0, 10)}
-							onChange={(e) => setExpiration(e.target.value)}
+						<UserInfoLabeledInput
+							label={'First name'}
+							defaultValue={expiration}
+							handleChange={setExpiration}
 							disabled={!isEditing}
 						/>
 					</div>
@@ -195,7 +188,7 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 				</div>
 			</div>
 			<div className='user-info-footer'>
-				<button className='btn cancel' onClick={(_) => !isSaving && closeModal()} disabled={isSaving}>
+				<button className='btn cancel' onClick={() => !isSaving && closeModal()} disabled={isSaving}>
 					Cancel
 				</button>
 				<button className='btn save' onClick={() => saveCardholder()} disabled={!isEditing}>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserInfoList = ({ label, list, onAdd, isEditing }) => {
+const UserInfoList = ({ label, list, onAdd, onRemove, isEditing }) => {
 	return (
 		<>
 			<div className='user-info-list-header'>
@@ -11,7 +11,7 @@ const UserInfoList = ({ label, list, onAdd, isEditing }) => {
 				{list.map((item, i) => (
 					<li className='user-info-list-item' key={i}>
 						<span>{item}</span>
-						{isEditing ? <button className='gg-remove' onClick={onAdd} disabled={!isEditing} /> : ''}
+						<button className='gg-remove' onClick={() => onRemove(item)} disabled={!isEditing} />
 					</li>
 				))}
 			</ul>
