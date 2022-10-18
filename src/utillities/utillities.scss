@@ -6,10 +6,13 @@ $clr-hightlight: #454545;
 $clr-text: #e7ebe5;
 $clr-text-dark: #bbbbbb;
 
+$clr-green: rgb(65, 224, 65);
+$clr-red: rgb(255, 65, 65);
+
 .green-txt {
-	color: rgb(65, 224, 65) !important;
+	color: $clr-green !important;
 }
 
 .red-txt {
-	color: rgb(255, 65, 65) !important;
+	color: $clr-red !important;
 }

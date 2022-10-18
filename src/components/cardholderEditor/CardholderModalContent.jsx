@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { updateCardholder } from '../../api/fetch';
 import './index.scss';
+import UserInfoList from './UserInfoList';
 
 const CardholderModalContent = ({ cardholder, closeModal }) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -146,22 +147,8 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 							<option value={'contractor'}>Contractor</option>
 							<option value={'privledged visitor'}>Privledged Visitor</option>
 						</select>
-						<label className='user-info-label'>Cardholder groups</label>
-						<ul className='user-info-list'>
-							{cardholderGroups.map((group, i) => (
-								<li className='user-info-list-item' key={i}>
-									{group}
-								</li>
-							))}
-						</ul>
-						<label className='user-info-label'>Credentials</label>
-						<ul className='user-info-list'>
-							{credentials.map((credential, i) => (
-								<li className='user-info-list-item' key={i}>
-									{credential}
-								</li>
-							))}
-						</ul>
+						<UserInfoList label={'Cardholder groups'} list={cardholderGroups} isEditing={isEditing} />
+						<UserInfoList label={'Credentials'} list={credentials} isEditing={isEditing} />
 					</div>
 				</div>
 				<div className='column'>
@@ -174,12 +161,8 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 							defaultValue={status}
 							onChange={(e) => setStatus(e.target.value)}
 						>
-							<option className='green-txt' value={true}>
-								Active
-							</option>
-							<option className='red-txt' value={false}>
-								Inactive
-							</option>
+							<option value={true}>Active</option>
+							<option value={false}>Inactive</option>
 						</select>
 						<label className='user-info-label'>Activation</label>
 						<input
