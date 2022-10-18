@@ -38,14 +38,21 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 			id: cardholder.id,
 		};
 
+		setIsSaving(true);
 		setIsEditing(false);
 
 		toast.promise(
 			updateCardholder(cardholder.id, newCardholder)
 				.then((response) => {
-					console.log(response);
+					setIsSaving(false);
+					return response.json();
 				})
-				.catch(() => setIsEditing(true)),
+				.then((data) => {
+					console.log(data);
+				})
+				.catch(() => {
+					setIsEditing(true);
+				}),
 			{
 				loading: 'Saving...',
 				success: <b>Cardholder saved!</b>,
@@ -219,7 +226,7 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 				</div>
 			</div>
 			<div className='user-info-footer'>
-				<button className='btn cancel' onClick={(_) => closeModal()}>
+				<button className='btn cancel' onClick={(_) => !isSaving && closeModal()} disabled={isSaving}>
 					Cancel
 				</button>
 				<button className='btn save' onClick={() => saveCardholder()} disabled={!isEditing}>

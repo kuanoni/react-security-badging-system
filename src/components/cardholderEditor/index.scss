@@ -152,10 +152,6 @@
 					left: calc(100% - 1px);
 					transform: translateX(-100%);
 				}
-
-				label:active:after {
-					width: 130px;
-				}
 			}
 		}
 
@@ -219,10 +215,6 @@
 				&.save {
 					background-color: #0086c5;
 					padding-inline: 3em;
-
-					&:disabled {
-						filter: brightness(0.8);
-					}
 				}
 
 				&.cancel {
@@ -230,7 +222,11 @@
 					padding-inline: 1em;
 				}
 
-				&:hover {
+				&:disabled {
+					filter: brightness(0.8);
+				}
+
+				&:hover:not(:disabled) {
 					filter: brightness(1.25);
 				}
 			}
@@ -240,6 +236,7 @@
 			color: $clr-text;
 			background-color: $clr-darkest;
 			border: 1px solid $clr-hightlight;
+			user-select: none;
 		}
 	}
 }

@@ -61,6 +61,7 @@ $searchbar-height: 64px;
 
 		&::-webkit-scrollbar {
 			width: 12px;
+			height: 12px;
 
 			&-thumb {
 				background-color: $clr-text-dark;
@@ -70,6 +71,10 @@ $searchbar-height: 64px;
 				&:hover {
 					background-color: $clr-text;
 				}
+			}
+
+			&-corner {
+				background-color: $clr-darkest;
 			}
 		}
 

@@ -25,13 +25,10 @@ export const fetchCardholder = async (id) => {
 export const updateCardholder = async (id, newCardholder) => {
 	const response = await fetch(apiUrl + '/' + id, {
 		method: 'PUT',
-		Headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-		mode: 'cors',
 		body: newCardholder,
 	});
+	// .then((res) => res.json())
+	// .then((data) => console.log(data));
 
 	return response;
 };
