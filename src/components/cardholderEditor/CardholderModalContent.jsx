@@ -47,9 +47,6 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 					setIsSaving(false);
 					return response.json();
 				})
-				.then((data) => {
-					console.log(data);
-				})
 				.catch(() => {
 					setIsEditing(true);
 				}),
@@ -63,17 +60,6 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 
 	return (
 		<>
-			<Toaster
-				toastOptions={{
-					className: 'toast',
-					success: {
-						iconTheme: {
-							primary: '#0086c5',
-							secondary: '#ffffff',
-						},
-					},
-				}}
-			/>
 			<div className='user-info-header'>
 				<div className='user-info-avatar'>
 					<img src={cardholder?.avatar} alt='' />

@@ -6,6 +6,7 @@ import CardholdersTable from './CardholderTable';
 import CardholderModalContent from '../cardholderEditor/CardholderModalContent';
 import './index.scss';
 import CardholderModal from '../cardholderEditor/CardholderModal';
+import { Toaster } from 'react-hot-toast';
 
 const Cardholders = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,6 +73,17 @@ const Cardholders = () => {
 
 	return (
 		<>
+			<Toaster
+				toastOptions={{
+					className: 'toast',
+					success: {
+						iconTheme: {
+							primary: '#0086c5',
+							secondary: '#ffffff',
+						},
+					},
+				}}
+			/>
 			<CardholderModal
 				isOpen={isModalOpen}
 				closeModal={closeCardholderEditor}
