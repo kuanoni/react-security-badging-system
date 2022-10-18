@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import Modal from 'react-modal';
+import toast, { Toaster } from 'react-hot-toast';
 import { updateCardholder } from '../../api/fetch';
 import './index.scss';
-
-Modal.setAppElement('#root');
 
 const CardholderModalContent = ({ cardholder, closeModal }) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -40,18 +38,35 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 			id: cardholder.id,
 		};
 
-		setIsSaving(true);
 		setIsEditing(false);
 
-		console.log(JSON.stringify(newCardholder));
-		updateCardholder(cardholder.id, newCardholder).then((response) => {
-			console.log(response);
-			setIsSaving(false);
-		});
+		toast.promise(
+			updateCardholder(cardholder.id, newCardholder)
+				.then((response) => {
+					console.log(response);
+				})
+				.catch(() => setIsEditing(true)),
+			{
+				loading: 'Saving...',
+				success: <b>Cardholder saved!</b>,
+				error: <b>Could not save.</b>,
+			}
+		);
 	};
 
 	return (
 		<>
+			<Toaster
+				toastOptions={{
+					className: 'toast',
+					success: {
+						iconTheme: {
+							primary: '#0086c5',
+							secondary: '#ffffff',
+						},
+					},
+				}}
+			/>
 			<div className='user-info-header'>
 				<div className='user-info-avatar'>
 					<img src={cardholder?.avatar} alt='' />
@@ -73,7 +88,7 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 						<input
 							type='checkbox'
 							id='switch'
-							value={isEditing}
+							checked={isEditing}
 							onChange={(e) => setIsEditing(!isEditing)}
 						/>
 						<label htmlFor='switch'>Toggle</label>
@@ -207,7 +222,7 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 				<button className='btn cancel' onClick={(_) => closeModal()}>
 					Cancel
 				</button>
-				<button className='btn save' onClick={() => saveCardholder()}>
+				<button className='btn save' onClick={() => saveCardholder()} disabled={!isEditing}>
 					Save
 				</button>
 			</div>

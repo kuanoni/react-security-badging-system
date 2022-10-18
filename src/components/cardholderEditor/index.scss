@@ -219,6 +219,10 @@
 				&.save {
 					background-color: #0086c5;
 					padding-inline: 3em;
+
+					&:disabled {
+						filter: brightness(0.8);
+					}
 				}
 
 				&.cancel {
@@ -230,6 +234,12 @@
 					filter: brightness(1.25);
 				}
 			}
+		}
+
+		.toast {
+			color: $clr-text;
+			background-color: $clr-darkest;
+			border: 1px solid $clr-hightlight;
 		}
 	}
 }
