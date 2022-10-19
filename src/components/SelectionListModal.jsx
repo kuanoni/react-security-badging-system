@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/SelectionListModal.scss';
 
 const SelectionListModal = ({ list, closeModal }) => {
 	const [checkboxes, setCheckboxes] = useState(list.map((item) => ({ label: item, checked: false })));
@@ -15,11 +16,11 @@ const SelectionListModal = ({ list, closeModal }) => {
 
 	return (
 		<>
-			<div className='access-groups-header'>
+			<div className='header'>
 				<h2>Access Groups</h2>
 				<button className='gg-close-o' onClick={() => closeModal()}></button>
 			</div>
-			<div className='access-groups-body'>
+			<div className='body'>
 				<input type='text' className='searchbar' placeholder='Search...' />
 				<div className='list'>
 					{checkboxes.map((checkbox, i) => (

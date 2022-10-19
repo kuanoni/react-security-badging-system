@@ -1,0 +1,94 @@
+@import './utillities.scss';
+
+.overlay {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: transparent;
+
+	.modal {
+		width: 100%;
+		background-color: $clr-base;
+	}
+
+	.header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem;
+		background-color: $clr-darker;
+		box-shadow: 0 1px 2px $clr-darkest;
+
+		h2 {
+			margin: 0;
+			font-weight: 400;
+		}
+
+		.gg-close-o {
+			--ggs: 1.5;
+			color: $clr-text-dark;
+			background-color: transparent;
+			border-color: transparent;
+			cursor: pointer;
+
+			&:hover {
+				filter: brightness(1.25);
+			}
+		}
+	}
+
+	.body {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		margin: 0.5rem 1rem;
+
+		border: 1px solid $clr-hightlight;
+
+		.searchbar {
+			display: block;
+			margin: 1rem;
+			margin-bottom: 0;
+			padding: 0.5rem 0.25rem;
+			color: $clr-text;
+			background-color: $clr-darker;
+			border: none;
+			border-bottom: 1px solid transparent;
+			outline: none;
+			transition: 0.2s ease;
+
+			&:focus {
+				border-bottom: 1px solid $clr-blue;
+			}
+		}
+
+		.list {
+			display: flex;
+			flex-direction: column;
+			padding: 1rem 0;
+
+			&-item {
+				display: flex;
+				align-items: flex-end;
+				padding: 0.5rem 1rem;
+				border-bottom: 1px solid $clr-hightlight;
+
+				&:hover {
+					background-color: $clr-hightlight;
+				}
+
+				.gg-radio-check,
+				.gg-radio-checked {
+					--ggs: 0.8;
+					color: $clr-blue;
+				}
+
+				input {
+					appearance: none;
+				}
+			}
+		}
+	}
+}
