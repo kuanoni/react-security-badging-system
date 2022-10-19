@@ -34,7 +34,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 		setIsGroupsModalOpen(false);
 	};
 
-	const handleAddAccessGroup = () => {
+	const openGroupsModal = () => {
 		setIsGroupsModalOpen(true);
 	};
 
@@ -104,7 +104,12 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 				overlayClassName={'overlay selection-list'}
 				modalClassName={'modal'}
 			>
-				<SelectionListModal list={grops} closeModal={closeGroupsModal} />
+				<SelectionListModal
+					list={grops}
+					selectedList={accessGroups}
+					setNewList={setAccessGroups}
+					closeModal={closeGroupsModal}
+				/>
 			</Modal>
 			<div className='header'>
 				<div className='avatar'>
@@ -185,7 +190,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<ListAddRemove
 							label={'Cardholder groups'}
 							list={accessGroups}
-							onAdd={handleAddAccessGroup}
+							onAdd={openGroupsModal}
 							onRemove={handleRemoveAccessGroup}
 							isEditing={isEditing}
 						/>

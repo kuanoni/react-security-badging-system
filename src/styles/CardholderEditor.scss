@@ -165,7 +165,7 @@
 				--ggs: 1.25;
 				border-color: transparent;
 				color: $clr-green;
-				background-color: $clr-darkest;
+				background-color: transparent;
 
 				&:hover:not(:disabled) {
 					filter: brightness(1.25);

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import '../styles/SelectionListModal.scss';
 
-const SelectionListModal = ({ list, closeModal }) => {
-	const [checkboxes, setCheckboxes] = useState(list.map((item) => ({ label: item, checked: false })));
+const SelectionListModal = ({ list, selectedList, setNewList, closeModal }) => {
+	const [checkboxes, setCheckboxes] = useState(
+		list.map((item) => ({ label: item, checked: selectedList.includes(item) }))
+	);
 
 	const handleChecked = (idx) => {
 		//infine querey for credentials
@@ -12,6 +15,12 @@ const SelectionListModal = ({ list, closeModal }) => {
 				return checkbox;
 			})
 		);
+	};
+
+	const saveSelected = () => {
+		setNewList(checkboxes.filter((checkbox) => checkbox.checked).map((checkbox) => checkbox.label));
+		toast.success(<b>Saved!</b>);
+		closeModal();
 	};
 
 	return (
@@ -41,8 +50,8 @@ const SelectionListModal = ({ list, closeModal }) => {
 				<button className='btn cancel' onClick={() => closeModal()}>
 					Cancel
 				</button>
-				<button className='btn save' onClick={() => {}}>
-					Add
+				<button className='btn save' onClick={() => saveSelected()}>
+					Save
 				</button>
 			</div>
 		</>
