@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { updateCardholder } from '../../api/fetch';
-import './index.scss';
+import Modal from './Modal';
 import UserInfoLabeledInput from './UserInfoLabeledInput';
 import UserInfoList from './UserInfoList';
+import './index.scss';
+import AccessGroupModalContent from './AccessGroupModalContent';
+
+const creds = [78064, 91469, 13645, 65499, 65142, 78261, 74985, 98798, 21333, 36657, 78124, 89991, 78846];
+const grops = ['General Access', 'Lab Access', 'Global Access', 'Tech Access', 'Roof Access'];
 
 const CardholderModalContent = ({ cardholder, closeModal }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
+
+	const [isGroupsModalOpen, setIsGroupsModalOpen] = useState(false);
 
 	const [firstName, setFirstName] = useState(cardholder.firstName);
 	const [lastName, setLastName] = useState(cardholder.lastName);
@@ -21,6 +28,32 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 	const [cardholderGroups, setCardholderGroups] = useState(cardholder.cardholderProfile?.accessGroups);
 	const [credentials, setCredentials] = useState(cardholder.cardholderProfile?.credentials);
 	const [notes, setNotes] = useState('');
+
+	const closeGroupsModal = () => {
+		setIsGroupsModalOpen(false);
+	};
+
+	const handleAddAccessGroup = () => {
+		setIsGroupsModalOpen(true);
+	};
+
+	const handleRemoveAccessGroup = (value) => {
+		const idx = cardholderGroups.indexOf(value);
+		const newArr = [...cardholderGroups];
+		newArr.splice(idx, 1);
+
+		if (idx > -1) setCardholderGroups(newArr);
+	};
+
+	const handleAddCredential = () => {};
+
+	const handleRemoveCredential = (value) => {
+		const idx = credentials.indexOf(value);
+		const newArr = [...credentials];
+		newArr.splice(idx, 1);
+
+		if (idx > -1) setCredentials(newArr);
+	};
 
 	const saveCardholder = () => {
 		const newCardholder = {
@@ -39,6 +72,8 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 			},
 			id: cardholder.id,
 		};
+
+		console.log(newCardholder);
 
 		setIsSaving(true);
 		setIsEditing(false);
@@ -62,6 +97,14 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 
 	return (
 		<>
+			<Modal
+				isOpen={isGroupsModalOpen}
+				closeModal={closeGroupsModal}
+				overlayClassName={'overlay access-groups'}
+				modalClassName={'modal'}
+			>
+				<AccessGroupModalContent groups={grops} closeModal={closeGroupsModal} />
+			</Modal>
 			<div className='user-info-header'>
 				<div className='user-info-avatar'>
 					<img src={cardholder?.avatar} alt='' />
@@ -145,7 +188,13 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 							onRemove={handleRemoveAccessGroup}
 							isEditing={isEditing}
 						/>
-						<UserInfoList label={'Credentials'} list={credentials} isEditing={isEditing} />
+						<UserInfoList
+							label={'Credentials'}
+							list={credentials}
+							onAdd={handleAddCredential}
+							onRemove={handleRemoveCredential}
+							isEditing={isEditing}
+						/>
 					</div>
 				</div>
 				<div className='column'>

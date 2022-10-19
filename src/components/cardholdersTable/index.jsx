@@ -5,7 +5,7 @@ import { fetchCardholder, fetchCardholders } from '../../api/fetch';
 import CardholdersTable from './CardholderTable';
 import CardholderModalContent from '../cardholderEditor/CardholderModalContent';
 import './index.scss';
-import CardholderModal from '../cardholderEditor/CardholderModal';
+import Modal from '../cardholderEditor/Modal';
 import { Toaster } from 'react-hot-toast';
 
 const Cardholders = () => {
@@ -84,7 +84,7 @@ const Cardholders = () => {
 					},
 				}}
 			/>
-			<CardholderModal
+			<Modal
 				isOpen={isModalOpen}
 				closeModal={closeCardholderEditor}
 				overlayClassName={'overlay'}
@@ -95,7 +95,7 @@ const Cardholders = () => {
 					cardholder={editingCardholder}
 					closeModal={closeCardholderEditor}
 				/>
-			</CardholderModal>
+			</Modal>
 
 			<div className='cardholder-page'>
 				<div id='searchbar'>

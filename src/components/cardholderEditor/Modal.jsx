@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-const CardholderModal = ({ isOpen, closeModal, overlayClassName, modalClassName, children }) => {
+const Modal = ({ isOpen, closeModal, overlayClassName, modalClassName, children }) => {
 	const overlayRef = useRef(null);
 
 	const handleOverlayClick = (e) => {
@@ -18,4 +18,4 @@ const CardholderModal = ({ isOpen, closeModal, overlayClassName, modalClassName,
 	);
 };
 
-export default CardholderModal;
+export default Modal;
