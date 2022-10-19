@@ -1,13 +1,7 @@
 @import './utillities.scss';
 
-.overlay {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
+.overlay.selection-list {
 	background-color: transparent;
-
 	.modal {
 		width: 100%;
 		background-color: $clr-base;

@@ -147,7 +147,7 @@ const CardholdersTable = () => {
 			<Modal
 				isOpen={isModalOpen}
 				closeModal={closeCardholderEditor}
-				overlayClassName={'overlay'}
+				overlayClassName={'overlay cardholder-editor'}
 				modalClassName={'modal'}
 			>
 				<CardholderEditor

@@ -3,9 +3,9 @@ import React from 'react';
 const LabeledInput = ({ label, defaultValue, handleChange, disabled }) => {
 	return (
 		<>
-			<label className='user-info-label'>{label}</label>
+			<label className='label'>{label}</label>
 			<input
-				className='user-info-input'
+				className='input'
 				type='text'
 				defaultValue={defaultValue}
 				onChange={(e) => handleChange(e.target.value)}

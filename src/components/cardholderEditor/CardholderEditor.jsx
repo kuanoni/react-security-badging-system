@@ -101,28 +101,27 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 			<Modal
 				isOpen={isGroupsModalOpen}
 				closeModal={closeGroupsModal}
-				overlayClassName={'overlay access-groups'}
+				overlayClassName={'overlay selection-list'}
 				modalClassName={'modal'}
 			>
 				<SelectionListModal list={grops} closeModal={closeGroupsModal} />
 			</Modal>
-
-			<div className='user-info-header'>
-				<div className='user-info-avatar'>
+			<div className='header'>
+				<div className='avatar'>
 					<img src={cardholder?.avatar} alt='' />
 				</div>
-				<div className='user-info'>
-					<h1 className='user-info-title name'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
-					<div className='user-info-label'>Email</div>
-					<div className='user-info-basic'>{cardholder?.email}</div>
-					<div className='user-info-label'>Status</div>
+				<div className='cardholder-info'>
+					<h1 className='title'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
+					<div className='label'>Email</div>
+					<div>{cardholder?.email}</div>
+					<div className='label'>Status</div>
 					{cardholder?.cardholderProfile?.status ? (
-						<div className='user-info-basic green-txt'>Active</div>
+						<div className='green-txt'>Active</div>
 					) : (
-						<div className='user-info-basic red-txt'>Inactive</div>
+						<div className='red-txt'>Inactive</div>
 					)}
 				</div>
-				<label className='user-edit-toggle'>
+				<label className='edit-toggle'>
 					<span>
 						EDIT
 						<input
@@ -135,10 +134,10 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 					</span>
 				</label>
 			</div>
-			<div className='user-info-body'>
+			<div className='body'>
 				<div className='column'>
-					<div className='user-info-container'>
-						<h1 className='user-info-title'>General</h1>
+					<div className='container'>
+						<h1 className='title'>General</h1>
 						<LabeledInput
 							label={'First name'}
 							defaultValue={firstName}
@@ -170,11 +169,11 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 							disabled={!isEditing}
 						/>
 					</div>
-					<div className='user-info-container'>
-						<h1 className='user-info-title'>Access Rights</h1>
-						<label className='user-info-label'>Cardholder type</label>
+					<div className='container'>
+						<h1 className='title'>Access Rights</h1>
+						<label className='label'>Cardholder type</label>
 						<select
-							className='user-info-input'
+							className='input'
 							disabled={!isEditing}
 							defaultValue={cardholderType}
 							onChange={(e) => setCardholderType(e.target.value)}
@@ -200,11 +199,11 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 					</div>
 				</div>
 				<div className='column'>
-					<div className='user-info-container'>
-						<h1 className='user-info-title'>Status</h1>
-						<label className='user-info-label'>Status</label>
+					<div className='container'>
+						<h1 className='title'>Status</h1>
+						<label className='label'>Status</label>
 						<select
-							className='user-info-input'
+							className='input'
 							disabled={!isEditing}
 							defaultValue={status}
 							onChange={(e) => setStatus(e.target.value)}
@@ -225,11 +224,11 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 							disabled={!isEditing}
 						/>
 					</div>
-					<div className='user-info-container'>
-						<h1 className='user-info-title'>Additional info</h1>
-						<label className='user-info-label'>Administrative notes</label>
+					<div className='container'>
+						<h1 className='title'>Additional info</h1>
+						<label className='label'>Administrative notes</label>
 						<textarea
-							className='user-info-input'
+							className='input'
 							type='text'
 							defaultValue={notes}
 							onChange={(e) => setNotes(e.target.value)}
@@ -238,7 +237,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 					</div>
 				</div>
 			</div>
-			<div className='user-info-footer'>
+			<div className='footer'>
 				<button className='btn cancel' onClick={() => !isSaving && closeModal()} disabled={isSaving}>
 					Cancel
 				</button>
