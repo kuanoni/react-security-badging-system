@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
+import '../styles/Modal.scss';
 
 const Modal = ({ isOpen, closeModal, overlayClassName, modalClassName, children }) => {
 	const overlayRef = useRef(null);
@@ -11,7 +12,7 @@ const Modal = ({ isOpen, closeModal, overlayClassName, modalClassName, children 
 
 	if (!isOpen) return <></>;
 
-	return ReactDOM.createPortal(
+	return createPortal(
 		<div className='ModalPortal'>
 			<div className={overlayClassName} ref={overlayRef} onClick={handleOverlayClick}>
 				<div className={modalClassName}>{children}</div>

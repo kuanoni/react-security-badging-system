@@ -1,31 +1,5 @@
 @import './utillities.scss';
 
-.overlay {
-	display: flex;
-	justify-content: center;
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: rgba(0, 0, 0, 0.651);
-	z-index: 100;
-
-	.modal {
-		display: flex;
-		flex-direction: column;
-		max-width: 60vw;
-		margin: 3rem 0;
-		background-color: $clr-dark;
-		color: $clr-text;
-
-		@media screen and (max-width: 800px) {
-			margin: 1rem;
-			max-width: 90vw;
-		}
-	}
-}
-
 .cardholder-editor {
 	.label {
 		margin-top: 0.5rem;
@@ -242,50 +216,4 @@
 			}
 		}
 	}
-
-	.footer {
-		display: flex;
-		justify-content: flex-end;
-		gap: 1rem;
-		padding: 1rem;
-		background-color: $clr-darker;
-		box-shadow: 0 -1px 2px $clr-darkest;
-
-		.btn {
-			color: $clr-text;
-			padding: 0.75em;
-			border: none;
-			border-radius: 3px;
-			box-shadow: 1px 1px 2px $clr-base;
-			font-size: 0.9em;
-			font-weight: 600;
-			transition: 0.15s all ease-in-out;
-			cursor: pointer;
-
-			&.save {
-				background-color: #0086c5;
-				padding-inline: 3em;
-			}
-
-			&.cancel {
-				background-color: $clr-hightlight;
-				padding-inline: 1em;
-			}
-
-			&:disabled {
-				filter: brightness(0.8);
-			}
-
-			&:hover:not(:disabled) {
-				filter: brightness(1.25);
-			}
-		}
-	}
-}
-
-.toast {
-	color: $clr-text;
-	background-color: $clr-darkest;
-	border: 1px solid $clr-hightlight;
-	user-select: none;
 }

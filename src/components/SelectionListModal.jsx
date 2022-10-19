@@ -37,6 +37,14 @@ const SelectionListModal = ({ list, closeModal }) => {
 					))}
 				</div>
 			</div>
+			<div className='footer'>
+				<button className='btn cancel' onClick={() => closeModal()}>
+					Cancel
+				</button>
+				<button className='btn save' onClick={() => {}}>
+					Add
+				</button>
+			</div>
 		</>
 	);
 };
