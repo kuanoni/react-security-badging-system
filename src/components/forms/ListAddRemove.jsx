@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserInfoList = ({ label, list, onAdd, onRemove, isEditing }) => {
+const ListAddRemove = ({ label, list, onAdd, onRemove, isEditing }) => {
 	return (
 		<>
 			<div className='user-info-list-header'>
@@ -19,4 +19,4 @@ const UserInfoList = ({ label, list, onAdd, onRemove, isEditing }) => {
 	);
 };
 
-export default UserInfoList;
+export default ListAddRemove;

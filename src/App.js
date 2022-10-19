@@ -1,9 +1,9 @@
-import Cardholders from './components/cardholdersTable';
+import CardholdersTable from './components/cardholdersTable/CardholdersTable';
 
 function App() {
 	return (
 		<div className='App'>
-			<Cardholders />
+			<CardholdersTable />
 		</div>
 	);
 }

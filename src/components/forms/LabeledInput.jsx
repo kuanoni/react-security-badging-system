@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserInfoLabeledInput = ({ label, defaultValue, handleChange, disabled }) => {
+const LabeledInput = ({ label, defaultValue, handleChange, disabled }) => {
 	return (
 		<>
 			<label className='user-info-label'>{label}</label>
@@ -15,4 +15,4 @@ const UserInfoLabeledInput = ({ label, defaultValue, handleChange, disabled }) =
 	);
 };
 
-export default UserInfoLabeledInput;
+export default LabeledInput;

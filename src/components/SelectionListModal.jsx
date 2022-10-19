@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
-const AccessGroupModalContent = ({ groups, closeModal }) => {
-	const [checkboxes, setCheckboxes] = useState(groups.map((group) => ({ label: group, checked: false })));
+const SelectionListModal = ({ list, closeModal }) => {
+	const [checkboxes, setCheckboxes] = useState(list.map((item) => ({ label: item, checked: false })));
 
 	const handleChecked = (idx) => {
+		//infine querey for credentials
 		setCheckboxes(
 			checkboxes.map((checkbox, i) => {
 				if (idx === i) return { ...checkbox, checked: !checkbox.checked };
@@ -39,4 +40,4 @@ const AccessGroupModalContent = ({ groups, closeModal }) => {
 	);
 };
 
-export default AccessGroupModalContent;
+export default SelectionListModal;

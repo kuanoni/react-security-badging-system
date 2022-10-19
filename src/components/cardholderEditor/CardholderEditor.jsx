@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { updateCardholder } from '../../api/fetch';
-import Modal from './Modal';
-import UserInfoLabeledInput from './UserInfoLabeledInput';
-import UserInfoList from './UserInfoList';
-import './index.scss';
-import AccessGroupModalContent from './AccessGroupModalContent';
+import Modal from '../Modal';
+import LabeledInput from '../forms/LabeledInput';
+import ListAddRemove from '../forms/ListAddRemove';
+import SelectionListModal from '../SelectionListModal';
+import '../../styles/CardholderEditor.scss';
 
+// eslint-disable-next-line
 const creds = [78064, 91469, 13645, 65499, 65142, 78261, 74985, 98798, 21333, 36657, 78124, 89991, 78846];
 const grops = ['General Access', 'Lab Access', 'Global Access', 'Tech Access', 'Roof Access'];
 
-const CardholderModalContent = ({ cardholder, closeModal }) => {
+const CardholderEditor = ({ cardholder, closeModal }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 
@@ -25,7 +26,7 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 	const [activation, setActivation] = useState(cardholder.cardholderProfile?.activation);
 	const [expiration, setExpiration] = useState(cardholder.cardholderProfile?.expiration);
 	const [cardholderType, setCardholderType] = useState('');
-	const [cardholderGroups, setCardholderGroups] = useState(cardholder.cardholderProfile?.accessGroups);
+	const [accessGroups, setAccessGroups] = useState(cardholder.cardholderProfile?.accessGroups);
 	const [credentials, setCredentials] = useState(cardholder.cardholderProfile?.credentials);
 	const [notes, setNotes] = useState('');
 
@@ -38,11 +39,11 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 	};
 
 	const handleRemoveAccessGroup = (value) => {
-		const idx = cardholderGroups.indexOf(value);
-		const newArr = [...cardholderGroups];
+		const idx = accessGroups.indexOf(value);
+		const newArr = [...accessGroups];
 		newArr.splice(idx, 1);
 
-		if (idx > -1) setCardholderGroups(newArr);
+		if (idx > -1) setAccessGroups(newArr);
 	};
 
 	const handleAddCredential = () => {};
@@ -67,7 +68,7 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 				activation,
 				expiration,
 				type: cardholderType,
-				accessGroups: cardholderGroups,
+				accessGroups: accessGroups,
 				credentials,
 			},
 			id: cardholder.id,
@@ -103,8 +104,9 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 				overlayClassName={'overlay access-groups'}
 				modalClassName={'modal'}
 			>
-				<AccessGroupModalContent groups={grops} closeModal={closeGroupsModal} />
+				<SelectionListModal list={grops} closeModal={closeGroupsModal} />
 			</Modal>
+
 			<div className='user-info-header'>
 				<div className='user-info-avatar'>
 					<img src={cardholder?.avatar} alt='' />
@@ -137,31 +139,31 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 				<div className='column'>
 					<div className='user-info-container'>
 						<h1 className='user-info-title'>General</h1>
-						<UserInfoLabeledInput
+						<LabeledInput
 							label={'First name'}
 							defaultValue={firstName}
 							handleChange={setFirstName}
 							disabled={!isEditing}
 						/>
-						<UserInfoLabeledInput
+						<LabeledInput
 							label={'Last name'}
 							defaultValue={lastName}
 							handleChange={setLastName}
 							disabled={!isEditing}
 						/>
-						<UserInfoLabeledInput
+						<LabeledInput
 							label={'Email'}
 							defaultValue={email}
 							handleChange={setEmail}
 							disabled={!isEditing}
 						/>
-						<UserInfoLabeledInput
+						<LabeledInput
 							label={'Job title'}
 							defaultValue={title}
 							handleChange={setTitle}
 							disabled={!isEditing}
 						/>
-						<UserInfoLabeledInput
+						<LabeledInput
 							label={'Employee ID'}
 							defaultValue={employeeId}
 							handleChange={setEmployeeId}
@@ -181,14 +183,14 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 							<option value={'contractor'}>Contractor</option>
 							<option value={'privledged visitor'}>Privledged Visitor</option>
 						</select>
-						<UserInfoList
+						<ListAddRemove
 							label={'Cardholder groups'}
-							list={cardholderGroups}
+							list={accessGroups}
 							onAdd={handleAddAccessGroup}
 							onRemove={handleRemoveAccessGroup}
 							isEditing={isEditing}
 						/>
-						<UserInfoList
+						<ListAddRemove
 							label={'Credentials'}
 							list={credentials}
 							onAdd={handleAddCredential}
@@ -210,13 +212,13 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 							<option value={true}>Active</option>
 							<option value={false}>Inactive</option>
 						</select>
-						<UserInfoLabeledInput
+						<LabeledInput
 							label={'Activation'}
 							defaultValue={activation}
 							handleChange={setActivation}
 							disabled={!isEditing}
 						/>
-						<UserInfoLabeledInput
+						<LabeledInput
 							label={'First name'}
 							defaultValue={expiration}
 							handleChange={setExpiration}
@@ -248,4 +250,4 @@ const CardholderModalContent = ({ cardholder, closeModal }) => {
 	);
 };
 
-export default CardholderModalContent;
+export default CardholderEditor;

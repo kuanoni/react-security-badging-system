@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import { fetchCardholder, fetchCardholders } from '../../api/fetch';
-import CardholdersTable from './CardholderTable';
-import CardholderModalContent from '../cardholderEditor/CardholderModalContent';
-import './index.scss';
-import Modal from '../cardholderEditor/Modal';
+import Table from '../Table';
+import CardholderEditor from '../cardholderEditor/CardholderEditor';
+import Modal from '../Modal';
 import { Toaster } from 'react-hot-toast';
+import '../../styles/CardholderTable.scss';
 
-const Cardholders = () => {
+const CardholdersTable = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [editingCardholder, setEditingCardholder] = useState({});
 	const [totalCardholders, setTotalCardholders] = useState(0);
@@ -63,6 +63,66 @@ const Cardholders = () => {
 		setEditingCardholder({});
 	};
 
+	const cardholdersColumns = [
+		{
+			Header: 'Picture',
+			accessor: 'avatar',
+			Cell: ({ value }) => (
+				<img
+					src={value ? value : 'https://robohash.org/hicveldicta.png?size=50x50&set=set1'}
+					alt=''
+					className='avatar'
+				/>
+			),
+			style: {
+				width: '100px',
+			},
+		},
+		{
+			Header: 'First Name',
+			accessor: 'firstName',
+		},
+		{
+			Header: 'Last Name',
+			accessor: 'lastName',
+		},
+		{
+			Header: 'Status',
+			accessor: 'cardholderProfile.status',
+			Cell: ({ value }) => {
+				return value ? (
+					<div className='badge green-txt'>Active</div>
+				) : (
+					<div className='badge red-txt'>Inactive</div>
+				);
+			},
+			style: {
+				width: '150px',
+			},
+		},
+		{
+			Header: 'Type',
+			accessor: 'cardholderProfile.type',
+		},
+		{
+			Header: 'Employee ID',
+			accessor: 'employeeId',
+		},
+		{
+			accessor: 'id',
+			Cell: ({ value }) => {
+				return (
+					<button className='btn-edit-user' onClick={(e) => openCardholderEditor(value)}>
+						Edit
+					</button>
+				);
+			},
+			style: {
+				width: '4rem',
+			},
+		},
+	];
+
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbar(value);
 	}, 300);
@@ -90,7 +150,7 @@ const Cardholders = () => {
 				overlayClassName={'overlay'}
 				modalClassName={'modal'}
 			>
-				<CardholderModalContent
+				<CardholderEditor
 					key={editingCardholder.id}
 					cardholder={editingCardholder}
 					closeModal={closeCardholderEditor}
@@ -98,7 +158,7 @@ const Cardholders = () => {
 			</Modal>
 
 			<div className='cardholder-page'>
-				<div id='searchbar'>
+				<div className='searchbar'>
 					<input type='text' placeholder='Search...' onChange={(e) => onChangeSearchbar(e.target.value)} />
 					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 						<option value='firstName'>First Name</option>
@@ -108,7 +168,7 @@ const Cardholders = () => {
 				<div className='cardholder-section-container'>
 					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 						{Object.keys(flatData).length ? (
-							<CardholdersTable data={flatData} openCardholderEditor={openCardholderEditor} />
+							<Table data={flatData} columns={cardholdersColumns} />
 						) : (
 							<div className='no-results'>No results...</div>
 						)}
@@ -119,4 +179,4 @@ const Cardholders = () => {
 	);
 };
 
-export default Cardholders;
+export default CardholdersTable;
