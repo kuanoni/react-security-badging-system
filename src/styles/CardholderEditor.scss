@@ -144,10 +144,15 @@
 			color: $clr-text;
 			background-color: $clr-darkest;
 			border: none;
+			border-bottom: 1px solid transparent;
 			resize: none;
 
 			&:disabled {
 				filter: brightness(0.8);
+			}
+
+			&:placeholder-shown {
+				border-color: $clr-red;
 			}
 		}
 

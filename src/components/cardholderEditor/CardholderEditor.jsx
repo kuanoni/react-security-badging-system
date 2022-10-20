@@ -77,6 +77,11 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 			id: cardholder.id,
 		};
 
+		if (!firstName || !lastName || !email || employeeId || !title || !activation || !expiration) {
+			toast.error(<b>Please fill all fields.</b>);
+			return;
+		}
+
 		console.log(newCardholder);
 
 		setIsSaving(true);

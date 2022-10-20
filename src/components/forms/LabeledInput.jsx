@@ -9,6 +9,7 @@ const LabeledInput = ({ label, defaultValue, handleChange, disabled }) => {
 				type='text'
 				defaultValue={defaultValue}
 				onChange={(e) => handleChange(e.target.value)}
+				placeholder={'Enter ' + label.toLowerCase() + '...'}
 				disabled={disabled}
 			/>
 		</>
