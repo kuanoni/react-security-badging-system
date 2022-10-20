@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { fetchAccessGroups, updateCardholder } from '../../api/fetch';
+import { fetchAccessGroups, fetchCredentials, updateCardholder } from '../../api/fetch';
 import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
@@ -12,6 +12,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 	const [isSaving, setIsSaving] = useState(false);
 
 	const [isGroupsModalOpen, setIsGroupsModalOpen] = useState(false);
+	const [isCredentialsModalOpen, setIsCredentialsModalOpen] = useState(false);
 
 	const [firstName, setFirstName] = useState(cardholder.firstName);
 	const [lastName, setLastName] = useState(cardholder.lastName);
@@ -34,6 +35,14 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 		setIsGroupsModalOpen(true);
 	};
 
+	const closeCredentialsModal = () => {
+		setIsCredentialsModalOpen(false);
+	};
+
+	const openCredentialsModal = () => {
+		setIsCredentialsModalOpen(true);
+	};
+
 	const handleRemoveAccessGroup = (value) => {
 		const idx = accessGroups.indexOf(value);
 		const newArr = [...accessGroups];
@@ -41,8 +50,6 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 
 		if (idx > -1) setAccessGroups(newArr);
 	};
-
-	const handleAddCredential = () => {};
 
 	const handleRemoveCredential = (value) => {
 		const idx = credentials.indexOf(value);
@@ -105,6 +112,19 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 					selectedList={accessGroups}
 					setNewList={setAccessGroups}
 					closeModal={closeGroupsModal}
+				/>
+			</Modal>
+			<Modal
+				isOpen={isCredentialsModalOpen}
+				closeModal={closeCredentialsModal}
+				overlayClassName={'overlay selection-list'}
+				modalClassName={'modal'}
+			>
+				<SelectionListModal
+					fetchFn={fetchCredentials}
+					selectedList={credentials}
+					setNewList={setCredentials}
+					closeModal={closeCredentialsModal}
 				/>
 			</Modal>
 			<div className='header'>
@@ -193,7 +213,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<ListAddRemove
 							label={'Credentials'}
 							list={credentials}
-							onAdd={handleAddCredential}
+							onAdd={openCredentialsModal}
 							onRemove={handleRemoveCredential}
 							isEditing={isEditing}
 						/>

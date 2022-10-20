@@ -48,3 +48,19 @@ export const fetchAccessGroups = async (page, filterUrlText) => {
 			count: fetchedAccessGroups.count,
 		};
 };
+
+export const fetchCredentials = async (page, filterUrlText) => {
+	let fetchUrl = apiUrl + 'credentials';
+
+	if (filterUrlText) fetchUrl += filterUrlText;
+	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
+
+	const fetchedCredentials = await fetch(fetchUrl).then((res) => res.json());
+
+	if (fetchedCredentials)
+		return {
+			data: fetchedCredentials.credentials,
+			dataKey: 'credentialNumber',
+			count: fetchedCredentials.count,
+		};
+};

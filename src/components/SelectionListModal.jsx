@@ -38,7 +38,7 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 		setCheckboxes(
 			flatData.map((item) => ({ label: item[dataKey], checked: selectedList.includes(item[dataKey]) }))
 		);
-	}, [data, dataKey, selectedList]);
+	}, [flatData, dataKey, selectedList]);
 
 	const fetchMoreOnBottomReached = (containerRefElement) => {
 		if (containerRefElement) {
@@ -46,7 +46,6 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 			const dataLength = data?.pages?.flat().length;
 
 			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && dataLength < listSize) {
-				console.log(dataLength);
 				fetchNextPage();
 			}
 		}
@@ -57,7 +56,6 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 	}, 300);
 
 	const handleChecked = (idx) => {
-		//infine querey for credentials
 		setCheckboxes(
 			checkboxes.map((checkbox, i) => {
 				if (idx === i) return { ...checkbox, checked: !checkbox.checked };
