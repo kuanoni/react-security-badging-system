@@ -134,18 +134,14 @@ $searchbar-height: 64px;
 			}
 
 			.btn-edit-user {
-				color: $clr-text;
-				background-color: $clr-dark;
-				padding: 6px;
-				border: 1px solid $clr-hightlight;
-				border-radius: 10px;
+				color: $clr-text-dark;
+				background-color: transparent;
+				border-collapse: initial;
+				transition: 0.1s ease;
 				cursor: pointer;
 
 				&:hover {
-					color: #000;
-					background-color: $clr-text-dark;
-					transform: scale(1.05);
-					transition: 0.1s ease;
+					filter: brightness(1.25);
 				}
 			}
 		}

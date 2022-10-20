@@ -112,9 +112,14 @@ const CardholdersTable = () => {
 			accessor: 'id',
 			Cell: ({ value }) => {
 				return (
-					<button className='btn-edit-user' onClick={(e) => openCardholderEditor(value)}>
-						Edit
-					</button>
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+						}}
+					>
+						<button className='btn-edit-user gg-edit-markup' onClick={(e) => openCardholderEditor(value)} />
+					</div>
 				);
 			},
 			style: {
