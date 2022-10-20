@@ -9,6 +9,7 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 	const [listSize, setListSize] = useState(0);
 	const [dataKey, setDataKey] = useState('');
 	const [checkboxes, setCheckboxes] = useState([]);
+	const [showSelected, setShowSelected] = useState(false);
 
 	const filterUrlText = useMemo(() => {
 		return searchbar ? '?search=' + searchbar : '';
@@ -84,21 +85,31 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 					onChange={(e) => onChangeSearchbar(e.target.value)}
 				/>
 				<div className='list' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-					{checkboxes.map((checkbox, i) => (
-						<div className='list-item' onClick={() => handleChecked(i)} key={i}>
-							{checkbox.checked ? (
-								<span className='gg-radio-checked'></span>
-							) : (
-								<span className='gg-radio-check'></span>
-							)}
+					{checkboxes.map((checkbox, i) => {
+						if (showSelected && !selectedList.includes(checkbox.label)) return <></>;
 
-							<input type='checkbox' />
-							<span>{checkbox.label}</span>
-						</div>
-					))}
+						return (
+							<div className='list-item' onClick={() => handleChecked(i)} key={i}>
+								{checkbox.checked ? (
+									<span className='gg-radio-checked'></span>
+								) : (
+									<span className='gg-radio-check'></span>
+								)}
+								<span>{checkbox.label}</span>
+							</div>
+						);
+					})}
 				</div>
 			</div>
 			<div className='footer'>
+				<div className='show-selected' onClick={() => setShowSelected(!showSelected)}>
+					{showSelected ? (
+						<span className='gg-radio-checked'></span>
+					) : (
+						<span className='gg-radio-check'></span>
+					)}
+					<span>Show selected</span>
+				</div>
 				<button className='btn cancel' onClick={() => closeModal()}>
 					Cancel
 				</button>
