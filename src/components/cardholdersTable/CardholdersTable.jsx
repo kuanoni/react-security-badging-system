@@ -28,7 +28,7 @@ const CardholdersTable = () => {
 		},
 		{
 			getNextPageParam: (_lastGroup, groups) => groups.length,
-			keepPreviousData: true,
+			keepPreviousData: false,
 			refetchOnWindowFocus: false,
 		}
 	);

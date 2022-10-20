@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { updateCardholder } from '../../api/fetch';
+import { fetchAccessGroups, updateCardholder } from '../../api/fetch';
 import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
 import SelectionListModal from '../SelectionListModal';
 import '../../styles/CardholderEditor.scss';
-
-// eslint-disable-next-line
-const creds = [78064, 91469, 13645, 65499, 65142, 78261, 74985, 98798, 21333, 36657, 78124, 89991, 78846];
-const grops = ['General Access', 'Lab Access', 'Global Access', 'Tech Access', 'Roof Access'];
 
 const CardholderEditor = ({ cardholder, closeModal }) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -105,7 +101,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 				modalClassName={'modal'}
 			>
 				<SelectionListModal
-					list={grops}
+					fetchFn={fetchAccessGroups}
 					selectedList={accessGroups}
 					setNewList={setAccessGroups}
 					closeModal={closeGroupsModal}
