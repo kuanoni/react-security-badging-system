@@ -19,7 +19,7 @@ const CardholdersTable = () => {
 		return searchbar ? '?' + searchSetting + '=' + searchbar : '';
 	}, [searchbar, searchSetting]);
 
-	const { data, fetchNextPage, isFetching, isFetched } = useInfiniteQuery(
+	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
 		['table-data', searchbar, searchSetting], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
 		async ({ pageParam = 0 }) => {
 			const fetchedData = await fetchCardholders(pageParam, filterUrlText);
@@ -126,6 +126,7 @@ const CardholdersTable = () => {
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbar(value);
+		remove();
 	}, 300);
 
 	const onChangeSearchSetting = (value) => {
@@ -168,6 +169,7 @@ const CardholdersTable = () => {
 					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 						<option value='firstName'>First Name</option>
 						<option value='lastName'>Last Name</option>
+						<option value='employeeId'>Employee ID</option>
 					</select>
 				</div>
 				<div className='cardholder-section-container'>
