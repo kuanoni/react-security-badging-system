@@ -16,7 +16,7 @@ const CardholdersTable = () => {
 	const [searchSetting, setSearchSetting] = useState('firstName');
 
 	const filterUrlText = useMemo(() => {
-		return searchbar ? '?' + searchSetting + '=' + searchbar : '';
+		return searchbar ? `?${searchSetting}=${searchbar}` : '';
 	}, [searchbar, searchSetting]);
 
 	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
@@ -24,6 +24,11 @@ const CardholdersTable = () => {
 		async ({ pageParam = 0 }) => {
 			const fetchedData = await fetchCardholders(pageParam, filterUrlText);
 			setTotalCardholders(fetchedData.count);
+
+			if (searchbar) {
+				return fetchedData.cardholders.sort((a, b) => (a[searchSetting] < b[searchSetting] ? -1 : 1));
+			}
+
 			return fetchedData.cardholders;
 		},
 		{
@@ -134,7 +139,12 @@ const CardholdersTable = () => {
 	};
 
 	const handleRowClick = (e, id) => {
+		// if double clicked
 		if (e.detail === 2) openCardholderEditor(id);
+	};
+
+	const handleHeaderClick = (e) => {
+		console.log(e);
 	};
 
 	return (
@@ -175,7 +185,12 @@ const CardholdersTable = () => {
 				<div className='cardholder-section-container'>
 					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 						{Object.keys(flatData).length ? (
-							<Table data={flatData} columns={cardholdersColumns} handleRowClick={handleRowClick} />
+							<Table
+								data={flatData}
+								columns={cardholdersColumns}
+								handleRowClick={handleRowClick}
+								handleHeaderClick={handleHeaderClick}
+							/>
 						) : (
 							<div className='loader-container'>
 								{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}

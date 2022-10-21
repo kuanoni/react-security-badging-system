@@ -60,6 +60,7 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 			// remove query cache on unmount
 			remove();
 		};
+		// eslint-disable-next-line
 	}, []);
 
 	const saveSelected = () => {

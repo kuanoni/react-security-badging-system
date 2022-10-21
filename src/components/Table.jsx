@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-const Table = ({ data, columns, handleRowClick }) => {
+const Table = ({ data, columns, handleHeaderClick, handleRowClick }) => {
 	const getColumnStyle = (column) => {
 		if (column.style) return column.style;
 		else return {};
@@ -20,7 +20,11 @@ const Table = ({ data, columns, handleRowClick }) => {
 				{headerGroups.map((headerGroup) => (
 					<tr {...headerGroup.getHeaderGroupProps()}>
 						{headerGroup.headers.map((column) => (
-							<th {...column.getHeaderProps()} style={{ ...getColumnStyle(column) }}>
+							<th
+								{...column.getHeaderProps()}
+								style={{ ...getColumnStyle(column) }}
+								onClick={handleHeaderClick}
+							>
 								{column.render('Header')}
 							</th>
 						))}
