@@ -136,6 +136,10 @@ const CardholdersTable = () => {
 		setSearchSetting(value);
 	};
 
+	const handleRowClick = (e, id) => {
+		if (e.detail === 2) openCardholderEditor(id);
+	};
+
 	return (
 		<>
 			<Toaster
@@ -173,7 +177,7 @@ const CardholdersTable = () => {
 				<div className='cardholder-section-container'>
 					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 						{Object.keys(flatData).length ? (
-							<Table data={flatData} columns={cardholdersColumns} />
+							<Table data={flatData} columns={cardholdersColumns} handleRowClick={handleRowClick} />
 						) : (
 							<div className='no-results'>No results...</div>
 						)}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-const Table = ({ data, columns }) => {
+const Table = ({ data, columns, handleRowClick }) => {
 	const getColumnStyle = (column) => {
 		if (column.style) return column.style;
 		else return {};
@@ -32,7 +32,7 @@ const Table = ({ data, columns }) => {
 					prepareRow(row);
 
 					return (
-						<tr {...row.getRowProps()}>
+						<tr {...row.getRowProps()} onClick={(e) => handleRowClick(e, row.original.id)}>
 							{row.cells.map((cell, idx) => (
 								<td {...cell.getCellProps()}>{cell.render('Cell')}</td>
 							))}
