@@ -31,16 +31,6 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 		}
 	);
 
-	const flatData = useMemo(() => {
-		return data?.pages?.flat() ?? [];
-	}, [data]);
-
-	useEffect(() => {
-		setCheckboxes(
-			flatData.map((item) => ({ label: item[dataKey], checked: selectedList.includes(item[dataKey]) }))
-		);
-	}, [flatData, dataKey, selectedList]);
-
 	const fetchMoreOnBottomReached = (containerRefElement) => {
 		if (containerRefElement) {
 			const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
@@ -52,23 +42,33 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 		}
 	};
 
+	const flatData = useMemo(() => {
+		return data?.pages?.flat() ?? [];
+	}, [data]);
+
+	useEffect(() => {
+		setCheckboxes(
+			flatData.map((item) => ({ label: item[dataKey], checked: selectedList.includes(item[dataKey]) }))
+		);
+	}, [flatData, dataKey, selectedList]);
+
+	const saveSelected = () => {
+		setNewList(checkboxes.filter((checkbox) => checkbox.checked).map((checkbox) => checkbox.label));
+		toast.success(<b>Saved!</b>);
+		closeModal();
+	};
+
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbar(value);
 	}, 300);
 
-	const handleChecked = (idx) => {
+	const handleClickCheckbox = (idx) => {
 		setCheckboxes(
 			checkboxes.map((checkbox, i) => {
 				if (idx === i) return { ...checkbox, checked: !checkbox.checked };
 				return checkbox;
 			})
 		);
-	};
-
-	const saveSelected = () => {
-		setNewList(checkboxes.filter((checkbox) => checkbox.checked).map((checkbox) => checkbox.label));
-		toast.success(<b>Saved!</b>);
-		closeModal();
 	};
 
 	return (
@@ -89,7 +89,7 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 						if (showSelected && !selectedList.includes(checkbox.label)) return <></>;
 
 						return (
-							<div className='list-item' onClick={() => handleChecked(i)} key={i}>
+							<div className='list-item' onClick={() => handleClickCheckbox(i)} key={i}>
 								{checkbox.checked ? (
 									<span className='gg-radio-checked'></span>
 								) : (

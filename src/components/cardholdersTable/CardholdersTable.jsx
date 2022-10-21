@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import { fetchCardholder, fetchCardholders } from '../../api/fetch';
@@ -33,10 +33,6 @@ const CardholdersTable = () => {
 		}
 	);
 
-	const flatData = useMemo(() => {
-		return data?.pages?.flat() ?? [];
-	}, [data]);
-
 	const fetchMoreOnBottomReached = (containerRefElement) => {
 		if (containerRefElement) {
 			const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
@@ -47,9 +43,9 @@ const CardholdersTable = () => {
 		}
 	};
 
-	useEffect(() => {
-		fetchNextPage();
-	}, [fetchNextPage]);
+	const flatData = useMemo(() => {
+		return data?.pages?.flat() ?? [];
+	}, [data]);
 
 	const openCardholderEditor = async (id) => {
 		await fetchCardholder(id).then((cardholder) => {
