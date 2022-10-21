@@ -31,3 +31,29 @@ $clr-red: rgb(255, 65, 65);
 	border: 1px solid $clr-hightlight;
 	user-select: none;
 }
+
+.loader-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+
+	.loader {
+		$size: 3rem;
+		border: calc($size / 7.5) solid $clr-hightlight; /* Light grey */
+		border-top: calc($size / 7.5) solid $clr-blue; /* Blue */
+		border-radius: 50%;
+		width: $size;
+		height: $size;
+		animation: spin 1.5s linear infinite;
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+}

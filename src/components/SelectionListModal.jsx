@@ -15,7 +15,7 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 		return searchbar ? '?search=' + searchbar : '';
 	}, [searchbar]);
 
-	const { data, fetchNextPage, remove, isFetching } = useInfiniteQuery(
+	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
 		['list-data', searchbar], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
 		async ({ pageParam = 0 }) => {
 			const { data: fetchedData, dataKey, count } = await fetchFn(pageParam, filterUrlText);
@@ -95,6 +95,11 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 					onChange={(e) => onChangeSearchbar(e.target.value)}
 				/>
 				<div className='list' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
+					{checkboxes.length === 0 && (
+						<div className='loader-container'>
+							{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
+						</div>
+					)}
 					{checkboxes.map((checkbox, i) => {
 						if (showSelected && !selectedList.some((selectedItem) => selectedItem.id === checkbox.item.id))
 							return <></>;

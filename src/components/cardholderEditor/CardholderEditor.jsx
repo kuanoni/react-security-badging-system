@@ -104,6 +104,13 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 		);
 	};
 
+	if (Object.keys(cardholder).length === 0)
+		return (
+			<div className='loader-container'>
+				<div className='loader'></div>
+			</div>
+		);
+
 	return (
 		<>
 			<Modal

@@ -19,7 +19,7 @@ const CardholdersTable = () => {
 		return searchbar ? '?' + searchSetting + '=' + searchbar : '';
 	}, [searchbar, searchSetting]);
 
-	const { data, fetchNextPage, isFetching } = useInfiniteQuery(
+	const { data, fetchNextPage, isFetching, isFetched } = useInfiniteQuery(
 		['table-data', searchbar, searchSetting], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
 		async ({ pageParam = 0 }) => {
 			const fetchedData = await fetchCardholders(pageParam, filterUrlText);
@@ -48,9 +48,9 @@ const CardholdersTable = () => {
 	}, [data]);
 
 	const openCardholderEditor = async (id) => {
+		setIsModalOpen(true);
 		await fetchCardholder(id).then((cardholder) => {
 			setEditingCardholder(cardholder);
-			setIsModalOpen(true);
 		});
 	};
 
@@ -175,7 +175,9 @@ const CardholdersTable = () => {
 						{Object.keys(flatData).length ? (
 							<Table data={flatData} columns={cardholdersColumns} handleRowClick={handleRowClick} />
 						) : (
-							<div className='no-results'>No results...</div>
+							<div className='loader-container'>
+								{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
+							</div>
 						)}
 					</div>
 				</div>
