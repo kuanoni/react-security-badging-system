@@ -77,7 +77,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 			},
 		};
 
-		if (!firstName || !lastName || !email || employeeId || !title || !activation || !expiration) {
+		if (!firstName || !lastName || !email || !employeeId || !title || !activation || !expiration) {
 			toast.error(<b>Please fill all fields.</b>);
 			return;
 		}

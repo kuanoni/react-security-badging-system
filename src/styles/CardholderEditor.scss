@@ -71,7 +71,7 @@
 				text-indent: -9999px;
 				width: 40px;
 				height: 20px;
-				background: grey;
+				background: $clr-hightlight;
 				display: block;
 				border-radius: 100px;
 				position: relative;
@@ -84,13 +84,13 @@
 				left: 1px;
 				width: 18px;
 				height: 18px;
-				background: #fff;
+				background: $clr-text;
 				border-radius: 90px;
 				transition: 0.3s;
 			}
 
 			input:checked + label {
-				background: #bada55;
+				background: $clr-blue;
 			}
 
 			input:checked + label:after {
