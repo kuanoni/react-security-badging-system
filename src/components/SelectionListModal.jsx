@@ -15,7 +15,7 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 		return searchbar ? '?search=' + searchbar : '';
 	}, [searchbar]);
 
-	const { data, fetchNextPage, isFetching } = useInfiniteQuery(
+	const { data, fetchNextPage, remove, isFetching } = useInfiniteQuery(
 		['list-data', searchbar], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
 		async ({ pageParam = 0 }) => {
 			const { data: fetchedData, dataKey, count } = await fetchFn(pageParam, filterUrlText);
@@ -26,7 +26,7 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 		},
 		{
 			getNextPageParam: (_lastGroup, groups) => groups.length,
-			keepPreviousData: true,
+			keepPreviousData: false,
 			refetchOnWindowFocus: false,
 		}
 	);
@@ -54,6 +54,13 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 			}))
 		);
 	}, [flatData, dataKey, selectedList]);
+
+	useEffect(() => {
+		return () => {
+			// remove query cache on unmount
+			remove();
+		};
+	}, []);
 
 	const saveSelected = () => {
 		setNewList(checkboxes.filter((checkbox) => checkbox.checked).map((checkbox) => checkbox.item));
