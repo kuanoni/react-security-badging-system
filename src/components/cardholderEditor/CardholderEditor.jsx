@@ -61,6 +61,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 
 	const saveCardholder = () => {
 		const newCardholder = {
+			id: cardholder.id.toString(),
 			firstName,
 			lastName,
 			email,
@@ -71,10 +72,9 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 				activation,
 				expiration,
 				type: cardholderType,
-				accessGroups: accessGroups,
+				accessGroups,
 				credentials,
 			},
-			id: cardholder.id,
 		};
 
 		if (!firstName || !lastName || !email || employeeId || !title || !activation || !expiration) {
@@ -211,6 +211,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<ListAddRemove
 							label={'Cardholder groups'}
 							list={accessGroups}
+							listKey='accessGroup'
 							onAdd={openGroupsModal}
 							onRemove={handleRemoveAccessGroup}
 							isEditing={isEditing}
@@ -218,6 +219,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<ListAddRemove
 							label={'Credentials'}
 							list={credentials}
+							listKey='credentialNumber'
 							onAdd={openCredentialsModal}
 							onRemove={handleRemoveCredential}
 							isEditing={isEditing}

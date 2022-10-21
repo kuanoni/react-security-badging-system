@@ -48,12 +48,15 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 
 	useEffect(() => {
 		setCheckboxes(
-			flatData.map((item) => ({ label: item[dataKey], checked: selectedList.includes(item[dataKey]) }))
+			flatData.map((item) => ({
+				item,
+				checked: selectedList.some((selectedItem) => selectedItem.id === item.id),
+			}))
 		);
 	}, [flatData, dataKey, selectedList]);
 
 	const saveSelected = () => {
-		setNewList(checkboxes.filter((checkbox) => checkbox.checked).map((checkbox) => checkbox.label));
+		setNewList(checkboxes.filter((checkbox) => checkbox.checked).map((checkbox) => checkbox.item));
 		toast.success(<b>Saved!</b>);
 		closeModal();
 	};
@@ -86,7 +89,8 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 				/>
 				<div className='list' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 					{checkboxes.map((checkbox, i) => {
-						if (showSelected && !selectedList.includes(checkbox.label)) return <></>;
+						if (showSelected && !selectedList.some((selectedItem) => selectedItem.id === checkbox.item.id))
+							return <></>;
 
 						return (
 							<div className='list-item' onClick={() => handleClickCheckbox(i)} key={i}>
@@ -95,7 +99,7 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 								) : (
 									<span className='gg-radio-check'></span>
 								)}
-								<span>{checkbox.label}</span>
+								<span>{checkbox.item[dataKey]}</span>
 							</div>
 						);
 					})}

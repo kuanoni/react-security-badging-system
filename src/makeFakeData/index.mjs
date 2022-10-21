@@ -50,6 +50,7 @@ const makeCardholders = (count, creds, groups) => {
 
 		for (let j = 0; j < Math.floor(Math.random() * 3); j++) {}
 
+		const avatar = faker.image.avatar();
 		const firstName = faker.name.firstName();
 		const lastName = faker.name.lastName();
 		const email = `${firstName}.${lastName}@company.com`;
@@ -62,7 +63,8 @@ const makeCardholders = (count, creds, groups) => {
 		const type = ['Employee', 'Contractor', 'Privileged Visitor'][Math.floor(Math.random() * 3)];
 
 		cholders.push({
-			id: i + 1,
+			id: (i + 1).toString(),
+			avatar,
 			firstName,
 			lastName,
 			email,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ListAddRemove = ({ label, list, onAdd, onRemove, isEditing }) => {
+const ListAddRemove = ({ label, list, listKey, onAdd, onRemove, isEditing }) => {
 	return (
 		<>
 			<div className='list-header'>
@@ -10,7 +10,7 @@ const ListAddRemove = ({ label, list, onAdd, onRemove, isEditing }) => {
 			<ul className='list'>
 				{list.map((item, i) => (
 					<li className='list-item' key={i}>
-						<span>{item}</span>
+						<span>{item[listKey]}</span>
 						<button className='gg-remove' onClick={() => onRemove(item)} disabled={!isEditing} />
 					</li>
 				))}
