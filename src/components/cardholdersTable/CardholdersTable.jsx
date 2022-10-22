@@ -1,32 +1,34 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
-import { fetchCardholder, fetchCardholders } from '../../api/fetch';
-import Table from '../Table';
-import CardholderEditor from '../cardholderEditor/CardholderEditor';
-import Modal from '../Modal';
 import { Toaster } from 'react-hot-toast';
+import { fetchCardholder, fetchCardholders } from '../../api/fetch';
+import CardholderEditor from '../cardholderEditor/CardholderEditor';
+import Table from '../Table';
+import Modal from '../Modal';
 import '../../styles/CardholderTable.scss';
 
 const CardholdersTable = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [editingCardholder, setEditingCardholder] = useState({});
-	const [totalCardholders, setTotalCardholders] = useState(0);
-	const [searchbar, setSearchbar] = useState('');
-	const [searchSetting, setSearchSetting] = useState('firstName');
+	const [cardholderToEdit, setCardholderToEdit] = useState({});
+	const [cardholderCount, setCardholderCount] = useState(0);
+	const [searchbarValue, setSearchbarValue] = useState('');
+	const [searchFilter, setSearchFilter] = useState('firstName');
 
-	const filterUrlText = useMemo(() => {
-		return searchbar ? `?${searchSetting}=${searchbar}` : '';
-	}, [searchbar, searchSetting]);
+	const searchbarRef = useRef(null);
+
+	const searchUrlString = useMemo(() => {
+		return searchbarValue ? `?${searchFilter}=${searchbarValue}` : '';
+	}, [searchbarValue, searchFilter]);
 
 	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
-		['table-data', searchbar, searchSetting], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
+		['table-data', searchbarValue, searchFilter],
 		async ({ pageParam = 0 }) => {
-			const fetchedData = await fetchCardholders(pageParam, filterUrlText);
-			setTotalCardholders(fetchedData.count);
+			const fetchedData = await fetchCardholders(pageParam, searchUrlString);
+			setCardholderCount(fetchedData.count);
 
-			if (searchbar) {
-				return fetchedData.cardholders.sort((a, b) => (a[searchSetting] < b[searchSetting] ? -1 : 1));
+			if (searchbarValue) {
+				return fetchedData.cardholders.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
 			}
 
 			return fetchedData.cardholders;
@@ -38,30 +40,31 @@ const CardholdersTable = () => {
 		}
 	);
 
-	const fetchMoreOnBottomReached = (containerRefElement) => {
-		if (containerRefElement) {
-			const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
+	const flatData = useMemo(() => {
+		return data?.pages?.flat() ?? [];
+	}, [data]);
 
-			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && flatData.length < totalCardholders) {
+	const fetchMoreOnBottomReached = (containerRef) => {
+		if (containerRef) {
+			const { scrollHeight, scrollTop, clientHeight } = containerRef;
+
+			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && flatData.length < cardholderCount) {
 				fetchNextPage();
 			}
 		}
 	};
 
-	const flatData = useMemo(() => {
-		return data?.pages?.flat() ?? [];
-	}, [data]);
-
 	const openCardholderEditor = async (id) => {
 		setIsModalOpen(true);
+
 		await fetchCardholder(id).then((cardholder) => {
-			setEditingCardholder(cardholder);
+			setCardholderToEdit(cardholder);
 		});
 	};
 
 	const closeCardholderEditor = () => {
 		setIsModalOpen(false);
-		setEditingCardholder({});
+		setCardholderToEdit({});
 	};
 
 	const cardholdersColumns = [
@@ -130,16 +133,16 @@ const CardholdersTable = () => {
 	];
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
-		setSearchbar(value);
-		remove();
-	}, 300);
+		setSearchbarValue(value);
+		remove(); // clear infiniteQuery data cache on search
+	}, 500);
 
 	const onChangeSearchSetting = (value) => {
-		setSearchSetting(value);
+		setSearchFilter(value);
 	};
 
 	const handleRowClick = (e, id) => {
-		// if double clicked
+		// if double clicked, open editor
 		if (e.detail === 2) openCardholderEditor(id);
 	};
 
@@ -167,15 +170,31 @@ const CardholdersTable = () => {
 				modalClassName={'modal'}
 			>
 				<CardholderEditor
-					key={editingCardholder.id}
-					cardholder={editingCardholder}
+					key={cardholderToEdit.id}
+					cardholder={cardholderToEdit}
 					closeModal={closeCardholderEditor}
 				/>
 			</Modal>
 
 			<div className='cardholder-page'>
 				<div className='searchbar'>
-					<input type='text' placeholder='Search...' onChange={(e) => onChangeSearchbar(e.target.value)} />
+					<div className='searchbar-input-container'>
+						{searchbarValue && (
+							<button
+								className='btn-close gg-close-o'
+								onClick={() => {
+									setSearchbarValue('');
+									searchbarRef.current.value = '';
+								}}
+							/>
+						)}
+						<input
+							type='text'
+							placeholder='Search...'
+							ref={searchbarRef}
+							onChange={(e) => onChangeSearchbar(e.target.value)}
+						/>
+					</div>
 					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 						<option value='firstName'>First Name</option>
 						<option value='lastName'>Last Name</option>

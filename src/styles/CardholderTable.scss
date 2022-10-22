@@ -16,7 +16,28 @@ $searchbar-height: 64px;
 		background-color: $clr-dark;
 		z-index: 1;
 
+		.searchbar-input-container {
+			position: relative;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+		}
+
+		.btn-close {
+			position: absolute;
+			--ggs: 1;
+			color: #bbbbbb;
+			background-color: transparent;
+			border-color: transparent;
+			cursor: pointer;
+
+			&:hover {
+				filter: brightness(1.25);
+			}
+		}
+
 		input {
+			height: 100%;
 			color: $clr-text;
 			background-color: transparent;
 			border: none;
