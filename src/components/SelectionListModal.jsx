@@ -4,11 +4,11 @@ import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import '../styles/SelectionListModal.scss';
 
-const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) => {
+const SelectionListModal = ({ fetchFn, startingSelectedList, saveNewList, closeModal }) => {
 	const [searchbar, setSearchbar] = useState('');
 	const [listSize, setListSize] = useState(0);
 	const [dataKey, setDataKey] = useState('');
-	const [checkboxes, setCheckboxes] = useState([]);
+	const [selectedList, setSelectedList] = useState(startingSelectedList);
 	const [showSelected, setShowSelected] = useState(false);
 
 	const filterUrlText = useMemo(() => {
@@ -47,15 +47,6 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 	}, [data]);
 
 	useEffect(() => {
-		setCheckboxes(
-			flatData.map((item) => ({
-				item,
-				checked: selectedList.some((selectedItem) => selectedItem.id === item.id),
-			}))
-		);
-	}, [flatData, dataKey, selectedList]);
-
-	useEffect(() => {
 		return () => {
 			// remove query cache on unmount
 			remove();
@@ -64,7 +55,7 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 	}, []);
 
 	const saveSelected = () => {
-		setNewList(checkboxes.filter((checkbox) => checkbox.checked).map((checkbox) => checkbox.item));
+		saveNewList(selectedList);
 		toast.success(<b>Saved!</b>);
 		closeModal();
 	};
@@ -73,13 +64,10 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 		setSearchbar(value);
 	}, 300);
 
-	const handleClickCheckbox = (idx) => {
-		setCheckboxes(
-			checkboxes.map((checkbox, i) => {
-				if (idx === i) return { ...checkbox, checked: !checkbox.checked };
-				return checkbox;
-			})
-		);
+	const handleClickCheckbox = (item) => {
+		// either add or remove item from selectedList
+		if (!selectedList.map((i) => i.id).includes(item.id)) setSelectedList([...selectedList, item]);
+		else setSelectedList(selectedList.filter((selectedListItem) => selectedListItem.id !== item.id));
 	};
 
 	return (
@@ -96,23 +84,23 @@ const SelectionListModal = ({ fetchFn, selectedList, setNewList, closeModal }) =
 					onChange={(e) => onChangeSearchbar(e.target.value)}
 				/>
 				<div className='list' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-					{checkboxes.length === 0 && (
+					{listSize === 0 && (
 						<div className='loader-container'>
 							{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
 						</div>
 					)}
-					{checkboxes.map((checkbox, i) => {
-						if (showSelected && !selectedList.some((selectedItem) => selectedItem.id === checkbox.item.id))
-							return <></>;
+
+					{flatData.map((item) => {
+						if (showSelected && !selectedList.map((i) => i.id).includes(item.id)) return <></>;
 
 						return (
-							<div className='list-item' onClick={() => handleClickCheckbox(i)} key={i}>
-								{checkbox.checked ? (
+							<div className='list-item' onClick={() => handleClickCheckbox(item)} key={item.id}>
+								{selectedList.map((i) => i.id).includes(item.id) ? (
 									<span className='gg-radio-checked'></span>
 								) : (
 									<span className='gg-radio-check'></span>
 								)}
-								<span>{checkbox.item[dataKey]}</span>
+								<span>{item[dataKey]}</span>
 							</div>
 						);
 					})}

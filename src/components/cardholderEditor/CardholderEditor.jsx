@@ -121,8 +121,8 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 			>
 				<SelectionListModal
 					fetchFn={fetchAccessGroups}
-					selectedList={accessGroups}
-					setNewList={setAccessGroups}
+					startingSelectedList={accessGroups}
+					saveNewList={setAccessGroups}
 					closeModal={closeGroupsModal}
 				/>
 			</Modal>
@@ -134,8 +134,8 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 			>
 				<SelectionListModal
 					fetchFn={fetchCredentials}
-					selectedList={credentials}
-					setNewList={setCredentials}
+					startingSelectedList={credentials}
+					saveNewList={setCredentials}
 					closeModal={closeCredentialsModal}
 				/>
 			</Modal>
