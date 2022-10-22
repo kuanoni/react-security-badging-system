@@ -14,7 +14,7 @@ const Modal = ({ isOpen, closeModal, overlayClassName, modalClassName, children 
 
 	return createPortal(
 		<div className='ModalPortal'>
-			<div className={overlayClassName} ref={overlayRef} onClick={handleOverlayClick}>
+			<div className={overlayClassName} ref={overlayRef} onMouseDown={handleOverlayClick}>
 				<div className={modalClassName}>{children}</div>
 			</div>
 		</div>,
