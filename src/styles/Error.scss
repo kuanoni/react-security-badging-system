@@ -1,11 +1,25 @@
 .error-page {
 	display: flex;
 	width: 100%;
-	padding: 2rem;
+	padding: 1rem;
 
 	.error-container {
+		height: fit-content;
+		padding: 1rem;
+		border: 1px solid $clr-highlight;
+
 		h1 {
 			margin-top: 0;
+		}
+
+		p {
+			margin-bottom: 0;
+		}
+
+		.error {
+			.status {
+				color: $clr-red;
+			}
 		}
 	}
 }

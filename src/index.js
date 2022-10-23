@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import CardholdersPage from './routes/CardholdersPage';
-import ErrorPage from './components/ErrorPage';
+import ErrorPage from './routes/ErrorPage';
 import CredentialsPage from './routes/CredentialsPage';
 import './index.scss';
 
