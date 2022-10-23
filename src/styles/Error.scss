@@ -1,0 +1,13 @@
+@import './utillities.scss';
+
+.error-page {
+	display: flex;
+	width: 100%;
+	padding: 2rem;
+
+	.error-container {
+		h1 {
+			margin-top: 0;
+		}
+	}
+}

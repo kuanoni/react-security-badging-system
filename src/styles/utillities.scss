@@ -56,8 +56,8 @@ $clr-purple: rgb(196, 95, 255);
 
 	.loader {
 		$size: 3rem;
-		border: calc($size / 7.5) solid $clr-highlight; /* Light grey */
-		border-top: calc($size / 7.5) solid $clr-accent; /* Blue */
+		border: calc($size / 7.5) solid $clr-highlight;
+		border-top: calc($size / 7.5) solid $clr-accent;
 		border-radius: 50%;
 		width: $size;
 		height: $size;

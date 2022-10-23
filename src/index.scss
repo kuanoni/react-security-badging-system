@@ -12,7 +12,8 @@ body {
 }
 
 .cardholders-body,
-.credentials-body {
+.credentials-body,
+.error-body {
 	display: flex;
 	flex-direction: row;
 	width: 100%;

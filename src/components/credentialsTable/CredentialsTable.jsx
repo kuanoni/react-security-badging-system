@@ -85,7 +85,7 @@ const CredentialsTable = () => {
 
 	const handleRowClick = (e, id) => {
 		// if double clicked, open editor
-		if (e.detail === 2) console.log(id);
+		// if (e.detail === 2) console.log(id);
 	};
 
 	return (
