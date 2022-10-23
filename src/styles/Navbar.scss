@@ -7,6 +7,7 @@
 	padding-top: 64px;
 	color: $clr-text;
 	background-color: $clr-darkest;
+	box-shadow: 0 2px 2px rgb(25, 25, 25);
 	z-index: 100;
 
 	.btn {
@@ -26,7 +27,7 @@
 			width: $icon-size;
 			height: $icon-size;
 			background-color: inherit;
-			box-shadow: -2px 2px 2px rgb(20, 20, 20);
+			box-shadow: -2px 2px 2px rgb(25, 25, 25);
 			transition: all 0.2s ease;
 			z-index: 1;
 
@@ -46,7 +47,7 @@
 			background-color: inherit;
 			border-top-right-radius: 8px;
 			border-bottom-right-radius: 8px;
-			box-shadow: 0 2px 2px rgb(20, 20, 20);
+			box-shadow: 0 2px 2px rgb(25, 25, 25);
 			white-space: nowrap;
 			transition: all 0.2s ease;
 		}

@@ -11,7 +11,8 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.App {
+.cardholders-body,
+.credentials-body {
 	display: flex;
 	flex-direction: row;
 	height: 100vh;
