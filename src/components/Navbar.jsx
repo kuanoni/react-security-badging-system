@@ -28,11 +28,11 @@ const Navbar = () => {
 				</span>
 				<span className='title'>Access Groups</span>
 			</a>
-			<a href='access-groups' className='btn'>
+			<a href='access-groups' className='btn github'>
 				<span className='icon-container'>
 					<FontAwesomeIcon icon={fab.faGithub} />
 				</span>
-				<span className='title'>Access Groups</span>
+				<span className='title'>Github</span>
 			</a>
 		</div>
 	);

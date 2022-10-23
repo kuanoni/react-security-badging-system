@@ -37,6 +37,10 @@
 
 		$icon-size: 64px;
 
+		&.github {
+			margin-top: auto;
+		}
+
 		.icon-container {
 			position: relative;
 			display: flex;
@@ -49,8 +53,6 @@
 			font-size: 32px;
 			transition: all 0.2s ease;
 			z-index: 1;
-
-			--ggs: 1.25;
 		}
 
 		.title {
