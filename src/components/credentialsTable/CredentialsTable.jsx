@@ -1,6 +1,8 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { fetchCredentials } from '../../api/fetch';
 import Table from '../Table';
 
@@ -89,17 +91,19 @@ const CredentialsTable = () => {
 
 	return (
 		<div className='credentials-page'>
-			<div className='top-searchbar'>
+			<div className='table-searchbar'>
 				<h1>Credentials</h1>
 				<div className='searchbar-input-container'>
 					{searchbarValue && (
 						<button
-							className='btn-close gg-close-o'
+							className='btn-close'
 							onClick={() => {
 								setSearchbarValue('');
 								searchbarRef.current.value = '';
 							}}
-						/>
+						>
+							<FontAwesomeIcon icon={faXmark} />
+						</button>
 					)}
 					<input
 						type='text'
