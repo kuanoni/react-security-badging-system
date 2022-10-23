@@ -28,7 +28,7 @@ const Navbar = () => {
 				</span>
 				<span className='title'>Access Groups</span>
 			</a>
-			<a href='access-groups' className='btn github'>
+			<a href='https://github.com/kuanoni/react-table-security-system' className='btn github'>
 				<span className='icon-container'>
 					<FontAwesomeIcon icon={fab.faGithub} />
 				</span>
