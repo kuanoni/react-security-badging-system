@@ -16,6 +16,10 @@ An application used to display and edit cardholder data meant for a security bad
 
 This project is currently in development. Users can filter tweets by username and keyword and see visual data representation. Functionality to sort by additional parameters is in progress. -->
 
+## Live Example
+
+[https://security-badging-system.web.app/](https://security-badging-system.web.app/)
+
 ## Project Screen Shot(s)
 
 ![Cardholder table](screenshot_01.png)
