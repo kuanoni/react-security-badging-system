@@ -82,8 +82,6 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 			return;
 		}
 
-		console.log(newCardholder);
-
 		setIsSaving(true);
 		setIsEditing(false);
 

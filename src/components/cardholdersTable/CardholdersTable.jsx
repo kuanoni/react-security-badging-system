@@ -3,7 +3,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import { Toaster } from 'react-hot-toast';
 import { fetchCardholder, fetchCardholders } from '../../api/fetch';
-import CardholderEditor from '../cardholderEditor/CardholderEditor';
+import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
 import Modal from '../Modal';
 import '../../styles/CardholderTable.scss';
