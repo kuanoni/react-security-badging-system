@@ -55,7 +55,7 @@
 			transition: 0.2s ease;
 
 			&:focus {
-				border-bottom: 1px solid $clr-blue;
+				border-bottom: 1px solid $clr-accent;
 			}
 		}
 
@@ -82,7 +82,7 @@
 				.gg-radio-check,
 				.gg-radio-checked {
 					--ggs: 0.8;
-					color: $clr-blue;
+					color: $clr-accent;
 				}
 
 				input {
@@ -113,7 +113,7 @@
 			gap: 0.5rem;
 			margin-left: 1rem;
 			margin-right: auto;
-			color: $clr-blue;
+			color: $clr-accent;
 			user-select: none;
 			cursor: pointer;
 		}
@@ -121,7 +121,7 @@
 		.gg-radio-check,
 		.gg-radio-checked {
 			--ggs: 0.8;
-			color: $clr-blue;
+			color: $clr-accent;
 		}
 	}
 }

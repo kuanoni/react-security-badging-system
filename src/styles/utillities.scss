@@ -16,9 +16,11 @@ $clr-highlight: #454545;
 $clr-text: #e7ebe5;
 $clr-text-dark: #bbbbbb;
 
-$clr-blue: #0086c5;
+$clr-accent: #0086c5;
 $clr-green: rgb(65, 224, 65);
 $clr-red: rgb(255, 65, 65);
+$clr-blue: rgb(100, 198, 255);
+$clr-purple: rgb(196, 95, 255);
 
 .green-txt {
 	color: $clr-green !important;
@@ -26,6 +28,14 @@ $clr-red: rgb(255, 65, 65);
 
 .red-txt {
 	color: $clr-red !important;
+}
+
+.blue-txt {
+	color: $clr-blue !important;
+}
+
+.purple-txt {
+	color: $clr-purple !important;
 }
 
 .toast {
@@ -44,7 +54,7 @@ $clr-red: rgb(255, 65, 65);
 	.loader {
 		$size: 3rem;
 		border: calc($size / 7.5) solid $clr-highlight; /* Light grey */
-		border-top: calc($size / 7.5) solid $clr-blue; /* Blue */
+		border-top: calc($size / 7.5) solid $clr-accent; /* Blue */
 		border-radius: 50%;
 		width: $size;
 		height: $size;
