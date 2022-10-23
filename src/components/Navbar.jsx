@@ -9,7 +9,6 @@ const Navbar = () => {
 					<i className='gg-profile'></i>
 				</span>
 				<span className='title'>Cardholders</span>
-
 			</a>
 			<a href='credentials' className='btn'>
 				<span className='icon-container'>
@@ -17,7 +16,7 @@ const Navbar = () => {
 				</span>
 				<span className='title'>Credentials</span>
 			</a>
-			<a className='btn'>
+			<a href='access-groups' className='btn'>
 				<span className='icon-container'>
 					<i className='gg-tag'></i>
 				</span>
