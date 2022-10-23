@@ -11,13 +11,10 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-<<<<<<< Updated upstream
-.App {
-=======
 .cardholders-body,
 .credentials-body {
 	display: flex;
 	flex-direction: row;
->>>>>>> Stashed changes
+	width: 100%;
 	height: 100vh;
 }

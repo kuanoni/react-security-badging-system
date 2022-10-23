@@ -29,7 +29,7 @@
 		.avatar {
 			width: 128px;
 			height: 128px;
-			border: 1px solid $clr-hightlight;
+			border: 1px solid $clr-highlight;
 			border-radius: 6px;
 			box-shadow: 0 0 4px #3a3a3a;
 
@@ -71,7 +71,7 @@
 				text-indent: -9999px;
 				width: 40px;
 				height: 20px;
-				background: $clr-hightlight;
+				background: $clr-highlight;
 				display: block;
 				border-radius: 100px;
 				position: relative;
@@ -184,7 +184,7 @@
 		}
 
 		.list {
-			border-top: 1px solid $clr-hightlight;
+			border-top: 1px solid $clr-highlight;
 			margin-top: 0;
 			margin-bottom: 1.5rem;
 			padding-top: 0.5rem;
@@ -202,7 +202,7 @@
 			padding-right: 0;
 
 			&:hover {
-				background-color: $clr-hightlight;
+				background-color: $clr-highlight;
 			}
 			.gg-remove {
 				--ggs: 1;
