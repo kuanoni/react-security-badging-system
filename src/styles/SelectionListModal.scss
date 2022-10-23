@@ -19,11 +19,11 @@
 			font-weight: 400;
 		}
 
-		.gg-close-o {
-			--ggs: 1.5;
+		.btn-exit {
 			color: $clr-text-dark;
 			background-color: transparent;
-			border-color: transparent;
+			border: none;
+			font-size: 1.35em;
 			cursor: pointer;
 
 			&:hover {
@@ -67,8 +67,8 @@
 
 			&-item {
 				display: flex;
-				align-items: flex-end;
-				gap: 0.25rem;
+				align-items: center;
+				gap: 0.5rem;
 				padding: 0.75rem 1rem;
 				border-bottom: 1px solid $clr-highlight;
 				user-select: none;
@@ -77,9 +77,8 @@
 					background-color: $clr-highlight;
 				}
 
-				.gg-radio-check,
-				.gg-radio-checked {
-					--ggs: 0.8;
+				svg {
+					font-size: 1.25em;
 					color: $clr-accent;
 				}
 
@@ -116,10 +115,9 @@
 			cursor: pointer;
 		}
 
-		.gg-radio-check,
-		.gg-radio-checked {
-			--ggs: 0.8;
+		svg {
 			color: $clr-accent;
+			font-size: 1.25em;
 		}
 	}
 }
