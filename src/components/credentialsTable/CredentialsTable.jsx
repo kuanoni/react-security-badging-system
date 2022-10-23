@@ -53,12 +53,26 @@ const CredentialsTable = () => {
 
 	const tableColumns = [
 		{
+			Header: 'ID',
+			accessor: 'id',
+		},
+		{
 			Header: 'Credential Number',
 			accessor: 'badgeNumber',
 		},
 		{
-			Header: 'Credential Number',
-			accessor: 'id',
+			Header: 'Credential Type',
+			accessor: 'badgeType',
+			Cell: ({ value }) => {
+				if (value === 'Employee') return <span className='blue-txt'>{value}</span>;
+				if (value === 'Contractor') return <span className='green-txt'>{value}</span>;
+				if (value === 'Privileged Visitor') return <span className='purple-txt'>{value}</span>;
+				return value;
+			},
+		},
+		{
+			Header: 'Credential Owner',
+			accessor: 'assignedTo.name',
 		},
 	];
 
