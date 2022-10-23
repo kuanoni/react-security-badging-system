@@ -1,0 +1,64 @@
+@import '../styles/utillities.scss';
+
+.navbar-container {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding-top: 64px;
+	color: $clr-text;
+	background-color: $clr-darkest;
+	box-shadow: 0 2px 2px rgb(25, 25, 25);
+	z-index: 100;
+
+	.btn {
+		position: relative;
+		padding: 0;
+		color: inherit;
+		background-color: inherit;
+		border: none;
+
+		$icon-size: 64px;
+
+		.icon-container {
+			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: $icon-size;
+			height: $icon-size;
+			background-color: inherit;
+			box-shadow: -2px 2px 2px rgb(25, 25, 25);
+			transition: all 0.2s ease;
+			z-index: 1;
+
+			--ggs: 1.25;
+		}
+
+		.title {
+			display: flex;
+			align-items: center;
+			width: 8rem;
+			height: 100%;
+			padding-right: 1.5rem;
+			padding-left: 0.5rem;
+			position: absolute;
+			top: 0;
+			right: 0;
+			background-color: inherit;
+			border-top-right-radius: 8px;
+			border-bottom-right-radius: 8px;
+			box-shadow: 0 2px 2px rgb(25, 25, 25);
+			white-space: nowrap;
+			transition: all 0.2s ease;
+		}
+
+		&:hover {
+			background-color: $clr-highlight;
+			cursor: pointer;
+
+			.title {
+				transform: translateX(100%);
+			}
+		}
+	}
+}

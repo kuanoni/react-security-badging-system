@@ -67,7 +67,7 @@ const CardholdersTable = () => {
 		setCardholderToEdit({});
 	};
 
-	const cardholdersColumns = [
+	const tableColumns = [
 		{
 			Header: 'Picture',
 			accessor: 'avatar',
@@ -206,7 +206,7 @@ const CardholdersTable = () => {
 						{Object.keys(flatData).length ? (
 							<Table
 								data={flatData}
-								columns={cardholdersColumns}
+								columns={tableColumns}
 								handleRowClick={handleRowClick}
 								handleHeaderClick={handleHeaderClick}
 							/>

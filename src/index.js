@@ -1,9 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.scss';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import './index.scss';
+import CardholdersPage from './routes/CardholdersPage';
+import ErrorPage from './components/ErrorPage';
+import CredentialsPage from './routes/CredentialsPage';
+
+const router = createBrowserRouter([
+	{
+		path: '/',
+		element: <CardholdersPage />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: 'credentials/',
+		element: <CredentialsPage />,
+	},
+]);
 
 const queryClient = new QueryClient();
 
@@ -11,12 +25,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<App />
+			<RouterProvider router={router} />
+			{/* <App /> */}
 		</QueryClientProvider>
 	</React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
