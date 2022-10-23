@@ -4,6 +4,10 @@ import '../styles/Navbar.scss';
 const Navbar = () => {
 	return (
 		<div className='navbar-container'>
+			<div className='logo-container'>
+				<span className='text'>SEC</span>
+				<span className='gg-shape-hexagon'></span>
+			</div>
 			<a href='/' className='btn'>
 				<span className='icon-container'>
 					<i className='gg-profile'></i>

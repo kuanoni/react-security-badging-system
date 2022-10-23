@@ -101,7 +101,7 @@ const CardholdersTable = () => {
 				);
 			},
 			style: {
-				width: '150px',
+				width: '120px',
 			},
 		},
 		{

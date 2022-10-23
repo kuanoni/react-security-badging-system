@@ -7,6 +7,7 @@
 @import './icons/card.css';
 @import './icons/profile.css';
 @import './icons/tag.css';
+@import './icons/shape-hexagon.css';
 
 $searchbar-height: 64px;
 
@@ -71,4 +72,9 @@ $clr-purple: rgb(196, 95, 255);
 			transform: rotate(360deg);
 		}
 	}
+}
+
+body {
+	color: $clr-text;
+	background-color: $clr-base;
 }
