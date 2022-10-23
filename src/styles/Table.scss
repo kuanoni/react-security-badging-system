@@ -1,5 +1,68 @@
 @import './utillities.scss';
 
+.top-searchbar {
+	display: flex;
+	position: sticky;
+	top: 0;
+	height: $searchbar-height;
+	padding: 1rem 1rem;
+	background-color: $clr-dark;
+	z-index: 1;
+
+	h1 {
+		margin: 0;
+		margin-right: 2rem;
+	}
+
+	.searchbar-input-container {
+		position: relative;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		margin-left: auto;
+	}
+
+	.btn-close {
+		position: absolute;
+		--ggs: 1;
+		color: #bbbbbb;
+		background-color: transparent;
+		border-color: transparent;
+		cursor: pointer;
+
+		&:hover {
+			filter: brightness(1.25);
+		}
+	}
+
+	input {
+		height: 100%;
+		padding-left: 0.5rem;
+		color: $clr-text;
+		background-color: transparent;
+		border: 1px solid $clr-highlight;
+		caret-color: $clr-text;
+		outline: none;
+
+		&::placeholder {
+			color: $clr-text-dark;
+		}
+	}
+
+	select {
+		margin-left: 1rem;
+		padding: 0 0.5rem;
+		color: $clr-text-dark;
+		background-color: transparent;
+		border: 1px solid $clr-highlight;
+		outline: none;
+
+		option {
+			color: black;
+		}
+	}
+}
+
 .table-container {
 	$padding: 1rem;
 	position: absolute;

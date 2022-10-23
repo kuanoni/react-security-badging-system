@@ -173,7 +173,8 @@ const CardholdersTable = () => {
 			</Modal>
 
 			<div className='cardholder-page'>
-				<div className='searchbar'>
+				<div className='top-searchbar'>
+					<h1>Cardholders</h1>
 					<div className='searchbar-input-container'>
 						{searchbarValue && (
 							<button

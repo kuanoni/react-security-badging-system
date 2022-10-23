@@ -93,6 +93,7 @@ const CredentialsTable = () => {
 	return (
 		<div className='credentials-page'>
 			<div className='top-searchbar'>
+				<h1>Credentials</h1>
 				<div className='searchbar-input-container'>
 					{searchbarValue && (
 						<button
