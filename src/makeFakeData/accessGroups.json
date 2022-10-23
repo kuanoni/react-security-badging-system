@@ -1,1 +1,42 @@
-[{"accessGroup":"Global Access","id":1},{"accessGroup":"General Access","id":2},{"accessGroup":"Lab Access","id":3},{"accessGroup":"Lab 2 Access","id":4},{"accessGroup":"Fabrication Access","id":5},{"accessGroup":"Fabrication 2 Access","id":6},{"accessGroup":"Tech Access","id":7},{"accessGroup":"Custodian Access","id":8},{"accessGroup":"Cafeteria Access","id":9},{"accessGroup":"Bar Access","id":10}]
+[
+    {
+        "accessGroup": "Global Access",
+        "id": 1
+    },
+    {
+        "accessGroup": "General Access",
+        "id": 2
+    },
+    {
+        "accessGroup": "Lab Access",
+        "id": 3
+    },
+    {
+        "accessGroup": "Lab 2 Access",
+        "id": 4
+    },
+    {
+        "accessGroup": "Fabrication Access",
+        "id": 5
+    },
+    {
+        "accessGroup": "Fabrication 2 Access",
+        "id": 6
+    },
+    {
+        "accessGroup": "Tech Access",
+        "id": 7
+    },
+    {
+        "accessGroup": "Custodian Access",
+        "id": 8
+    },
+    {
+        "accessGroup": "Cafeteria Access",
+        "id": 9
+    },
+    {
+        "accessGroup": "Bar Access",
+        "id": 10
+    }
+]
