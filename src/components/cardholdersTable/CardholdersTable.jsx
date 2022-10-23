@@ -22,7 +22,7 @@ const CardholdersTable = () => {
 	}, [searchbarValue, searchFilter]);
 
 	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
-		['table-data', searchbarValue, searchFilter],
+		['table-data', searchbarValue, searchbarValue && searchFilter],
 		async ({ pageParam = 0 }) => {
 			const fetchedData = await fetchCardholders(pageParam, searchUrlString);
 			setCardholderCount(fetchedData.count);

@@ -7,7 +7,7 @@ import '../../styles/CredentialsTable.scss';
 
 const CredentialsTable = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
-	const [searchFilter, setSearchFilter] = useState('firstName');
+	const [searchFilter, setSearchFilter] = useState('badgeNumber');
 	const [credentialsCount, setCredentialsCount] = useState('firstName');
 
 	const searchbarRef = useRef(null);
@@ -17,7 +17,7 @@ const CredentialsTable = () => {
 	}, [searchbarValue, searchFilter]);
 
 	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
-		['table-data', searchbarValue, searchFilter],
+		['table-data', searchbarValue, searchbarValue && searchFilter],
 		async ({ pageParam = 0 }) => {
 			const fetchedData = await fetchCredentials(pageParam, searchUrlString);
 			setCredentialsCount(fetchedData.count);
@@ -25,8 +25,6 @@ const CredentialsTable = () => {
 			if (searchbarValue) {
 				return fetchedData.data.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
 			}
-
-			console.log(fetchedData.data);
 
 			return fetchedData.data;
 		},
@@ -72,13 +70,13 @@ const CredentialsTable = () => {
 		},
 		{
 			Header: 'Credential Owner',
-			accessor: 'assignedTo.name',
+			accessor: 'badgeOwnerName',
 		},
 	];
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbarValue(value);
-		// remove(); // clear infiniteQuery data cache on search
+		remove(); // clear infiniteQuery data cache on search
 	}, 500);
 
 	const onChangeSearchSetting = (value) => {
@@ -112,7 +110,8 @@ const CredentialsTable = () => {
 					/>
 				</div>
 				<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
-					<option value='firstName'>Credential Number</option>
+					<option value='badgeNumber'>Credential Number</option>
+					<option value='badgeOwnerName'>Credential Owner</option>
 				</select>
 			</div>
 			<div className='credentials-section-container'>

@@ -8,6 +8,8 @@ const makeCredentials = (count) => {
 			id: i + 1,
 			badgeNumber: faker.datatype.number({ min: 10000, max: 99999 }),
 			badgeType: pickRandomOutOfList(['Employee', 'Contractor', 'Privileged Visitor']),
+			badgeOwnerId: '',
+			badgeOwnerName: '',
 		});
 	}
 
@@ -60,7 +62,8 @@ const makeCardholders = (count) => {
 			for (let j = 0; j < Math.floor(Math.random() * 3); j++) {
 				const cred = {
 					...tempCreds.shift(),
-					assignedTo: { id: (i + 1).toString(), name: firstName + ' ' + lastName },
+					badgeOwnerId: (i + 1).toString(),
+					badgeOwnerName: firstName + ' ' + lastName,
 				};
 				cholderCreds.push(cred);
 				assignedCreds.push(cred);
