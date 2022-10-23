@@ -3,7 +3,6 @@ import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import { fetchCredentials } from '../../api/fetch';
 import Table from '../Table';
-import '../../styles/CredentialsTable.scss';
 
 const CredentialsTable = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');

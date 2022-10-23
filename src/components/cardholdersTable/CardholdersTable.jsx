@@ -6,7 +6,6 @@ import { fetchCardholder, fetchCardholders } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
 import Modal from '../Modal';
-import '../../styles/CardholderTable.scss';
 
 const CardholdersTable = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);

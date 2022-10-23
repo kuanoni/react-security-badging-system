@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import './index.scss';
 import CardholdersPage from './routes/CardholdersPage';
 import ErrorPage from './components/ErrorPage';
 import CredentialsPage from './routes/CredentialsPage';
+import './index.scss';
 
 const router = createBrowserRouter([
 	{

@@ -1,13 +1,13 @@
-@import './icons/add.css';
-@import './icons/remove.css';
-@import './icons/close-o.css';
-@import './icons/radio-check.css';
-@import './icons/radio-checked.css';
-@import './icons/pen.css';
-@import './icons/card.css';
-@import './icons/profile.css';
-@import './icons/tag.css';
-@import './icons/shape-hexagon.css';
+@import './styles/icons/add.css';
+@import './styles/icons/remove.css';
+@import './styles/icons/close-o.css';
+@import './styles/icons/radio-check.css';
+@import './styles/icons/radio-checked.css';
+@import './styles/icons/pen.css';
+@import './styles/icons/card.css';
+@import './styles/icons/profile.css';
+@import './styles/icons/tag.css';
+@import './styles/icons/shape-hexagon.css';
 
 $searchbar-height: 64px;
 
@@ -76,5 +76,5 @@ $clr-purple: rgb(196, 95, 255);
 
 body {
 	color: $clr-text;
-	background-color: $clr-base;
+	background-color: $clr-dark;
 }

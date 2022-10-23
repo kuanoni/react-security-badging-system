@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
-import '../styles/SelectionListModal.scss';
 
 const SelectionListModal = ({ fetchFn, startingSelectedList, saveNewList, closeModal }) => {
 	const [searchbar, setSearchbar] = useState('');

@@ -1,5 +1,3 @@
-@import './utillities.scss';
-
 .top-searchbar {
 	display: flex;
 	position: sticky;
@@ -11,7 +9,10 @@
 
 	h1 {
 		margin: 0;
-		margin-right: 2rem;
+
+		@media screen and (max-width: 650px) {
+			display: none;
+		}
 	}
 
 	.searchbar-input-container {

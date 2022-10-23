@@ -5,7 +5,6 @@ import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
 import SelectionListModal from '../SelectionListModal';
-import '../../styles/CardholderEditor.scss';
 
 const CardholderEditor = ({ cardholder, closeModal }) => {
 	const [isEditing, setIsEditing] = useState(false);

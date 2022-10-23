@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
-import '../styles/Modal.scss';
 
 const Modal = ({ isOpen, closeModal, overlayClassName, modalClassName, children }) => {
 	const overlayRef = useRef(null);
