@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTable } from 'react-table';
+import '../styles/Table.scss';
 
 const Table = ({ data, columns, handleHeaderClick, handleRowClick }) => {
 	const getColumnStyle = (column) => {

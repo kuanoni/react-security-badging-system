@@ -60,3 +60,62 @@ $clr-red: rgb(255, 65, 65);
 		}
 	}
 }
+
+$searchbar-height: 64px;
+
+.top-searchbar {
+	display: flex;
+	position: sticky;
+	top: 0;
+	height: $searchbar-height;
+	padding: 1rem 1rem;
+	background-color: $clr-dark;
+	z-index: 1;
+
+	.searchbar-input-container {
+		position: relative;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.btn-close {
+		position: absolute;
+		--ggs: 1;
+		color: #bbbbbb;
+		background-color: transparent;
+		border-color: transparent;
+		cursor: pointer;
+
+		&:hover {
+			filter: brightness(1.25);
+		}
+	}
+
+	input {
+		height: 100%;
+		color: $clr-text;
+		background-color: transparent;
+		border: none;
+		border-bottom: 1px solid $clr-highlight;
+		caret-color: $clr-text;
+		outline: none;
+
+		&::placeholder {
+			color: $clr-text-dark;
+		}
+	}
+
+	select {
+		margin-left: 1rem;
+		color: $clr-text-dark;
+		background-color: transparent;
+		border: none;
+		border-bottom: 1px solid $clr-highlight;
+		outline: none;
+
+		option {
+			color: black;
+		}
+	}
+}

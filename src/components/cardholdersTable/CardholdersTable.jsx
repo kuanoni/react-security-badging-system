@@ -146,10 +146,6 @@ const CardholdersTable = () => {
 		if (e.detail === 2) openCardholderEditor(id);
 	};
 
-	const handleHeaderClick = (e) => {
-		console.log(e);
-	};
-
 	return (
 		<>
 			<Toaster
@@ -204,12 +200,7 @@ const CardholdersTable = () => {
 				<div className='cardholder-section-container'>
 					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 						{Object.keys(flatData).length ? (
-							<Table
-								data={flatData}
-								columns={tableColumns}
-								handleRowClick={handleRowClick}
-								handleHeaderClick={handleHeaderClick}
-							/>
+							<Table data={flatData} columns={tableColumns} handleRowClick={handleRowClick} />
 						) : (
 							<div className='loader-container'>
 								{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
