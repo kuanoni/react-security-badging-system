@@ -1,4 +1,4 @@
-## Security Cardholder System
+# Security Cardholder System
 
 An application used to display and edit cardholder data meant for a security badging system. Built with React and Sass.
 
