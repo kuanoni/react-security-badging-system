@@ -1,5 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 
@@ -73,7 +76,9 @@ const SelectionListModal = ({ fetchFn, startingSelectedList, saveNewList, closeM
 		<>
 			<div className='header'>
 				<h2>Access Groups</h2>
-				<button className='gg-close-o' onClick={() => closeModal()}></button>
+				<button className='btn-exit' onClick={() => closeModal()}>
+					<FontAwesomeIcon icon={faXmark} />
+				</button>
 			</div>
 			<div className='body'>
 				<input
@@ -95,9 +100,9 @@ const SelectionListModal = ({ fetchFn, startingSelectedList, saveNewList, closeM
 						return (
 							<div className='list-item' onClick={() => handleClickCheckbox(item)} key={item.id}>
 								{selectedList.map((i) => i.id).includes(item.id) ? (
-									<span className='gg-radio-checked'></span>
+									<FontAwesomeIcon icon={faSquareCheck} />
 								) : (
-									<span className='gg-radio-check'></span>
+									<FontAwesomeIcon icon={faSquare} />
 								)}
 								<span>{item[dataKey]}</span>
 							</div>
@@ -107,11 +112,7 @@ const SelectionListModal = ({ fetchFn, startingSelectedList, saveNewList, closeM
 			</div>
 			<div className='footer'>
 				<div className='show-selected' onClick={() => setShowSelected(!showSelected)}>
-					{showSelected ? (
-						<span className='gg-radio-checked'></span>
-					) : (
-						<span className='gg-radio-check'></span>
-					)}
+					{showSelected ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}
 					<span>Show selected</span>
 				</div>
 				<button className='btn cancel' onClick={() => closeModal()}>

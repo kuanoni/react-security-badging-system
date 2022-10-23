@@ -1,4 +1,4 @@
-.top-searchbar {
+.table-searchbar {
 	display: flex;
 	position: sticky;
 	top: 0;
@@ -29,6 +29,7 @@
 		color: #bbbbbb;
 		background-color: transparent;
 		border-color: transparent;
+		font-size: 1.1em;
 		cursor: pointer;
 
 		&:hover {
@@ -135,26 +136,6 @@
 
 		tr:hover {
 			background-color: $clr-highlight;
-		}
-
-		.avatar {
-			display: block;
-			width: 36px;
-			margin-left: 4px;
-			border-radius: 50%;
-			aspect-ratio: 1 / 1;
-		}
-
-		.btn-edit-user {
-			color: $clr-text-dark;
-			background-color: transparent;
-			border-collapse: initial;
-			transition: 0.1s ease;
-			cursor: pointer;
-
-			&:hover {
-				filter: brightness(1.25);
-			}
 		}
 	}
 }

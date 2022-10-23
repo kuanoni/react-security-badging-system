@@ -164,11 +164,11 @@
 			align-items: flex-end;
 			padding-bottom: 0.25rem;
 
-			.gg-add {
-				--ggs: 1.25;
-				border-color: transparent;
+			button {
 				color: $clr-green;
 				background-color: transparent;
+				border: none;
+				font-size: 1.15em;
 
 				&:hover:not(:disabled) {
 					filter: brightness(1.25);
@@ -202,7 +202,8 @@
 			&:hover {
 				background-color: $clr-highlight;
 			}
-			.gg-remove {
+
+			button {
 				--ggs: 1;
 				border-color: transparent;
 				color: $clr-red;

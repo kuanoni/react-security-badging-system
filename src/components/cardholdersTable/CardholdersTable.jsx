@@ -2,6 +2,8 @@ import React, { useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import { Toaster } from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { fetchCardholder, fetchCardholders } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
@@ -121,7 +123,9 @@ const CardholdersTable = () => {
 							justifyContent: 'center',
 						}}
 					>
-						<button className='btn-edit-user gg-edit-markup' onClick={(e) => openCardholderEditor(value)} />
+						<button className='btn-edit-user' onClick={(e) => openCardholderEditor(value)}>
+							<FontAwesomeIcon icon={faPenToSquare} />
+						</button>
 					</div>
 				);
 			},
@@ -172,17 +176,19 @@ const CardholdersTable = () => {
 			</Modal>
 
 			<div className='cardholder-page'>
-				<div className='top-searchbar'>
+				<div className='table-searchbar'>
 					<h1>Cardholders</h1>
 					<div className='searchbar-input-container'>
 						{searchbarValue && (
 							<button
-								className='btn-close gg-close-o'
+								className='btn-close'
 								onClick={() => {
 									setSearchbarValue('');
 									searchbarRef.current.value = '';
 								}}
-							/>
+							>
+								<FontAwesomeIcon icon={faXmark} />
+							</button>
 						)}
 						<input
 							type='text'
