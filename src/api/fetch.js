@@ -27,8 +27,6 @@ export const updateCardholder = async (id, newCardholder) => {
 		method: 'PUT',
 		body: newCardholder,
 	});
-	// .then((res) => res.json())
-	// .then((data) => console.log(data));
 
 	return response;
 };

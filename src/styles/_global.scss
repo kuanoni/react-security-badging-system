@@ -42,10 +42,10 @@ $clr-purple: rgb(196, 95, 255);
 }
 
 .toast {
-	color: $clr-text;
-	background-color: $clr-darkest;
-	border: 1px solid $clr-highlight;
-	user-select: none;
+	color: $clr-text !important;
+	background-color: $clr-darkest !important;
+	border: 1px solid $clr-highlight !important;
+	user-select: none !important;
 }
 
 .loader-container {
