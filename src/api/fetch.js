@@ -60,7 +60,7 @@ export const fetchCredentials = async (page, filterUrlText) => {
 	if (fetchedCredentials)
 		return {
 			data: fetchedCredentials.credentials,
-			dataKey: 'credentialNumber',
+			dataKey: 'badgeNumber',
 			count: fetchedCredentials.count,
 		};
 };

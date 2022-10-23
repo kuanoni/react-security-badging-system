@@ -6,7 +6,8 @@ const makeCredentials = (count) => {
 	for (let i = 0; i < count; i++) {
 		creds.push({
 			id: i + 1,
-			credentialNumber: faker.datatype.number({ min: 10000, max: 99999 }),
+			badgeNumber: faker.datatype.number({ min: 10000, max: 99999 }),
+			badgeType: pickRandomOutOfList(['Employee', 'Contractor', 'Privileged Visitor']),
 		});
 	}
 
@@ -30,13 +31,26 @@ const makeAccessGroups = () => {
 	return groups.map((group, i) => ({ accessGroup: group, id: i + 1 }));
 };
 
-const makeCardholders = (count, creds, groups) => {
-	const tempCreds = [...creds];
-	const cholders = [];
+const makeCardholders = (count) => {
+	const accessGroups = makeAccessGroups();
+	const tempCreds = makeCredentials(80);
+	const assignedCreds = [];
+	const cardholders = [];
 
 	const cardholdersIdsWithCreds = getUniqueRandomNumbers(count * 0.75, count + 1);
 
 	for (let i = 0; i < count; i++) {
+		const avatar = faker.image.avatar();
+		const firstName = faker.name.firstName();
+		const lastName = faker.name.lastName();
+		const email = `${firstName}.${lastName}@company.com`;
+		const employeeId = faker.datatype.number(1000000, 9999999);
+		const title = faker.name.jobType();
+		const activation = faker.date.past(2);
+		const expiration = faker.date.between(activation, new Date().setFullYear(new Date().getFullYear() + 2));
+		const status = new Date(expiration) > Date.now();
+		const type = pickRandomOutOfList(['Employee', 'Contractor', 'Privileged Visitor']);
+
 		const cholderCreds = [];
 		const cholderGroups = getUniqueRandomNumbers(Math.floor(Math.random() * 3 + 1), accessGroups.length).map(
 			(num) => accessGroups[num]
@@ -44,25 +58,16 @@ const makeCardholders = (count, creds, groups) => {
 
 		if (cardholdersIdsWithCreds.includes(i)) {
 			for (let j = 0; j < Math.floor(Math.random() * 3); j++) {
-				cholderCreds.push(tempCreds.pop());
+				const cred = {
+					...tempCreds.shift(),
+					assignedTo: { id: (i + 1).toString(), name: firstName + ' ' + lastName },
+				};
+				cholderCreds.push(cred);
+				assignedCreds.push(cred);
 			}
 		}
 
-		for (let j = 0; j < Math.floor(Math.random() * 3); j++) {}
-
-		const avatar = faker.image.avatar();
-		const firstName = faker.name.firstName();
-		const lastName = faker.name.lastName();
-		const email = `${firstName}.${lastName}@company.com`;
-		const employeeId = 'WW' + faker.datatype.number(1000000, 9999999);
-		const title = faker.name.jobType();
-
-		const activation = faker.date.past(2);
-		const expiration = faker.date.between(activation, new Date().setFullYear(new Date().getFullYear() + 2));
-		const status = new Date(expiration) > Date.now();
-		const type = ['Employee', 'Contractor', 'Privileged Visitor'][Math.floor(Math.random() * 3)];
-
-		cholders.push({
+		cardholders.push({
 			id: (i + 1).toString(),
 			avatar,
 			firstName,
@@ -82,7 +87,14 @@ const makeCardholders = (count, creds, groups) => {
 		});
 	}
 
-	return cholders;
+	const credentials = [...assignedCreds, ...tempCreds].sort((a, b) => a.id > b.id);
+
+	return { cardholders, credentials, accessGroups };
+};
+
+const pickRandomOutOfList = (list) => {
+	const r = Math.floor(Math.random() * list.length);
+	return list[r];
 };
 
 const getUniqueRandomNumbers = (amt, max, min = 0) => {
@@ -99,9 +111,7 @@ const writeJson = (fileName, obj) => {
 	fs.writeFile(`${fileName}.json`, JSON.stringify(obj), 'utf8', () => {});
 };
 
-const credentials = makeCredentials(80);
-const accessGroups = makeAccessGroups();
-const cardholders = makeCardholders(60, credentials, accessGroups);
+const { cardholders, credentials, accessGroups } = makeCardholders(60);
 
 writeJson('credentials', credentials);
 writeJson('accessGroups', accessGroups);

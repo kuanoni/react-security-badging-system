@@ -226,7 +226,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<ListAddRemove
 							label={'Credentials'}
 							list={credentials}
-							listKey='credentialNumber'
+							listKey='badgeNumber'
 							onAdd={openCredentialsModal}
 							onRemove={handleRemoveCredential}
 							isEditing={isEditing}

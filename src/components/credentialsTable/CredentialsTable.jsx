@@ -54,7 +54,7 @@ const CredentialsTable = () => {
 	const tableColumns = [
 		{
 			Header: 'Credential Number',
-			accessor: 'credentialNumber',
+			accessor: 'badgeNumber',
 		},
 		{
 			Header: 'Credential Number',
