@@ -17,19 +17,6 @@ export const fetchGet = async (collection, page, search) => {
 	return { documents: data.documents, count: data.count };
 };
 
-export const fetchCount = async (collection) => {
-	let fetchUrl = apiUrl + collection + '/count';
-
-	const data = await fetch(fetchUrl, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	}).then((res) => res.json());
-
-	return data;
-};
-
 export const fetchCardholders = async (page, filterUrlText, cb) => {
 	let fetchUrl = apiUrl + 'cardholders';
 
