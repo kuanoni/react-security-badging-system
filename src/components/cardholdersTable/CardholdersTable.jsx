@@ -4,7 +4,7 @@ import { useAsyncDebounce } from 'react-table';
 import { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { fetchCardholder, fetchCardholders } from '../../api/fetch';
+import { fetchCardholder, fetchGet } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
 import Modal from '../Modal';
@@ -18,21 +18,21 @@ const CardholdersTable = () => {
 
 	const searchbarRef = useRef(null);
 
-	const searchUrlString = useMemo(() => {
-		return searchbarValue ? `?${searchFilter}=${searchbarValue}` : '';
+	const searchParams = useMemo(() => {
+		return searchbarValue ? { searchBy: searchFilter, value: searchbarValue } : {};
 	}, [searchbarValue, searchFilter]);
 
 	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
 		['table-data', searchbarValue, searchbarValue && searchFilter],
 		async ({ pageParam = 0 }) => {
-			const fetchedData = await fetchCardholders(pageParam, searchUrlString);
+			const fetchedData = await fetchGet('cardholders', pageParam, searchParams);
 			setCardholderCount(fetchedData.count);
 
 			if (searchbarValue) {
 				return fetchedData.cardholders.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
 			}
 
-			return fetchedData.cardholders;
+			return fetchedData.documents;
 		},
 		{
 			getNextPageParam: (_lastGroup, groups) => groups.length,
