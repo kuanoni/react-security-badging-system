@@ -4,7 +4,7 @@ const apiUrl = 'https://security-system-api.herokuapp.com/';
 export const fetchGet = async (collection, page, search) => {
 	let fetchUrl = apiUrl + collection + '/get';
 
-	if (search.searchBy) fetchUrl += `searchBy=${search.searchBy}&value=${search.value}`;
+	if (search.searchBy) fetchUrl += `?searchBy=${search.searchBy}&value=${search.value}`;
 	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
 
 	const data = await fetch(fetchUrl, {

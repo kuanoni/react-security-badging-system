@@ -29,7 +29,7 @@ const CardholdersTable = () => {
 			setCardholderCount(fetchedData.count);
 
 			if (searchbarValue) {
-				return fetchedData.cardholders.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
+				return fetchedData.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
 			}
 
 			return fetchedData.documents;
@@ -93,7 +93,7 @@ const CardholdersTable = () => {
 		},
 		{
 			Header: 'Status',
-			accessor: 'cardholderProfile.status',
+			accessor: 'profileStatus',
 			Cell: ({ value }) => {
 				return value ? (
 					<div className='badge green-txt'>Active</div>
@@ -107,7 +107,7 @@ const CardholdersTable = () => {
 		},
 		{
 			Header: 'Type',
-			accessor: 'cardholderProfile.type',
+			accessor: 'profileType',
 		},
 		{
 			Header: 'Employee ID',
