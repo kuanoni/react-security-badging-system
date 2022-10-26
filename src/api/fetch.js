@@ -17,6 +17,19 @@ export const fetchGet = async (collection, page, search) => {
 	return { documents: data.documents, count: data.count };
 };
 
+export const fetchGetById = async (collection, id) => {
+	let fetchUrl = apiUrl + collection + '/get/' + id;
+
+	const data = await fetch(fetchUrl, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	}).then((res) => res.json());
+
+	return data;
+};
+
 export const fetchCardholders = async (page, filterUrlText, cb) => {
 	let fetchUrl = apiUrl + 'cardholders';
 
