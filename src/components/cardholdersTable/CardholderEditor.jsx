@@ -16,14 +16,14 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 	const [firstName, setFirstName] = useState(cardholder.firstName);
 	const [lastName, setLastName] = useState(cardholder.lastName);
 	const [email, setEmail] = useState(cardholder.email);
-	const [title, setTitle] = useState(cardholder.title);
+	const [title, setTitle] = useState(cardholder.jobTitle);
 	const [employeeId, setEmployeeId] = useState(cardholder.employeeId);
-	const [status, setStatus] = useState(cardholder.title);
-	const [activation, setActivation] = useState(cardholder.cardholderProfile?.activation);
-	const [expiration, setExpiration] = useState(cardholder.cardholderProfile?.expiration);
+	const [status, setStatus] = useState(cardholder.profileStatus);
+	const [activation, setActivation] = useState(cardholder.activationDate);
+	const [expiration, setExpiration] = useState(cardholder.expirationDate);
 	const [cardholderType, setCardholderType] = useState('');
-	const [accessGroups, setAccessGroups] = useState(cardholder.cardholderProfile?.accessGroups);
-	const [credentials, setCredentials] = useState(cardholder.cardholderProfile?.credentials);
+	const [accessGroups, setAccessGroups] = useState(cardholder.accessGroups);
+	const [credentials, setCredentials] = useState(cardholder.credentials);
 	const [notes, setNotes] = useState('');
 
 	const closeGroupsModal = () => {
@@ -101,12 +101,13 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 		);
 	};
 
-	if (Object.keys(cardholder).length === 0)
+	if (Object.keys(cardholder).length === 0) {
 		return (
 			<div className='loader-container'>
 				<div className='loader'></div>
 			</div>
 		);
+	}
 
 	return (
 		<>
@@ -215,7 +216,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<ListAddRemove
 							label={'Cardholder groups'}
 							list={accessGroups}
-							listKey='accessGroup'
+							listKey='groupName'
 							onAdd={openGroupsModal}
 							onRemove={handleRemoveAccessGroup}
 							isEditing={isEditing}

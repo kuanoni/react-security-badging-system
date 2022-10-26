@@ -4,7 +4,7 @@ import { useAsyncDebounce } from 'react-table';
 import { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { fetchCardholder, fetchGet } from '../../api/fetch';
+import { fetchGetById, fetchGet } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
 import Modal from '../Modal';
@@ -57,8 +57,7 @@ const CardholdersTable = () => {
 
 	const openCardholderEditor = async (id) => {
 		setIsModalOpen(true);
-
-		await fetchCardholder(id).then((cardholder) => {
+		await fetchGetById('cardholders', id).then((cardholder) => {
 			setCardholderToEdit(cardholder);
 		});
 	};
@@ -95,7 +94,7 @@ const CardholdersTable = () => {
 			Header: 'Status',
 			accessor: 'profileStatus',
 			Cell: ({ value }) => {
-				return value ? (
+				return value === 'true' ? (
 					<div className='badge green-txt'>Active</div>
 				) : (
 					<div className='badge red-txt'>Inactive</div>
@@ -114,7 +113,7 @@ const CardholdersTable = () => {
 			accessor: 'employeeId',
 		},
 		{
-			accessor: 'id',
+			accessor: '_id',
 			Cell: ({ value }) => {
 				return (
 					<div
@@ -123,7 +122,7 @@ const CardholdersTable = () => {
 							justifyContent: 'center',
 						}}
 					>
-						<button className='btn-edit-user' onClick={(e) => openCardholderEditor(value)}>
+						<button className='btn-edit-user' onClick={() => openCardholderEditor(value)}>
 							<FontAwesomeIcon icon={faPenToSquare} />
 						</button>
 					</div>
@@ -169,7 +168,7 @@ const CardholdersTable = () => {
 				modalClassName={'modal'}
 			>
 				<CardholderEditor
-					key={cardholderToEdit.id}
+					key={cardholderToEdit._id}
 					cardholder={cardholderToEdit}
 					closeModal={closeCardholderEditor}
 				/>

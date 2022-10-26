@@ -36,7 +36,7 @@ const Table = ({ data, columns, handleHeaderClick, handleRowClick }) => {
 					prepareRow(row);
 
 					return (
-						<tr {...row.getRowProps()} onClick={(e) => handleRowClick(e, row.original.id)}>
+						<tr {...row.getRowProps()} onClick={(e) => handleRowClick(e, row.original._id)}>
 							{row.cells.map((cell, idx) => (
 								<td {...cell.getCellProps()}>{cell.render('Cell')}</td>
 							))}
