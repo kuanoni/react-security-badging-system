@@ -13,15 +13,16 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 	const [isGroupsModalOpen, setIsGroupsModalOpen] = useState(false);
 	const [isCredentialsModalOpen, setIsCredentialsModalOpen] = useState(false);
 
+	// editor controlled input values
 	const [firstName, setFirstName] = useState(cardholder.firstName);
 	const [lastName, setLastName] = useState(cardholder.lastName);
 	const [email, setEmail] = useState(cardholder.email);
-	const [title, setTitle] = useState(cardholder.jobTitle);
+	const [jobTitle, setJobTitle] = useState(cardholder.jobTitle);
 	const [employeeId, setEmployeeId] = useState(cardholder.employeeId);
-	const [status, setStatus] = useState(cardholder.profileStatus);
-	const [activation, setActivation] = useState(cardholder.activationDate);
-	const [expiration, setExpiration] = useState(cardholder.expirationDate);
-	const [cardholderType, setCardholderType] = useState('');
+	const [profileStatus, setProfileStatus] = useState(cardholder.profileStatus);
+	const [activationDate, setActivationDate] = useState(cardholder.activationDate);
+	const [expirationDate, setExpirationDate] = useState(cardholder.expirationDate);
+	const [profileType, setProfileType] = useState('');
 	const [accessGroups, setAccessGroups] = useState(cardholder.accessGroups);
 	const [credentials, setCredentials] = useState(cardholder.credentials);
 	const [notes, setNotes] = useState('');
@@ -65,18 +66,16 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 			lastName,
 			email,
 			employeeId,
-			title,
-			cardholderProfile: {
-				status,
-				activation,
-				expiration,
-				type: cardholderType,
-				accessGroups,
-				credentials,
-			},
+			jobTitle,
+			profileStatus,
+			activationDate,
+			expirationDate,
+			profileType,
+			accessGroups,
+			credentials,
 		};
 
-		if (!firstName || !lastName || !email || !employeeId || !title || !activation || !expiration) {
+		if (!firstName || !lastName || !email || !employeeId || !jobTitle || !activationDate || !expirationDate) {
 			toast.error(<b>Please fill all fields.</b>);
 			return;
 		}
@@ -146,7 +145,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 					<div className='label'>Email</div>
 					<div>{cardholder?.email}</div>
 					<div className='label'>Status</div>
-					{cardholder?.cardholderProfile?.status ? (
+					{cardholder?.profileStatus ? (
 						<div className='green-txt'>Active</div>
 					) : (
 						<div className='red-txt'>Inactive</div>
@@ -189,8 +188,8 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						/>
 						<LabeledInput
 							label={'Job title'}
-							defaultValue={title}
-							handleChange={setTitle}
+							defaultValue={jobTitle}
+							handleChange={setJobTitle}
 							disabled={!isEditing}
 						/>
 						<LabeledInput
@@ -206,8 +205,8 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<select
 							className='input'
 							disabled={!isEditing}
-							defaultValue={cardholderType}
-							onChange={(e) => setCardholderType(e.target.value)}
+							defaultValue={profileType}
+							onChange={(e) => setProfileType(e.target.value)}
 						>
 							<option value={'employee'}>Employee</option>
 							<option value={'contractor'}>Contractor</option>
@@ -238,22 +237,22 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<select
 							className='input'
 							disabled={!isEditing}
-							defaultValue={status}
-							onChange={(e) => setStatus(e.target.value)}
+							defaultValue={profileStatus}
+							onChange={(e) => setProfileStatus(e.target.value)}
 						>
 							<option value={true}>Active</option>
 							<option value={false}>Inactive</option>
 						</select>
 						<LabeledInput
 							label={'Activation'}
-							defaultValue={activation}
-							handleChange={setActivation}
+							defaultValue={activationDate}
+							handleChange={setActivationDate}
 							disabled={!isEditing}
 						/>
 						<LabeledInput
 							label={'First name'}
-							defaultValue={expiration}
-							handleChange={setExpiration}
+							defaultValue={expirationDate}
+							handleChange={setExpirationDate}
 							disabled={!isEditing}
 						/>
 					</div>
