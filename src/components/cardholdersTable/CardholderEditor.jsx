@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { fetchGet, fetchUpdate, updateCardholder } from '../../api/fetch';
+import { fetchGet, fetchUpdate } from '../../api/fetch';
 import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
