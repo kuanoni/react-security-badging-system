@@ -1,25 +1,48 @@
 const fetchSize = 30;
-const apiUrl = 'https://63445b7f242c1f347f84bcb2.mockapi.io/';
+// const apiUrl = 'https://security-system-api.herokuapp.com/';
+const apiUrl = 'http://localhost:5000/';
 
-export const fetchCardholders = async (page, filterUrlText, cb) => {
-	let fetchUrl = apiUrl + 'cardholders';
+export const fetchGet = async (collection, page, search, props) => {
+	let fetchUrl = apiUrl + collection + '/get';
 
-	if (filterUrlText) fetchUrl += filterUrlText;
+	if (search.filter) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
 	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
 
-	const fetchedCardholders = await fetch(fetchUrl).then((res) => res.json());
+	if (props) fetchUrl += '&props=' + props;
 
-	if (fetchedCardholders) return fetchedCardholders;
+	const data = await fetch(fetchUrl, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	}).then((res) => res.json());
+
+	return { documents: data.documents, count: data.count };
 };
 
-export const fetchCardholder = async (id) => {
-	let fetchUrl = apiUrl + 'cardholders/' + id;
+export const fetchGetById = async (collection, id) => {
+	let fetchUrl = apiUrl + collection + '/get/' + id;
 
-	const fetchedCardholder = await fetch(fetchUrl).then((res) => res.json());
+	const data = await fetch(fetchUrl, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	}).then((res) => res.json());
 
-	if (fetchedCardholder) {
-		return fetchedCardholder;
-	}
+	return data;
+};
+
+export const fetchUpdate = async (collection, id, body) => {
+	const response = await fetch(apiUrl + collection + '/update/' + id, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(body),
+	});
+
+	return response;
 };
 
 export const updateCardholder = async (id, newCardholder) => {

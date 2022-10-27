@@ -1,33 +1,30 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { fetchCredentials } from '../../api/fetch';
+import { fetchGet } from '../../api/fetch';
 import Table from '../Table';
+import Searchbar from '../forms/Searchbar';
 
 const CredentialsTable = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('badgeNumber');
 	const [credentialsCount, setCredentialsCount] = useState('firstName');
 
-	const searchbarRef = useRef(null);
-
-	const searchUrlString = useMemo(() => {
-		return searchbarValue ? `?${searchFilter}=${searchbarValue}` : '';
+	const searchParams = useMemo(() => {
+		return searchbarValue ? { filter: searchFilter, value: searchbarValue } : {};
 	}, [searchbarValue, searchFilter]);
 
 	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
 		['table-data', searchbarValue, searchbarValue && searchFilter],
 		async ({ pageParam = 0 }) => {
-			const fetchedData = await fetchCredentials(pageParam, searchUrlString);
+			const fetchedData = await fetchGet('credentials', pageParam, searchParams);
 			setCredentialsCount(fetchedData.count);
 
 			if (searchbarValue) {
-				return fetchedData.data.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
+				return fetchedData.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
 			}
 
-			return fetchedData.data;
+			return fetchedData.documents;
 		},
 		{
 			getNextPageParam: (_lastGroup, groups) => groups.length,
@@ -51,13 +48,9 @@ const CredentialsTable = () => {
 	};
 
 	const tableColumns = [
-		// {
-		// 	Header: 'ID',
-		// 	accessor: 'id',
-		// },
 		{
 			Header: 'Credential Number',
-			accessor: 'badgeNumber',
+			accessor: '_id',
 		},
 		{
 			Header: 'Credential Type',
@@ -91,33 +84,19 @@ const CredentialsTable = () => {
 
 	return (
 		<div className='credentials-page'>
-			<div className='table-searchbar'>
+			<div className='table-header'>
 				<h1>Credentials</h1>
-				<div className='searchbar-input-container'>
-					{searchbarValue && (
-						<button
-							className='btn-close'
-							onClick={() => {
-								setSearchbarValue('');
-								searchbarRef.current.value = '';
-							}}
-						>
-							<FontAwesomeIcon icon={faXmark} />
-						</button>
-					)}
-					<input
-						type='text'
-						placeholder='Search...'
-						ref={searchbarRef}
-						onChange={(e) => onChangeSearchbar(e.target.value)}
-					/>
-				</div>
+				<Searchbar
+					containerClass={'searchbar-container'}
+					onChange={onChangeSearchbar}
+					setClear={setSearchbarValue}
+				/>
 				<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 					<option value='badgeNumber'>Credential Number</option>
 					<option value='badgeOwnerName'>Credential Owner</option>
 				</select>
 			</div>
-			<div className='credentials-section-container'>
+			<div className='table-body'>
 				<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 					{Object.keys(flatData).length ? (
 						<Table data={flatData} columns={tableColumns} handleRowClick={handleRowClick} />

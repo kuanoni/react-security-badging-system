@@ -21,9 +21,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.cardholders-body,
-.credentials-body,
-.error-body {
+.app {
 	display: flex;
 	flex-direction: row;
 	width: 100%;

@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { fetchAccessGroups, fetchCredentials, updateCardholder } from '../../api/fetch';
+import { fetchGet, fetchUpdate, updateCardholder } from '../../api/fetch';
 import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
 import SelectionListModal from '../SelectionListModal';
 
-const CardholderEditor = ({ cardholder, closeModal }) => {
+const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 
 	const [isGroupsModalOpen, setIsGroupsModalOpen] = useState(false);
 	const [isCredentialsModalOpen, setIsCredentialsModalOpen] = useState(false);
 
+	// editor controlled input values
 	const [firstName, setFirstName] = useState(cardholder.firstName);
 	const [lastName, setLastName] = useState(cardholder.lastName);
 	const [email, setEmail] = useState(cardholder.email);
-	const [title, setTitle] = useState(cardholder.title);
-	const [employeeId, setEmployeeId] = useState(cardholder.employeeId);
-	const [status, setStatus] = useState(cardholder.title);
-	const [activation, setActivation] = useState(cardholder.cardholderProfile?.activation);
-	const [expiration, setExpiration] = useState(cardholder.cardholderProfile?.expiration);
-	const [cardholderType, setCardholderType] = useState('');
-	const [accessGroups, setAccessGroups] = useState(cardholder.cardholderProfile?.accessGroups);
-	const [credentials, setCredentials] = useState(cardholder.cardholderProfile?.credentials);
+	const [jobTitle, setJobTitle] = useState(cardholder.jobTitle);
+	const [profileStatus, setProfileStatus] = useState(cardholder.profileStatus);
+	const [activationDate, setActivationDate] = useState(cardholder.activationDate);
+	const [expirationDate, setExpirationDate] = useState(cardholder.expirationDate);
+	const [profileType, setProfileType] = useState(cardholder.profileType);
+	const [accessGroups, setAccessGroups] = useState(cardholder.accessGroups);
+	const [credentials, setCredentials] = useState(cardholder.credentials);
 	const [notes, setNotes] = useState('');
 
 	const closeGroupsModal = () => {
@@ -59,35 +59,34 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 	};
 
 	const saveCardholder = () => {
-		const newCardholder = {
-			id: cardholder.id.toString(),
-			firstName,
-			lastName,
-			email,
-			employeeId,
-			title,
-			cardholderProfile: {
-				status,
-				activation,
-				expiration,
-				type: cardholderType,
-				accessGroups,
-				credentials,
-			},
-		};
-
-		if (!firstName || !lastName || !email || !employeeId || !title || !activation || !expiration) {
+		if (!firstName || !lastName || !email || !jobTitle || !activationDate || !expirationDate) {
 			toast.error(<b>Please fill all fields.</b>);
 			return;
 		}
+
+		const newCardholder = {
+			_id: cardholder._id,
+			avatar: cardholder.avatar,
+			firstName,
+			lastName,
+			email,
+			jobTitle,
+			profileStatus,
+			activationDate,
+			expirationDate,
+			profileType,
+			accessGroups,
+			credentials,
+		};
 
 		setIsSaving(true);
 		setIsEditing(false);
 
 		toast.promise(
-			updateCardholder(cardholder.id, newCardholder)
+			fetchUpdate('cardholders', cardholder._id, newCardholder)
 				.then((response) => {
 					setIsSaving(false);
+					onSaveCardholder(newCardholder);
 					return response.json();
 				})
 				.catch(() => {
@@ -101,12 +100,13 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 		);
 	};
 
-	if (Object.keys(cardholder).length === 0)
+	if (Object.keys(cardholder).length === 0) {
 		return (
 			<div className='loader-container'>
 				<div className='loader'></div>
 			</div>
 		);
+	}
 
 	return (
 		<>
@@ -117,8 +117,9 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 				modalClassName={'modal'}
 			>
 				<SelectionListModal
-					fetchFn={fetchAccessGroups}
-					startingSelectedList={accessGroups}
+					fetchFn={(page, search) => fetchGet('accessGroups', page, search, 'groupName')}
+					listPropertyKey={'groupName'}
+					initialSelected={accessGroups}
 					saveNewList={setAccessGroups}
 					closeModal={closeGroupsModal}
 				/>
@@ -130,8 +131,9 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 				modalClassName={'modal'}
 			>
 				<SelectionListModal
-					fetchFn={fetchCredentials}
-					startingSelectedList={credentials}
+					fetchFn={(page, search) => fetchGet('credentials', page, search, '_id')}
+					listPropertyKey={'_id'}
+					initialSelected={credentials}
 					saveNewList={setCredentials}
 					closeModal={closeCredentialsModal}
 				/>
@@ -145,7 +147,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 					<div className='label'>Email</div>
 					<div>{cardholder?.email}</div>
 					<div className='label'>Status</div>
-					{cardholder?.cardholderProfile?.status ? (
+					{cardholder?.profileStatus ? (
 						<div className='green-txt'>Active</div>
 					) : (
 						<div className='red-txt'>Inactive</div>
@@ -188,42 +190,37 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						/>
 						<LabeledInput
 							label={'Job title'}
-							defaultValue={title}
-							handleChange={setTitle}
+							defaultValue={jobTitle}
+							handleChange={setJobTitle}
 							disabled={!isEditing}
 						/>
-						<LabeledInput
-							label={'Employee ID'}
-							defaultValue={employeeId}
-							handleChange={setEmployeeId}
-							disabled={!isEditing}
-						/>
+						<LabeledInput label={'Employee ID'} defaultValue={cardholder._id} disabled={true} />
 					</div>
 					<div className='container'>
 						<h1 className='title'>Access Rights</h1>
-						<label className='label'>Cardholder type</label>
+						<label className='label'>Profile type</label>
 						<select
 							className='input'
 							disabled={!isEditing}
-							defaultValue={cardholderType}
-							onChange={(e) => setCardholderType(e.target.value)}
+							defaultValue={profileType}
+							onChange={(e) => setProfileType(e.target.value)}
 						>
-							<option value={'employee'}>Employee</option>
-							<option value={'contractor'}>Contractor</option>
-							<option value={'privledged visitor'}>Privledged Visitor</option>
+							<option value={'Employee'}>Employee</option>
+							<option value={'Contractor'}>Contractor</option>
+							<option value={'Privileged Visitor'}>Privileged Visitor</option>
 						</select>
 						<ListAddRemove
 							label={'Cardholder groups'}
 							list={accessGroups}
-							listKey='accessGroup'
+							listKey='groupName'
 							onAdd={openGroupsModal}
 							onRemove={handleRemoveAccessGroup}
 							isEditing={isEditing}
 						/>
 						<ListAddRemove
-							label={'Credentials'}
+							label={'Badges'}
 							list={credentials}
-							listKey='badgeNumber'
+							listKey='_id'
 							onAdd={openCredentialsModal}
 							onRemove={handleRemoveCredential}
 							isEditing={isEditing}
@@ -237,22 +234,22 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<select
 							className='input'
 							disabled={!isEditing}
-							defaultValue={status}
-							onChange={(e) => setStatus(e.target.value)}
+							defaultValue={profileStatus}
+							onChange={(e) => setProfileStatus(e.target.value)}
 						>
 							<option value={true}>Active</option>
 							<option value={false}>Inactive</option>
 						</select>
 						<LabeledInput
 							label={'Activation'}
-							defaultValue={activation}
-							handleChange={setActivation}
+							defaultValue={activationDate}
+							handleChange={setActivationDate}
 							disabled={!isEditing}
 						/>
 						<LabeledInput
 							label={'First name'}
-							defaultValue={expiration}
-							handleChange={setExpiration}
+							defaultValue={expirationDate}
+							handleChange={setExpirationDate}
 							disabled={!isEditing}
 						/>
 					</div>

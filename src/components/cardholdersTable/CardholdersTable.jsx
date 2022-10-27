@@ -1,13 +1,14 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { fetchCardholder, fetchCardholders } from '../../api/fetch';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { fetchGetById, fetchGet } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
 import Modal from '../Modal';
+import Searchbar from '../forms/Searchbar';
 
 const CardholdersTable = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,23 +17,21 @@ const CardholdersTable = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('firstName');
 
-	const searchbarRef = useRef(null);
-
-	const searchUrlString = useMemo(() => {
-		return searchbarValue ? `?${searchFilter}=${searchbarValue}` : '';
+	const searchParams = useMemo(() => {
+		return searchbarValue ? { filter: searchFilter, value: searchbarValue } : {};
 	}, [searchbarValue, searchFilter]);
 
 	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
 		['table-data', searchbarValue, searchbarValue && searchFilter],
 		async ({ pageParam = 0 }) => {
-			const fetchedData = await fetchCardholders(pageParam, searchUrlString);
+			const fetchedData = await fetchGet('cardholders', pageParam, searchParams);
 			setCardholderCount(fetchedData.count);
 
 			if (searchbarValue) {
-				return fetchedData.cardholders.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
+				return fetchedData.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
 			}
 
-			return fetchedData.cardholders;
+			return fetchedData.documents;
 		},
 		{
 			getNextPageParam: (_lastGroup, groups) => groups.length,
@@ -53,19 +52,6 @@ const CardholdersTable = () => {
 				fetchNextPage();
 			}
 		}
-	};
-
-	const openCardholderEditor = async (id) => {
-		setIsModalOpen(true);
-
-		await fetchCardholder(id).then((cardholder) => {
-			setCardholderToEdit(cardholder);
-		});
-	};
-
-	const closeCardholderEditor = () => {
-		setIsModalOpen(false);
-		setCardholderToEdit({});
 	};
 
 	const tableColumns = [
@@ -93,7 +79,7 @@ const CardholdersTable = () => {
 		},
 		{
 			Header: 'Status',
-			accessor: 'cardholderProfile.status',
+			accessor: 'profileStatus',
 			Cell: ({ value }) => {
 				return value ? (
 					<div className='badge green-txt'>Active</div>
@@ -107,14 +93,15 @@ const CardholdersTable = () => {
 		},
 		{
 			Header: 'Type',
-			accessor: 'cardholderProfile.type',
+			accessor: 'profileType',
 		},
 		{
 			Header: 'Employee ID',
-			accessor: 'employeeId',
+			accessor: '_id',
 		},
 		{
-			accessor: 'id',
+			id: 'editBtn',
+			accessor: '_id',
 			Cell: ({ value }) => {
 				return (
 					<div
@@ -123,7 +110,7 @@ const CardholdersTable = () => {
 							justifyContent: 'center',
 						}}
 					>
-						<button className='btn-edit-user' onClick={(e) => openCardholderEditor(value)}>
+						<button className='btn-edit-user' onClick={() => openCardholderEditor(value)}>
 							<FontAwesomeIcon icon={faPenToSquare} />
 						</button>
 					</div>
@@ -134,6 +121,23 @@ const CardholdersTable = () => {
 			},
 		},
 	];
+
+	const openCardholderEditor = async (id) => {
+		setIsModalOpen(true);
+		await fetchGetById('cardholders', id).then((cardholder) => {
+			setCardholderToEdit(cardholder);
+		});
+	};
+
+	const closeCardholderEditor = () => {
+		setIsModalOpen(false);
+		setCardholderToEdit({});
+	};
+
+	const onSaveCardholder = (newCardholder) => {
+		setCardholderToEdit(newCardholder);
+		remove(); // reloads infiniteQuery data cache
+	};
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbarValue(value);
@@ -169,41 +173,28 @@ const CardholdersTable = () => {
 				modalClassName={'modal'}
 			>
 				<CardholderEditor
-					key={cardholderToEdit.id}
+					key={cardholderToEdit._id}
 					cardholder={cardholderToEdit}
 					closeModal={closeCardholderEditor}
+					onSaveCardholder={onSaveCardholder}
 				/>
 			</Modal>
 
 			<div className='cardholder-page'>
-				<div className='table-searchbar'>
+				<div className='table-header'>
 					<h1>Cardholders</h1>
-					<div className='searchbar-input-container'>
-						{searchbarValue && (
-							<button
-								className='btn-close'
-								onClick={() => {
-									setSearchbarValue('');
-									searchbarRef.current.value = '';
-								}}
-							>
-								<FontAwesomeIcon icon={faXmark} />
-							</button>
-						)}
-						<input
-							type='text'
-							placeholder='Search...'
-							ref={searchbarRef}
-							onChange={(e) => onChangeSearchbar(e.target.value)}
-						/>
-					</div>
+					<Searchbar
+						containerClass={'searchbar-container'}
+						onChange={onChangeSearchbar}
+						setClear={setSearchbarValue}
+					/>
 					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 						<option value='firstName'>First Name</option>
 						<option value='lastName'>Last Name</option>
 						<option value='employeeId'>Employee ID</option>
 					</select>
 				</div>
-				<div className='cardholder-section-container'>
+				<div className='table-body'>
 					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 						{Object.keys(flatData).length ? (
 							<Table data={flatData} columns={tableColumns} handleRowClick={handleRowClick} />

@@ -1,4 +1,4 @@
-.table-searchbar {
+.table-header {
 	display: flex;
 	position: sticky;
 	top: 0;
@@ -15,39 +15,45 @@
 		}
 	}
 
-	.searchbar-input-container {
+	.searchbar-container {
 		position: relative;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
 		margin-left: auto;
-	}
 
-	.btn-close {
-		position: absolute;
-		--ggs: 1;
-		color: #bbbbbb;
-		background-color: transparent;
-		border-color: transparent;
-		font-size: 1.1em;
-		cursor: pointer;
+		input {
+			height: 100%;
+			padding-left: 0.5rem;
+			color: $clr-text;
+			background-color: transparent;
+			border: 1px solid $clr-highlight;
+			caret-color: $clr-text;
+			outline: none;
 
-		&:hover {
-			filter: brightness(1.25);
+			&::placeholder {
+				color: $clr-text-dark;
+			}
 		}
-	}
 
-	input {
-		height: 100%;
-		padding-left: 0.5rem;
-		color: $clr-text;
-		background-color: transparent;
-		border: 1px solid $clr-highlight;
-		caret-color: $clr-text;
-		outline: none;
+		button {
+			position: absolute;
+			--ggs: 1;
+			color: #bbbbbb;
+			background-color: transparent;
+			border-color: transparent;
+			font-size: 1.1em;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+			cursor: pointer;
 
-		&::placeholder {
-			color: $clr-text-dark;
+			&.show {
+				opacity: 1;
+			}
+
+			&:hover {
+				filter: brightness(1.25);
+			}
 		}
 	}
 
