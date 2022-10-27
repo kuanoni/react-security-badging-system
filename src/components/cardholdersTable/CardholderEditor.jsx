@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { fetchGet, updateCardholder } from '../../api/fetch';
+import { fetchGet, fetchUpdate, updateCardholder } from '../../api/fetch';
 import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
 import SelectionListModal from '../SelectionListModal';
 
-const CardholderEditor = ({ cardholder, closeModal }) => {
+const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 
@@ -18,11 +18,10 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 	const [lastName, setLastName] = useState(cardholder.lastName);
 	const [email, setEmail] = useState(cardholder.email);
 	const [jobTitle, setJobTitle] = useState(cardholder.jobTitle);
-	const [employeeId, setEmployeeId] = useState(cardholder._id);
 	const [profileStatus, setProfileStatus] = useState(cardholder.profileStatus);
 	const [activationDate, setActivationDate] = useState(cardholder.activationDate);
 	const [expirationDate, setExpirationDate] = useState(cardholder.expirationDate);
-	const [profileType, setProfileType] = useState('');
+	const [profileType, setProfileType] = useState(cardholder.profileType);
 	const [accessGroups, setAccessGroups] = useState(cardholder.accessGroups);
 	const [credentials, setCredentials] = useState(cardholder.credentials);
 	const [notes, setNotes] = useState('');
@@ -60,12 +59,17 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 	};
 
 	const saveCardholder = () => {
+		if (!firstName || !lastName || !email || !jobTitle || !activationDate || !expirationDate) {
+			toast.error(<b>Please fill all fields.</b>);
+			return;
+		}
+
 		const newCardholder = {
-			id: cardholder.id.toString(),
+			_id: cardholder._id,
+			avatar: cardholder.avatar,
 			firstName,
 			lastName,
 			email,
-			employeeId,
 			jobTitle,
 			profileStatus,
 			activationDate,
@@ -75,18 +79,14 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 			credentials,
 		};
 
-		if (!firstName || !lastName || !email || !employeeId || !jobTitle || !activationDate || !expirationDate) {
-			toast.error(<b>Please fill all fields.</b>);
-			return;
-		}
-
 		setIsSaving(true);
 		setIsEditing(false);
 
 		toast.promise(
-			updateCardholder(cardholder.id, newCardholder)
+			fetchUpdate('cardholders', cardholder._id, newCardholder)
 				.then((response) => {
 					setIsSaving(false);
+					onSaveCardholder(newCardholder);
 					return response.json();
 				})
 				.catch(() => {
@@ -194,25 +194,20 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 							handleChange={setJobTitle}
 							disabled={!isEditing}
 						/>
-						<LabeledInput
-							label={'Employee ID'}
-							defaultValue={employeeId}
-							handleChange={setEmployeeId}
-							disabled={!isEditing}
-						/>
+						<LabeledInput label={'Employee ID'} defaultValue={cardholder._id} disabled={true} />
 					</div>
 					<div className='container'>
 						<h1 className='title'>Access Rights</h1>
-						<label className='label'>Cardholder type</label>
+						<label className='label'>Profile type</label>
 						<select
 							className='input'
 							disabled={!isEditing}
 							defaultValue={profileType}
 							onChange={(e) => setProfileType(e.target.value)}
 						>
-							<option value={'employee'}>Employee</option>
-							<option value={'contractor'}>Contractor</option>
-							<option value={'privledged visitor'}>Privledged Visitor</option>
+							<option value={'Employee'}>Employee</option>
+							<option value={'Contractor'}>Contractor</option>
+							<option value={'Privileged Visitor'}>Privileged Visitor</option>
 						</select>
 						<ListAddRemove
 							label={'Cardholder groups'}
@@ -223,7 +218,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 							isEditing={isEditing}
 						/>
 						<ListAddRemove
-							label={'Credentials'}
+							label={'Badges'}
 							list={credentials}
 							listKey='_id'
 							onAdd={openCredentialsModal}

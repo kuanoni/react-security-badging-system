@@ -1,5 +1,6 @@
 const fetchSize = 30;
-const apiUrl = 'https://security-system-api.herokuapp.com/';
+// const apiUrl = 'https://security-system-api.herokuapp.com/';
+const apiUrl = 'http://localhost:5000/';
 
 export const fetchGet = async (collection, page, search, props) => {
 	let fetchUrl = apiUrl + collection + '/get';
@@ -32,25 +33,16 @@ export const fetchGetById = async (collection, id) => {
 	return data;
 };
 
-export const fetchCardholders = async (page, filterUrlText, cb) => {
-	let fetchUrl = apiUrl + 'cardholders';
+export const fetchUpdate = async (collection, id, body) => {
+	const response = await fetch(apiUrl + collection + '/update/' + id, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(body),
+	});
 
-	if (filterUrlText) fetchUrl += filterUrlText;
-	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
-
-	const fetchedCardholders = await fetch(fetchUrl).then((res) => res.json());
-
-	if (fetchedCardholders) return fetchedCardholders;
-};
-
-export const fetchCardholder = async (id) => {
-	let fetchUrl = apiUrl + 'cardholders/' + id;
-
-	const fetchedCardholder = await fetch(fetchUrl).then((res) => res.json());
-
-	if (fetchedCardholder) {
-		return fetchedCardholder;
-	}
+	return response;
 };
 
 export const updateCardholder = async (id, newCardholder) => {

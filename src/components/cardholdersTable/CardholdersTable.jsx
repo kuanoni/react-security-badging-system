@@ -134,6 +134,11 @@ const CardholdersTable = () => {
 		setCardholderToEdit({});
 	};
 
+	const onSaveCardholder = (newCardholder) => {
+		setCardholderToEdit(newCardholder);
+		remove(); // reloads infiniteQuery data cache
+	};
+
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbarValue(value);
 		remove(); // clear infiniteQuery data cache on search
@@ -171,6 +176,7 @@ const CardholdersTable = () => {
 					key={cardholderToEdit._id}
 					cardholder={cardholderToEdit}
 					closeModal={closeCardholderEditor}
+					onSaveCardholder={onSaveCardholder}
 				/>
 			</Modal>
 
