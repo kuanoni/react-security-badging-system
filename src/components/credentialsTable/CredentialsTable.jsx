@@ -10,6 +10,10 @@ const CredentialsTable = () => {
 	const [searchFilter, setSearchFilter] = useState('badgeNumber');
 	const [credentialsCount, setCredentialsCount] = useState('firstName');
 
+	/* =======================
+            DATA FETCHING
+       ======================= */
+
 	const searchParams = useMemo(() => {
 		return searchbarValue ? { filter: searchFilter, value: searchbarValue } : {};
 	}, [searchbarValue, searchFilter]);
@@ -66,7 +70,15 @@ const CredentialsTable = () => {
 			Header: 'Credential Owner',
 			accessor: 'badgeOwnerName',
 		},
+		{
+			Header: 'Credential Owner ID',
+			accessor: 'badgeOwnerId',
+		},
 	];
+
+	/* =======================
+              HANDLERS
+       ======================= */
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbarValue(value);
@@ -94,6 +106,7 @@ const CredentialsTable = () => {
 				<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 					<option value='badgeNumber'>Credential Number</option>
 					<option value='badgeOwnerName'>Credential Owner</option>
+					<option value='badgeOwnerId'>Credential Owner ID</option>
 				</select>
 			</div>
 			<div className='table-body'>

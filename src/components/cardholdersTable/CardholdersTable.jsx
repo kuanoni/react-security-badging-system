@@ -17,6 +17,10 @@ const CardholdersTable = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('firstName');
 
+	/* =======================
+            DATA FETCHING
+       ======================= */
+
 	const searchParams = useMemo(() => {
 		return searchbarValue ? { filter: searchFilter, value: searchbarValue } : {};
 	}, [searchbarValue, searchFilter]);
@@ -121,6 +125,10 @@ const CardholdersTable = () => {
 			},
 		},
 	];
+
+	/* =======================
+              HANDLERS
+       ======================= */
 
 	const openCardholderEditor = async (id) => {
 		setIsModalOpen(true);
