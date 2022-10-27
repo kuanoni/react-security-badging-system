@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { fetchAccessGroups, fetchCredentials, updateCardholder } from '../../api/fetch';
+import { fetchGet, updateCardholder } from '../../api/fetch';
 import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
@@ -18,7 +18,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 	const [lastName, setLastName] = useState(cardholder.lastName);
 	const [email, setEmail] = useState(cardholder.email);
 	const [jobTitle, setJobTitle] = useState(cardholder.jobTitle);
-	const [employeeId, setEmployeeId] = useState(cardholder.employeeId);
+	const [employeeId, setEmployeeId] = useState(cardholder._id);
 	const [profileStatus, setProfileStatus] = useState(cardholder.profileStatus);
 	const [activationDate, setActivationDate] = useState(cardholder.activationDate);
 	const [expirationDate, setExpirationDate] = useState(cardholder.expirationDate);
@@ -117,8 +117,9 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 				modalClassName={'modal'}
 			>
 				<SelectionListModal
-					fetchFn={fetchAccessGroups}
-					startingSelectedList={accessGroups}
+					fetchFn={(page, search) => fetchGet('accessGroups', page, search, 'groupName')}
+					listPropertyKey={'groupName'}
+					initialSelected={accessGroups}
 					saveNewList={setAccessGroups}
 					closeModal={closeGroupsModal}
 				/>
@@ -130,8 +131,9 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 				modalClassName={'modal'}
 			>
 				<SelectionListModal
-					fetchFn={fetchCredentials}
-					startingSelectedList={credentials}
+					fetchFn={(page, search) => fetchGet('credentials', page, search, '_id')}
+					listPropertyKey={'_id'}
+					initialSelected={credentials}
 					saveNewList={setCredentials}
 					closeModal={closeCredentialsModal}
 				/>
@@ -223,7 +225,7 @@ const CardholderEditor = ({ cardholder, closeModal }) => {
 						<ListAddRemove
 							label={'Credentials'}
 							list={credentials}
-							listKey='badgeNumber'
+							listKey='_id'
 							onAdd={openCredentialsModal}
 							onRemove={handleRemoveCredential}
 							isEditing={isEditing}

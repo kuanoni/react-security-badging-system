@@ -1,30 +1,34 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
+import SelectableListItem from './forms/SelectableListItem';
+import Searchbar from './forms/Searchbar';
 
-const SelectionListModal = ({ fetchFn, startingSelectedList, saveNewList, closeModal }) => {
-	const [searchbar, setSearchbar] = useState('');
-	const [listSize, setListSize] = useState(0);
-	const [dataKey, setDataKey] = useState('');
-	const [selectedList, setSelectedList] = useState(startingSelectedList);
-	const [showSelected, setShowSelected] = useState(false);
+const SelectionListModal = ({ fetchFn, listPropertyKey, initialSelected, saveNewList, closeModal }) => {
+	const [searchbarValue, setSearchbarValue] = useState('');
+	const [listLength, setListLength] = useState(0);
+	const [selectedList, setSelectedList] = useState(initialSelected.sort((a, b) => a._id - b._id));
+	const [onlyShowSelected, setOnlyShowSelected] = useState(false);
 
-	const filterUrlText = useMemo(() => {
-		return searchbar ? '?search=' + searchbar : '';
-	}, [searchbar]);
+	const searchbarRef = useRef(null);
+
+	const searchParams = useMemo(() => {
+		return searchbarValue ? { filter: listPropertyKey, value: searchbarValue } : {};
+	}, [searchbarValue]);
+
+	// custom component list items, state array that holds selected items
 
 	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
-		['list-data', searchbar], //adding sorting state as key causes table to reset and fetch from new beginning upon sort
+		['table-data', searchbarValue],
 		async ({ pageParam = 0 }) => {
-			const { data: fetchedData, dataKey, count } = await fetchFn(pageParam, filterUrlText);
-			setListSize(count);
-			setDataKey(dataKey);
+			const fetchedData = await fetchFn(pageParam, searchParams);
+			setListLength(fetchedData.count);
 
-			return fetchedData;
+			return fetchedData.documents;
 		},
 		{
 			getNextPageParam: (_lastGroup, groups) => groups.length,
@@ -38,19 +42,19 @@ const SelectionListModal = ({ fetchFn, startingSelectedList, saveNewList, closeM
 			const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
 			const dataLength = data?.pages?.flat().length;
 
-			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && dataLength < listSize) {
+			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && dataLength < listLength) {
 				fetchNextPage();
 			}
 		}
 	};
 
-	const flatData = useMemo(() => {
+	const itemsList = useMemo(() => {
 		return data?.pages?.flat() ?? [];
 	}, [data]);
 
 	useEffect(() => {
 		return () => {
-			// remove query cache on unmount
+			// remove infiniteQuery cache on unmount
 			remove();
 		};
 		// eslint-disable-next-line
@@ -63,14 +67,39 @@ const SelectionListModal = ({ fetchFn, startingSelectedList, saveNewList, closeM
 	};
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
-		setSearchbar(value);
+		setSearchbarValue(value);
 	}, 300);
 
-	const handleClickCheckbox = (item) => {
-		// either add or remove item from selectedList
-		if (!selectedList.map((i) => i.id).includes(item.id)) setSelectedList([...selectedList, item]);
-		else setSelectedList(selectedList.filter((selectedListItem) => selectedListItem.id !== item.id));
-	};
+	const checkIfSelected = useCallback(
+		(item) => {
+			return selectedList.map((selectedItem) => selectedItem._id).includes(item._id);
+		},
+		[selectedList]
+	);
+
+	const toggleSelected = useCallback(
+		(item) => {
+			// either add or remove item from selectedList
+			if (checkIfSelected(item))
+				setSelectedList(selectedList.filter((selectedListItem) => selectedListItem._id !== item._id));
+			else setSelectedList([...selectedList, item].sort((a, b) => a._id - b._id));
+		},
+		[selectedList]
+	);
+
+	const listItems = useMemo(() => {
+		const listToRender = onlyShowSelected ? selectedList : itemsList;
+
+		return listToRender.map((item) => (
+			<SelectableListItem
+				key={item._id}
+				item={item}
+				label={item[listPropertyKey]}
+				defaultChecked={checkIfSelected(item)}
+				toggleSelected={toggleSelected}
+			/>
+		));
+	}, [itemsList, listPropertyKey, selectedList, onlyShowSelected, checkIfSelected, toggleSelected]);
 
 	return (
 		<>
@@ -81,38 +110,26 @@ const SelectionListModal = ({ fetchFn, startingSelectedList, saveNewList, closeM
 				</button>
 			</div>
 			<div className='body'>
-				<input
-					type='text'
-					className='searchbar'
-					placeholder='Search...'
-					onChange={(e) => onChangeSearchbar(e.target.value)}
+				<Searchbar
+					containerClass={'searchbar-container'}
+					onChange={onChangeSearchbar}
+					setClear={setSearchbarValue}
+					autoFocus={true}
 				/>
 				<div className='list' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-					{listSize === 0 && (
+					{itemsList.length === 0 ? (
 						<div className='loader-container'>
 							{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
 						</div>
+					) : (
+						listItems
 					)}
-
-					{flatData.map((item) => {
-						if (showSelected && !selectedList.map((i) => i.id).includes(item.id)) return <></>;
-
-						return (
-							<div className='list-item' onClick={() => handleClickCheckbox(item)} key={item.id}>
-								{selectedList.map((i) => i.id).includes(item.id) ? (
-									<FontAwesomeIcon icon={faSquareCheck} />
-								) : (
-									<FontAwesomeIcon icon={faSquare} />
-								)}
-								<span>{item[dataKey]}</span>
-							</div>
-						);
-					})}
 				</div>
 			</div>
+
 			<div className='footer'>
-				<div className='show-selected' onClick={() => setShowSelected(!showSelected)}>
-					{showSelected ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}
+				<div className='show-selected' onClick={() => setOnlyShowSelected(!onlyShowSelected)}>
+					{onlyShowSelected ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}
 					<span>Show selected</span>
 				</div>
 				<button className='btn cancel' onClick={() => closeModal()}>
