@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { fetchCredentials } from '../../api/fetch';
 import Table from '../Table';
+import Searchbar from '../forms/Searchbar';
 
 const CredentialsTable = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
@@ -91,27 +92,13 @@ const CredentialsTable = () => {
 
 	return (
 		<div className='credentials-page'>
-			<div className='table-searchbar'>
+			<div className='table-header'>
 				<h1>Credentials</h1>
-				<div className='searchbar-input-container'>
-					{searchbarValue && (
-						<button
-							className='btn-close'
-							onClick={() => {
-								setSearchbarValue('');
-								searchbarRef.current.value = '';
-							}}
-						>
-							<FontAwesomeIcon icon={faXmark} />
-						</button>
-					)}
-					<input
-						type='text'
-						placeholder='Search...'
-						ref={searchbarRef}
-						onChange={(e) => onChangeSearchbar(e.target.value)}
-					/>
-				</div>
+				<Searchbar
+					containerClass={'searchbar-container'}
+					onChange={onChangeSearchbar}
+					setClear={setSearchbarValue}
+				/>
 				<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 					<option value='badgeNumber'>Credential Number</option>
 					<option value='badgeOwnerName'>Credential Owner</option>

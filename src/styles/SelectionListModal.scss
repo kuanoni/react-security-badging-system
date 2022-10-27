@@ -41,19 +41,45 @@
 
 		border: 1px solid $clr-highlight;
 
-		.searchbar {
-			display: block;
-			margin: 1rem;
-			padding: 0.75rem 0.25rem;
-			color: $clr-text;
-			background-color: $clr-darker;
-			border: none;
-			border-bottom: 1px solid transparent;
-			outline: none;
-			transition: 0.2s ease;
+		.searchbar-container {
+			position: relative;
+			padding: 1rem;
 
-			&:focus {
-				border-bottom: 1px solid $clr-accent;
+			input {
+				width: 100%;
+				padding: 0.75rem 0.25rem;
+				color: $clr-text;
+				background-color: $clr-darker;
+				border: none;
+				border-bottom: 1px solid transparent;
+				outline: none;
+				transition: 0.2s ease;
+
+				&:focus {
+					border-bottom: 1px solid $clr-accent;
+				}
+			}
+
+			button {
+				position: absolute;
+				right: 0 + 1em;
+				top: 50%;
+				transform: translateY(-50%);
+				color: #bbbbbb;
+				background-color: transparent;
+				border-color: transparent;
+				font-size: 1.25em;
+				opacity: 0;
+				transition: opacity 0.2s ease;
+				cursor: pointer;
+
+				&.show {
+					opacity: 1;
+				}
+
+				&:hover {
+					filter: brightness(1.25);
+				}
 			}
 		}
 

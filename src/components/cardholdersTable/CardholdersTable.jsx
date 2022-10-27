@@ -8,6 +8,7 @@ import { fetchGetById, fetchGet } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
 import Modal from '../Modal';
+import Searchbar from '../forms/Searchbar';
 
 const CardholdersTable = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,7 @@ const CardholdersTable = () => {
 	const searchbarRef = useRef(null);
 
 	const searchParams = useMemo(() => {
-		return searchbarValue ? { searchBy: searchFilter, value: searchbarValue } : {};
+		return searchbarValue ? { filter: searchFilter, value: searchbarValue } : {};
 	}, [searchbarValue, searchFilter]);
 
 	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
@@ -94,7 +95,7 @@ const CardholdersTable = () => {
 			Header: 'Status',
 			accessor: 'profileStatus',
 			Cell: ({ value }) => {
-				return value === 'true' ? (
+				return value ? (
 					<div className='badge green-txt'>Active</div>
 				) : (
 					<div className='badge red-txt'>Inactive</div>
@@ -110,9 +111,10 @@ const CardholdersTable = () => {
 		},
 		{
 			Header: 'Employee ID',
-			accessor: 'employeeId',
+			accessor: '_id',
 		},
 		{
+			id: 'editBtn',
 			accessor: '_id',
 			Cell: ({ value }) => {
 				return (
@@ -138,6 +140,11 @@ const CardholdersTable = () => {
 		setSearchbarValue(value);
 		remove(); // clear infiniteQuery data cache on search
 	}, 500);
+
+	const onClearSearchbar = () => {
+		setSearchbarValue('');
+		searchbarRef.current.value = '';
+	};
 
 	const onChangeSearchSetting = (value) => {
 		setSearchFilter(value);
@@ -175,34 +182,20 @@ const CardholdersTable = () => {
 			</Modal>
 
 			<div className='cardholder-page'>
-				<div className='table-searchbar'>
+				<div className='table-header'>
 					<h1>Cardholders</h1>
-					<div className='searchbar-input-container'>
-						{searchbarValue && (
-							<button
-								className='btn-close'
-								onClick={() => {
-									setSearchbarValue('');
-									searchbarRef.current.value = '';
-								}}
-							>
-								<FontAwesomeIcon icon={faXmark} />
-							</button>
-						)}
-						<input
-							type='text'
-							placeholder='Search...'
-							ref={searchbarRef}
-							onChange={(e) => onChangeSearchbar(e.target.value)}
-						/>
-					</div>
+					<Searchbar
+						containerClass={'searchbar-container'}
+						onChange={onChangeSearchbar}
+						setClear={setSearchbarValue}
+					/>
 					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 						<option value='firstName'>First Name</option>
 						<option value='lastName'>Last Name</option>
 						<option value='employeeId'>Employee ID</option>
 					</select>
 				</div>
-				<div className='cardholder-section-container'>
+				<div className='table-body'>
 					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 						{Object.keys(flatData).length ? (
 							<Table data={flatData} columns={tableColumns} handleRowClick={handleRowClick} />
