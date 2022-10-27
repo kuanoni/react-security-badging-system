@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
@@ -14,11 +14,9 @@ const SelectionListModal = ({ fetchFn, listPropertyKey, initialSelected, saveNew
 	const [selectedList, setSelectedList] = useState(initialSelected.sort((a, b) => a._id - b._id));
 	const [onlyShowSelected, setOnlyShowSelected] = useState(false);
 
-	const searchbarRef = useRef(null);
-
 	const searchParams = useMemo(() => {
 		return searchbarValue ? { filter: listPropertyKey, value: searchbarValue } : {};
-	}, [searchbarValue]);
+	}, [searchbarValue, listPropertyKey]);
 
 	// custom component list items, state array that holds selected items
 
@@ -84,7 +82,7 @@ const SelectionListModal = ({ fetchFn, listPropertyKey, initialSelected, saveNew
 				setSelectedList(selectedList.filter((selectedListItem) => selectedListItem._id !== item._id));
 			else setSelectedList([...selectedList, item].sort((a, b) => a._id - b._id));
 		},
-		[selectedList]
+		[selectedList, checkIfSelected]
 	);
 
 	const listItems = useMemo(() => {

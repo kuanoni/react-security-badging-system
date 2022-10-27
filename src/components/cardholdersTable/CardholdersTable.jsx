@@ -1,9 +1,9 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { fetchGetById, fetchGet } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
@@ -16,8 +16,6 @@ const CardholdersTable = () => {
 	const [cardholderCount, setCardholderCount] = useState(0);
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('firstName');
-
-	const searchbarRef = useRef(null);
 
 	const searchParams = useMemo(() => {
 		return searchbarValue ? { filter: searchFilter, value: searchbarValue } : {};
@@ -54,18 +52,6 @@ const CardholdersTable = () => {
 				fetchNextPage();
 			}
 		}
-	};
-
-	const openCardholderEditor = async (id) => {
-		setIsModalOpen(true);
-		await fetchGetById('cardholders', id).then((cardholder) => {
-			setCardholderToEdit(cardholder);
-		});
-	};
-
-	const closeCardholderEditor = () => {
-		setIsModalOpen(false);
-		setCardholderToEdit({});
 	};
 
 	const tableColumns = [
@@ -136,15 +122,22 @@ const CardholdersTable = () => {
 		},
 	];
 
+	const openCardholderEditor = async (id) => {
+		setIsModalOpen(true);
+		await fetchGetById('cardholders', id).then((cardholder) => {
+			setCardholderToEdit(cardholder);
+		});
+	};
+
+	const closeCardholderEditor = () => {
+		setIsModalOpen(false);
+		setCardholderToEdit({});
+	};
+
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbarValue(value);
 		remove(); // clear infiniteQuery data cache on search
 	}, 500);
-
-	const onClearSearchbar = () => {
-		setSearchbarValue('');
-		searchbarRef.current.value = '';
-	};
 
 	const onChangeSearchSetting = (value) => {
 		setSearchFilter(value);

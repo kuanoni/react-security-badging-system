@@ -4,7 +4,7 @@ import CredentialsTable from '../components/credentialsTable/CredentialsTable';
 
 const CredentialsPage = () => {
 	return (
-		<div className='credentials-body'>
+		<div className='app'>
 			<Navbar />
 			<CredentialsTable />
 		</div>

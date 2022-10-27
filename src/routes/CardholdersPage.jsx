@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 
 function CardholdersPage() {
 	return (
-		<div className='cardholders-body'>
+		<div className='app'>
 			<Navbar />
 			<CardholdersTable />
 		</div>
