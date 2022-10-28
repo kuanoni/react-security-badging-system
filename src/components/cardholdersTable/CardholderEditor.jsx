@@ -5,6 +5,7 @@ import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
 import SelectionListModal from '../SelectionListModal';
+import CustomDatePicker from '../forms/CustomDatePicker';
 
 const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -19,8 +20,8 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [email, setEmail] = useState(cardholder.email);
 	const [jobTitle, setJobTitle] = useState(cardholder.jobTitle);
 	const [profileStatus, setProfileStatus] = useState(cardholder.profileStatus);
-	const [activationDate, setActivationDate] = useState(cardholder.activationDate);
-	const [expirationDate, setExpirationDate] = useState(cardholder.expirationDate);
+	const [activationDate, setActivationDate] = useState(new Date(cardholder.activationDate));
+	const [expirationDate, setExpirationDate] = useState(new Date(cardholder.expirationDate));
 	const [profileType, setProfileType] = useState(cardholder.profileType);
 	const [accessGroups, setAccessGroups] = useState(cardholder.accessGroups);
 	const [credentials, setCredentials] = useState(cardholder.credentials);
@@ -241,18 +242,32 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 							<option value={true}>Active</option>
 							<option value={false}>Inactive</option>
 						</select>
+
 						<LabeledInput
 							label={'Activation'}
 							defaultValue={activationDate}
 							handleChange={setActivationDate}
-							disabled={!isEditing}
+							disabled={true}
 						/>
-						<LabeledInput
+						<CustomDatePicker
+							label='Activation'
+							date={activationDate}
+							setDate={setActivationDate}
+							disabled={true}
+						/>
+						<CustomDatePicker
+							label='Expiration'
+							date={expirationDate}
+							setDate={setExpirationDate}
+							minDate={new Date()}
+							disabled={false}
+						/>
+						{/* <LabeledInput
 							label={'First name'}
 							defaultValue={expirationDate}
 							handleChange={setExpirationDate}
 							disabled={!isEditing}
-						/>
+						/> */}
 					</div>
 					<div className='container'>
 						<h1 className='title'>Additional info</h1>
