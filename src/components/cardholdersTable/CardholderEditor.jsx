@@ -87,9 +87,9 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 				.then((response) => {
 					setIsSaving(false);
 					onSaveCardholder(newCardholder);
-					return response.json();
 				})
-				.catch(() => {
+				.catch((err) => {
+					console.log(err);
 					setIsEditing(true);
 				}),
 			{
