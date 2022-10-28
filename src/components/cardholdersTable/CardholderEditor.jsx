@@ -84,9 +84,10 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 
 		toast.promise(
 			fetchUpdate('cardholders', cardholder._id, newCardholder)
-				.then((response) => {
+				.then((res) => {
 					setIsSaving(false);
 					onSaveCardholder(newCardholder);
+					console.log(res);
 				})
 				.catch((err) => {
 					console.log(err);

@@ -40,7 +40,7 @@ export const fetchUpdate = async (collection, id, body) => {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(body),
-	});
+	}).then((res) => res.json());
 
 	return response;
 };
