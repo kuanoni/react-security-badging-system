@@ -26,10 +26,14 @@
 			height: 100%;
 			padding-left: 0.5rem;
 			color: $clr-text;
-			background-color: transparent;
+			background-color: $clr-darkest;
 			border: 1px solid $clr-highlight;
 			caret-color: $clr-text;
 			outline: none;
+
+			&:focus {
+				border-color: $clr-text-dark;
+			}
 
 			&::placeholder {
 				color: $clr-text-dark;
@@ -60,13 +64,18 @@
 	select {
 		margin-left: 1rem;
 		padding: 0 0.5rem;
+		padding-right: 1rem;
 		color: $clr-text-dark;
-		background-color: transparent;
+		background-color: $clr-darkest;
 		border: 1px solid $clr-highlight;
 		outline: none;
 
+		&:focus {
+			border-color: $clr-text-dark;
+		}
+
 		option {
-			color: black;
+			color: $clr-text;
 		}
 	}
 }

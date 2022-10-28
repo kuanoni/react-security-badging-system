@@ -160,7 +160,12 @@
 			background-color: $clr-darkest;
 			border: 1px solid $clr-darkest;
 			border-bottom: 1px solid transparent;
+			outline: none;
 			resize: none;
+
+			&:focus {
+				border-color: $clr-text-dark;
+			}
 
 			&:disabled {
 				filter: brightness(0.8);

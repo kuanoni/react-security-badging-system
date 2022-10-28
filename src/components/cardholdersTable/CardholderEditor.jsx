@@ -253,7 +253,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 							date={expirationDate}
 							setDate={setExpirationDate}
 							minDate={new Date()}
-							disabled={false}
+							disabled={!isEditing}
 						/>
 					</div>
 					<div className='container'>
