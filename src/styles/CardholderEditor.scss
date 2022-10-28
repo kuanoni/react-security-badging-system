@@ -14,20 +14,22 @@
 
 	.header {
 		display: flex;
+		position: relative;
 		padding: 1rem;
 		background-color: $clr-base;
 		box-shadow: 0 1px 2px #242424;
 		font-weight: 600;
 		font-size: 0.9em;
 
-		.title {
-			margin-top: 0;
+		@media screen and (max-width: 550px) {
+			flex-direction: column;
+			gap: 0.5rem;
 		}
 
 		.avatar {
 			width: 128px;
 			height: 128px;
-			border: 1px solid $clr-highlight;
+			border: 2px solid $clr-highlight;
 			border-radius: 6px;
 			box-shadow: 0 0 4px #3a3a3a;
 
@@ -43,15 +45,28 @@
 			.label {
 				margin-left: 0;
 			}
+
+			.title {
+				margin-top: 0;
+			}
+
+			@media screen and (max-width: 550px) {
+				margin: 0;
+			}
 		}
 
 		.edit-toggle {
-			position: relative;
+			position: absolute;
+			right: 1rem;
 			display: flex;
 			align-items: flex-start;
 			gap: 1rem;
 			margin-left: auto;
 			user-select: none;
+
+			@media screen and (max-width: 550px) {
+				margin: 0;
+			}
 
 			span {
 				display: flex;
@@ -102,12 +117,12 @@
 	.body {
 		display: flex;
 		flex-direction: row;
-		gap: 3rem;
+		gap: 5%;
 		height: 100%;
 		overflow-y: scroll;
 		padding: 1rem;
 
-		@media screen and (max-width: 800px) {
+		@media screen and (max-width: 550px) {
 			flex-direction: column;
 			gap: 0;
 		}
@@ -117,7 +132,7 @@
 			flex-direction: column;
 			flex-basis: 50%;
 
-			@media screen and (max-width: 800px) {
+			@media screen and (max-width: 550px) {
 				max-width: 100%;
 			}
 		}
@@ -205,10 +220,12 @@
 				&__triangle {
 					&::before {
 						border-bottom-color: $clr-darkest;
+						border-top-color: transparent;
 					}
 
 					&::after {
 						border-bottom-color: $clr-darkest;
+						border-top-color: transparent;
 					}
 				}
 

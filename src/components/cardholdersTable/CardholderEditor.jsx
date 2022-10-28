@@ -242,13 +242,6 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 							<option value={true}>Active</option>
 							<option value={false}>Inactive</option>
 						</select>
-
-						<LabeledInput
-							label={'Activation'}
-							defaultValue={activationDate}
-							handleChange={setActivationDate}
-							disabled={true}
-						/>
 						<CustomDatePicker
 							label='Activation'
 							date={activationDate}
@@ -262,12 +255,6 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 							minDate={new Date()}
 							disabled={false}
 						/>
-						{/* <LabeledInput
-							label={'First name'}
-							defaultValue={expirationDate}
-							handleChange={setExpirationDate}
-							disabled={!isEditing}
-						/> */}
 					</div>
 					<div className='container'>
 						<h1 className='title'>Additional info</h1>

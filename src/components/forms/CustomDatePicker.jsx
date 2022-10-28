@@ -79,6 +79,7 @@ const CustomDatePicker = ({ label, date, setDate, minDate, disabled }) => {
 					renderCustomHeader={customHeader}
 					className='input'
 					popperClassName='datepicker-popper'
+					popperPlacement='top'
 					disabled={disabled}
 				/>
 			</div>
