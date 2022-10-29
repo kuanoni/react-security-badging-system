@@ -149,7 +149,7 @@ const CardholdersTable = () => {
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbarValue(value);
-		remove(); // clear infiniteQuery data cache on search
+		remove(); // reloads infiniteQuery data cache on search
 	}, 500);
 
 	const onChangeSearchSetting = (value) => {

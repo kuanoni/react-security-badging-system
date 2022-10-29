@@ -27,22 +27,6 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [credentials, setCredentials] = useState(cardholder.credentials);
 	const [notes, setNotes] = useState('');
 
-	const closeGroupsModal = () => {
-		setIsGroupsModalOpen(false);
-	};
-
-	const openGroupsModal = () => {
-		setIsGroupsModalOpen(true);
-	};
-
-	const closeCredentialsModal = () => {
-		setIsCredentialsModalOpen(false);
-	};
-
-	const openCredentialsModal = () => {
-		setIsCredentialsModalOpen(true);
-	};
-
 	const handleRemoveAccessGroup = (value) => {
 		const idx = accessGroups.indexOf(value);
 		const newArr = [...accessGroups];
@@ -102,7 +86,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 		);
 	};
 
-	if (Object.keys(cardholder).length === 0) {
+	if (!Object.keys(cardholder).length) {
 		return (
 			<div className='loader-container'>
 				<div className='loader'></div>
@@ -114,7 +98,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 		<>
 			<Modal
 				isOpen={isGroupsModalOpen}
-				closeModal={closeGroupsModal}
+				closeModal={() => setIsGroupsModalOpen(false)}
 				overlayClassName={'overlay selection-list'}
 				modalClassName={'modal'}
 			>
@@ -123,12 +107,12 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 					listPropertyKey={'groupName'}
 					initialSelected={accessGroups}
 					saveNewList={setAccessGroups}
-					closeModal={closeGroupsModal}
+					closeModal={() => setIsGroupsModalOpen(false)}
 				/>
 			</Modal>
 			<Modal
 				isOpen={isCredentialsModalOpen}
-				closeModal={closeCredentialsModal}
+				closeModal={() => setIsCredentialsModalOpen(false)}
 				overlayClassName={'overlay selection-list'}
 				modalClassName={'modal'}
 			>
@@ -137,7 +121,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 					listPropertyKey={'_id'}
 					initialSelected={credentials}
 					saveNewList={setCredentials}
-					closeModal={closeCredentialsModal}
+					closeModal={() => setIsCredentialsModalOpen(false)}
 				/>
 			</Modal>
 			<div className='header'>
@@ -215,7 +199,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 							label={'Cardholder groups'}
 							list={accessGroups}
 							listKey='groupName'
-							onAdd={openGroupsModal}
+							onAdd={() => setIsGroupsModalOpen(true)}
 							onRemove={handleRemoveAccessGroup}
 							isEditing={isEditing}
 						/>
@@ -223,7 +207,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 							label={'Badges'}
 							list={credentials}
 							listKey='_id'
-							onAdd={openCredentialsModal}
+							onAdd={() => setIsCredentialsModalOpen(true)}
 							onRemove={handleRemoveCredential}
 							isEditing={isEditing}
 						/>
