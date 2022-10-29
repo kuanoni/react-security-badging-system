@@ -23,6 +23,7 @@
 		margin-left: auto;
 
 		input {
+			width: 100%;
 			height: 100%;
 			padding-left: 0.5rem;
 			color: $clr-text;
@@ -68,6 +69,7 @@
 		color: $clr-text-dark;
 		background-color: $clr-darkest;
 		border: 1px solid $clr-highlight;
+		border-radius: 0px;
 		outline: none;
 
 		&:focus {
