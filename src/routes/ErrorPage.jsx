@@ -13,11 +13,11 @@ export default function ErrorPage() {
 					<div className='error-container'>
 						<h1>Oops!</h1>
 						<i>Sorry, an unexpected error has occurred.</i>
-						<p className='error'>
+						<div className='error'>
 							<span className='status'>{error.status}</span>:{' '}
 							<span className='status-text'>{error.statusText}</span>
 							<div className='status-text'>{error.message}</div>
-						</p>
+						</div>
 					</div>
 				</div>
 			</div>

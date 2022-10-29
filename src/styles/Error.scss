@@ -5,6 +5,7 @@
 
 	.error-container {
 		height: fit-content;
+		margin: 1rem;
 		padding: 1rem;
 		border: 1px solid $clr-highlight;
 
@@ -12,11 +13,8 @@
 			margin-top: 0;
 		}
 
-		p {
-			margin-bottom: 0;
-		}
-
 		.error {
+			margin: 1rem 0;
 			.status {
 				color: $clr-red;
 			}

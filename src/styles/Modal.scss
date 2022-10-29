@@ -12,6 +12,7 @@
 	.modal {
 		display: flex;
 		flex-direction: column;
+		width: 100%;
 		max-width: 750px;
 		margin: 3rem 1.5rem;
 		background-color: $clr-dark;
