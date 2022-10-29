@@ -206,6 +206,7 @@
 						.input {
 							width: auto;
 							margin: 0 3px;
+							padding: 0 0.5rem;
 						}
 
 						button {
@@ -213,6 +214,7 @@
 							background-color: transparent;
 							border: none;
 							border-radius: 3px;
+							font-weight: 900;
 							cursor: pointer;
 
 							&:hover {
@@ -238,18 +240,35 @@
 				&__day-name,
 				&__day {
 					color: $clr-text;
+				}
+
+				&__day {
+					color: $clr-text;
+
+					&:hover {
+						background-color: $clr-darkest;
+					}
+
+					&-names {
+						border-top: 1px solid $clr-highlight;
+					}
 
 					&--keyboard-selected {
 						background-color: $clr-darker;
 					}
-				}
 
-				&__day--outside-month {
-					visibility: hidden;
-				}
+					&--outside-month {
+						visibility: hidden;
+					}
 
-				&__day:hover {
-					background-color: $clr-darkest;
+					&--disabled {
+						color: $clr-text-darkest;
+						cursor: not-allowed;
+
+						&:hover {
+							background-color: transparent;
+						}
+					}
 				}
 			}
 		}
