@@ -9,6 +9,8 @@ export const fetchGet = async (collection, page, search, props) => {
 
 	if (props) fetchUrl += '&props=' + props;
 
+	// console.log(fetchUrl);
+
 	const data = await fetch(fetchUrl, {
 		method: 'GET',
 		headers: {

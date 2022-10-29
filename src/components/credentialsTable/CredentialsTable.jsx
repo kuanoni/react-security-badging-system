@@ -7,7 +7,7 @@ import Searchbar from '../forms/Searchbar';
 
 const CredentialsTable = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
-	const [searchFilter, setSearchFilter] = useState('badgeNumber');
+	const [searchFilter, setSearchFilter] = useState('_id');
 	const [credentialsCount, setCredentialsCount] = useState('firstName');
 
 	/* =======================
@@ -57,7 +57,7 @@ const CredentialsTable = () => {
 			accessor: '_id',
 		},
 		{
-			Header: 'Credential Type',
+			Header: 'Badge Type',
 			accessor: 'badgeType',
 			Cell: ({ value }) => {
 				if (value === 'Employee') return <span className='blue-txt'>{value}</span>;
@@ -67,11 +67,11 @@ const CredentialsTable = () => {
 			},
 		},
 		{
-			Header: 'Credential Owner',
+			Header: 'Badge Owner',
 			accessor: 'badgeOwnerName',
 		},
 		{
-			Header: 'Credential Owner ID',
+			Header: 'Badge Owner ID',
 			accessor: 'badgeOwnerId',
 		},
 	];
@@ -91,7 +91,7 @@ const CredentialsTable = () => {
 
 	const handleRowClick = (e, id) => {
 		// if double clicked, open editor
-		// if (e.detail === 2) console.log(id);
+		if (e.detail === 2) console.log(id);
 	};
 
 	return (
@@ -104,9 +104,9 @@ const CredentialsTable = () => {
 					setClear={setSearchbarValue}
 				/>
 				<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
-					<option value='badgeNumber'>Credential Number</option>
-					<option value='badgeOwnerName'>Credential Owner</option>
-					<option value='badgeOwnerId'>Credential Owner ID</option>
+					<option value='_id'>Credential Number</option>
+					<option value='badgeOwnerName'>Badge Owner</option>
+					<option value='badgeOwnerId'>Badge Owner ID</option>
 				</select>
 			</div>
 			<div className='table-body'>
