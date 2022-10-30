@@ -27,7 +27,7 @@
 			cursor: pointer;
 
 			&:hover {
-				filter: brightness(1.25);
+				@include interactive-hover;
 			}
 		}
 	}
@@ -78,7 +78,7 @@
 				}
 
 				&:hover {
-					filter: brightness(1.25);
+					@include interactive-hover;
 				}
 			}
 		}

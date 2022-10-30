@@ -1,40 +1,8 @@
 @import './styles/icons/shape-hexagon.css';
+@import './_colors';
+@import './_mixins';
 
 $searchbar-height: 64px;
-
-$clr-base: hsl(0, 0%, 20%);
-$clr-dark: hsl(0, 0%, 17%);
-$clr-darker: hsl(0, 0%, 15%);
-$clr-darkest: hsl(0, 0%, 14%);
-
-$clr-highlight: #454545;
-
-$clr-text: hsl(100, 13%, 91%);
-$clr-text-dark: hsl(0, 0%, 73%);
-$clr-text-darker: hsl(0, 0%, 60%);
-$clr-text-darkest: hsl(0, 0%, 47%);
-
-$clr-accent: #0086c5;
-$clr-green: rgb(65, 224, 65);
-$clr-red: rgb(255, 65, 65);
-$clr-blue: rgb(100, 198, 255);
-$clr-purple: rgb(196, 95, 255);
-
-.green-txt {
-	color: $clr-green !important;
-}
-
-.red-txt {
-	color: $clr-red !important;
-}
-
-.blue-txt {
-	color: $clr-blue !important;
-}
-
-.purple-txt {
-	color: $clr-purple !important;
-}
 
 .toast {
 	color: $clr-text !important;
@@ -68,9 +36,4 @@ $clr-purple: rgb(196, 95, 255);
 			transform: rotate(360deg);
 		}
 	}
-}
-
-body {
-	color: $clr-text;
-	background-color: $clr-dark;
 }

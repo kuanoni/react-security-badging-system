@@ -13,12 +13,13 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+		min-width: 250px;
 		max-width: 750px;
 		margin: 3rem 1.5rem;
 		background-color: $clr-dark;
 		color: $clr-text;
 
-		@media screen and (max-width: 550px) {
+		@include mobile {
 			margin: 1rem;
 			max-width: 90vw;
 		}
@@ -57,7 +58,7 @@
 				}
 
 				&:hover:not(:disabled) {
-					filter: brightness(1.25);
+					@include interactive-hover;
 				}
 			}
 		}

@@ -9,8 +9,12 @@
 
 	h1 {
 		margin: 0;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 
-		@media screen and (max-width: 650px) {
+		@include mobile {
 			display: none;
 		}
 	}
@@ -20,6 +24,7 @@
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
+		// min-width: 170px;
 		margin-left: auto;
 
 		input {
@@ -29,6 +34,7 @@
 			color: $clr-text;
 			background-color: $clr-darkest;
 			border: 1px solid $clr-highlight;
+			border-radius: 0;
 			caret-color: $clr-text;
 			outline: none;
 
@@ -43,7 +49,6 @@
 
 		button {
 			position: absolute;
-			--ggs: 1;
 			color: #bbbbbb;
 			background-color: transparent;
 			border-color: transparent;
@@ -57,7 +62,7 @@
 			}
 
 			&:hover {
-				filter: brightness(1.25);
+				@include interactive-hover;
 			}
 		}
 	}

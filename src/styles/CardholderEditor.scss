@@ -21,14 +21,16 @@
 		font-weight: 600;
 		font-size: 0.9em;
 
-		@media screen and (max-width: 550px) {
+		@include mobile {
 			flex-direction: column;
 			gap: 0.5rem;
 		}
 
 		.avatar {
-			width: 128px;
-			height: 128px;
+			height: 100%;
+			max-height: 128px;
+			max-width: 128px;
+			aspect-ratio: 1 / 1;
 			border: 2px solid $clr-highlight;
 			border-radius: 6px;
 			box-shadow: 0 0 4px #3a3a3a;
@@ -41,6 +43,8 @@
 
 		.cardholder-info {
 			margin-left: 2rem;
+			margin-right: 45px;
+			word-break: break-all;
 
 			.label {
 				margin-left: 0;
@@ -50,8 +54,16 @@
 				margin-top: 0;
 			}
 
-			@media screen and (max-width: 550px) {
+			@include mobile {
 				margin: 0;
+
+				div {
+					display: none;
+				}
+
+				h1 {
+					margin: 0;
+				}
 			}
 		}
 
@@ -64,7 +76,7 @@
 			margin-left: auto;
 			user-select: none;
 
-			@media screen and (max-width: 550px) {
+			@include mobile {
 				margin: 0;
 			}
 
@@ -122,7 +134,7 @@
 		overflow-y: scroll;
 		padding: 1rem;
 
-		@media screen and (max-width: 550px) {
+		@include mobile {
 			flex-direction: column;
 			gap: 0;
 		}
@@ -132,7 +144,7 @@
 			flex-direction: column;
 			flex-basis: 50%;
 
-			@media screen and (max-width: 550px) {
+			@include mobile {
 				max-width: 100%;
 			}
 		}
@@ -290,8 +302,7 @@
 				font-size: 1.15em;
 
 				&:hover:not(:disabled) {
-					filter: brightness(1.25);
-					cursor: pointer;
+					@include interactive-hover;
 				}
 
 				&:disabled {
@@ -323,14 +334,14 @@
 			}
 
 			button {
-				--ggs: 1;
 				border-color: transparent;
 				color: $clr-red;
 				background-color: transparent;
+				transition: 0.1s ease-out;
 
 				&:hover:not(:disabled) {
-					filter: brightness(1.25);
-					cursor: pointer;
+					@include interactive-hover;
+					transform: scale(1.2);
 				}
 
 				&:disabled {
