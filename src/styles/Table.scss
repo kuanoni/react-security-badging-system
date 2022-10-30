@@ -1,9 +1,11 @@
 .table-header {
 	display: flex;
+	grid-area: header;
 	position: sticky;
 	top: 0;
 	height: $searchbar-height;
 	padding: 1rem 1rem;
+	color: $clr-text;
 	background-color: $clr-dark;
 	z-index: 1;
 
@@ -24,7 +26,6 @@
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
-		// min-width: 170px;
 		margin-left: auto;
 
 		input {

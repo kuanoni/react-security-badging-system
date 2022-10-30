@@ -3,13 +3,13 @@ $tablet-width: 768px;
 $laptop-width: 1024px;
 
 @mixin mobile {
-	@media (min-width: 0px) and (max-width: #{$mobile-width - 1px}) {
+	@media (min-width: 0px) and (max-width: #{$mobile-width}) {
 		@content;
 	}
 }
 
 @mixin tablet {
-	@media (min-width: #{$mobile-width}) and (max-width: #{$tablet-width - 1px}) {
+	@media (min-width: #{$mobile-width + 1}) and (max-width: #{$tablet-width}) {
 		@content;
 	}
 }

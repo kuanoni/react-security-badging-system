@@ -1,6 +1,17 @@
 $searchbar-height: 64px;
 
-.cardholder-page {
+.cardholders-page {
+	display: grid;
+	grid-template-columns: 64px 1fr;
+	grid-template-rows: 64px 1fr;
+	grid-template-areas:
+		'navbar header'
+		'navbar table';
+	width: 100%;
+}
+
+.cardholders {
+	grid-area: table;
 	color: $clr-text;
 	background-color: $clr-dark;
 	width: 100%;
@@ -10,7 +21,7 @@ $searchbar-height: 64px;
 	.table-body {
 		position: relative;
 		width: 100%;
-		height: calc(100% - $searchbar-height);
+		height: 100%;
 	}
 
 	.avatar {

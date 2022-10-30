@@ -3,7 +3,7 @@
 .navbar-container {
 	display: flex;
 	flex-direction: column;
-	gap: 2px;
+	grid-area: navbar;
 	color: $clr-text;
 	background-color: $clr-darkest;
 	box-shadow: 0 2px 2px rgb(25, 25, 25);
@@ -28,66 +28,79 @@
 			z-index: 1;
 		}
 	}
-
-	.btn {
+	.nav-buttons {
 		position: relative;
-		padding: 0;
-		color: inherit;
-		background-color: inherit;
-		border: none;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		height: 100%;
+		transition: 0.5s ease;
+		overflow: hidden;
 
-		$icon-size: 64px;
+		&.closed {
+			height: 0;
+		}
 
-		&.github {
-			margin-top: auto;
+		.btn {
+			position: relative;
+			padding: 0;
+			color: $clr-text;
+			background-color: $clr-dark;
+			border: none;
+
+			$icon-size: 64px;
+
+			&:hover {
+				background-color: $clr-highlight;
+				cursor: pointer;
+
+				.title {
+					transform: translateX(100%);
+				}
+			}
+
+			&.github {
+				margin-top: auto;
+
+				.icon-container {
+					box-shadow: -2px -2px 2px rgb(25 25 25);
+				}
+
+				.title {
+					box-shadow: 0 -2px 2px rgb(25 25 25);
+				}
+			}
 
 			.icon-container {
-				box-shadow: -2px -2px 2px rgb(25 25 25);
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: $icon-size;
+				height: $icon-size;
+				background-color: inherit;
+				box-shadow: -2px 2px 2px rgb(25, 25, 25);
+				font-size: 32px;
+				transition: all 0.2s ease;
+				z-index: 1;
 			}
 
 			.title {
-				box-shadow: 0 -2px 2px rgb(25 25 25);
-			}
-		}
-
-		.icon-container {
-			position: relative;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: $icon-size;
-			height: $icon-size;
-			background-color: inherit;
-			box-shadow: -2px 2px 2px rgb(25, 25, 25);
-			font-size: 32px;
-			transition: all 0.2s ease;
-			z-index: 1;
-		}
-
-		.title {
-			display: flex;
-			align-items: center;
-			width: 8rem;
-			height: 100%;
-			padding-right: 1.5rem;
-			padding-left: 0.5rem;
-			position: absolute;
-			top: 0;
-			right: 0;
-			background-color: inherit;
-			border-top-right-radius: 8px;
-			border-bottom-right-radius: 8px;
-			box-shadow: 0 2px 2px rgb(25, 25, 25);
-			white-space: nowrap;
-			transition: all 0.2s ease;
-		}
-
-		&:hover {
-			background-color: $clr-highlight;
-			cursor: pointer;
-
-			.title {
-				transform: translateX(100%);
+				display: flex;
+				align-items: center;
+				width: 8rem;
+				height: 100%;
+				padding-right: 1.5rem;
+				padding-left: 0.5rem;
+				position: absolute;
+				top: 0;
+				right: 0;
+				background-color: inherit;
+				border-top-right-radius: 8px;
+				border-bottom-right-radius: 8px;
+				box-shadow: 0 2px 2px rgb(25, 25, 25);
+				white-space: nowrap;
+				transition: all 0.2s ease;
 			}
 		}
 	}
