@@ -1,28 +1,34 @@
-$searchbar-height: 64px;
-
 .cardholders-page {
 	display: grid;
-	grid-template-columns: 64px 1fr;
-	grid-template-rows: 64px 1fr;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto 1fr;
 	grid-template-areas:
-		'navbar header'
+		'logo header'
 		'navbar table';
 	width: 100%;
+
+	&.navbar-closed {
+		grid-template-areas:
+			'logo header'
+			'table table';
+	}
+}
+
+.navbar-closed > .cardholders {
+	left: 0;
 }
 
 .cardholders {
-	grid-area: table;
+	position: absolute;
+	top: $table-header-height;
+	left: $table-header-height;
+	bottom: 0;
+	right: 0;
 	color: $clr-text;
 	background-color: $clr-dark;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
 
-	.table-body {
-		position: relative;
-		width: 100%;
-		height: 100%;
-	}
+	overflow: hidden;
+	transition: 0.2s ease;
 
 	.avatar {
 		display: block;

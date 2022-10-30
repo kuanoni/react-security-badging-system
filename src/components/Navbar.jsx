@@ -3,40 +3,42 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faAddressCard, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 
-const Navbar = () => {
+const Navbar = ({ buttonsIsOpen, setButtonsIsOpen }) => {
 	return (
-		<div className='navbar-container'>
-			<div className='logo-container'>
+		<>
+			<div className='logo-container' onClick={() => setButtonsIsOpen(!buttonsIsOpen)}>
 				<span className='text'>SEC</span>
 				<span className='gg-shape-hexagon'></span>
 			</div>
-			<div className='nav-buttons'>
-				<a href='/' className='btn'>
-					<span className='icon-container'>
-						<FontAwesomeIcon icon={faUser} />
-					</span>
-					<span className='title'>Cardholders</span>
-				</a>
-				<a href='credentials' className='btn'>
-					<span className='icon-container'>
-						<FontAwesomeIcon icon={faAddressCard} />
-					</span>
-					<span className='title'>Credentials</span>
-				</a>
-				<a href='access-groups' className='btn'>
-					<span className='icon-container'>
-						<FontAwesomeIcon icon={faUsers} />
-					</span>
-					<span className='title'>Access Groups</span>
-				</a>
-				<a href='https://github.com/kuanoni/react-table-security-system' className='btn github'>
-					<span className='icon-container'>
-						<FontAwesomeIcon icon={fab.faGithub} />
-					</span>
-					<span className='title'>Github</span>
-				</a>
+			<div className={'navbar-container' + (buttonsIsOpen ? '' : ' closed')}>
+				<div className='nav-buttons'>
+					<a href='/' className='btn'>
+						<span className='icon-container'>
+							<FontAwesomeIcon icon={faUser} />
+						</span>
+						<span className='title'>Cardholders</span>
+					</a>
+					<a href='credentials' className='btn'>
+						<span className='icon-container'>
+							<FontAwesomeIcon icon={faAddressCard} />
+						</span>
+						<span className='title'>Credentials</span>
+					</a>
+					<a href='access-groups' className='btn'>
+						<span className='icon-container'>
+							<FontAwesomeIcon icon={faUsers} />
+						</span>
+						<span className='title'>Access Groups</span>
+					</a>
+					<a href='https://github.com/kuanoni/react-table-security-system' className='btn github'>
+						<span className='icon-container'>
+							<FontAwesomeIcon icon={fab.faGithub} />
+						</span>
+						<span className='title'>Github</span>
+					</a>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

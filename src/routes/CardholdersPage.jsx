@@ -7,6 +7,7 @@ import TableHeader from '../components/TableHeader';
 import { fetchGetById } from '../api/fetch';
 
 function CardholdersPage() {
+	const [navbarIsOpen, setNavbarIsOpen] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [cardholderToEdit, setCardholderToEdit] = useState({});
 	const [clearDataCache, setClearDataCache] = useState(() => {});
@@ -95,14 +96,15 @@ function CardholdersPage() {
 
 	return (
 		<div className='app'>
-			<div className='cardholders-page'>
-				<Navbar />
+			<div className={'cardholders-page' + (navbarIsOpen ? '' : ' navbar-closed')}>
+				<Navbar buttonsIsOpen={navbarIsOpen} setButtonsIsOpen={setNavbarIsOpen} />
 				<TableHeader
 					setSearchbarValue={setSearchbarValue}
 					setSearchSetting={setSearchFilter}
 					clearDataCache={clearDataCache}
 				/>
 				<CardholdersTable
+					className={navbarIsOpen ? '' : ' navbar-closed'}
 					tableColumns={tableColumns}
 					searchbarValue={searchbarValue}
 					searchFilter={searchFilter}
