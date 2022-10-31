@@ -6,7 +6,7 @@ import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
 import SelectionListModal from '../SelectionListModal';
 import CustomDatePicker from '../forms/CustomDatePicker';
-import { useAvailableCredentials } from '../../api/queries';
+import { useAccessGroups, useAvailableCredentials } from '../../api/queries';
 
 const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -104,7 +104,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 				modalClassName={'modal'}
 			>
 				<SelectionListModal
-					fetchFn={(page, search) => fetchGet('accessGroups', page, search, 'groupName')}
+					queryHook={useAccessGroups}
 					listPropertyKey={'groupName'}
 					initialSelected={accessGroups}
 					saveNewList={setAccessGroups}

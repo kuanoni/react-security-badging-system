@@ -25,14 +25,21 @@ const defaultQueryOptions = {
 export const useCardholders = (searchValue, searchFilter) =>
 	useInfiniteQuery(
 		['cardholders-data', searchValue, searchValue && searchFilter],
-		queryFunctionBuilder('cardholders', undefined, searchFilter, searchValue),
+		queryFunctionBuilder('cardholders', fetchGet, searchFilter, searchValue),
 		defaultQueryOptions
 	);
 
 export const useCredentials = (searchValue, searchFilter) =>
 	useInfiniteQuery(
 		['credentials-data', searchValue, searchValue && searchFilter],
-		queryFunctionBuilder('credentials', undefined, searchFilter, searchValue),
+		queryFunctionBuilder('credentials', fetchGet, searchFilter, searchValue),
+		defaultQueryOptions
+	);
+
+export const useAccessGroups = (searchValue) =>
+	useInfiniteQuery(
+		['accessGroups-data', searchValue],
+		queryFunctionBuilder('accessGroups', fetchGet, 'groupName', searchValue),
 		defaultQueryOptions
 	);
 
@@ -41,6 +48,4 @@ export const useAvailableCredentials = (searchValue) =>
 		['availableCredentials-data', searchValue],
 		queryFunctionBuilder(null, fetchGetAvailableCredentials, '_id', searchValue),
 		defaultQueryOptions
-	);
-
 	);
