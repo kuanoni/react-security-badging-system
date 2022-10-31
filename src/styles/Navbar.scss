@@ -5,9 +5,12 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-height: $searchbar-height;
+	width: 100%;
+	height: 100%;
+	margin-right: 0.5rem;
 	color: $clr-highlight;
 	background-color: $clr-base;
+	overflow: hidden;
 	--ggs: 2;
 
 	.text {
@@ -34,6 +37,7 @@ nav {
 	display: flex;
 	flex-direction: column;
 	width: $navbar-width;
+	padding-bottom: 0.5rem;
 	background-color: $clr-darkest;
 	transition: all 0.2s ease;
 	box-shadow: 0 2px 2px rgb(25, 25, 25);
@@ -67,9 +71,6 @@ nav {
 		}
 
 		.nav-toggle-btn {
-			display: flex;
-			flex-direction: column;
-
 			.icon-wrapper {
 				transform: rotateZ(180deg);
 			}
@@ -77,7 +78,9 @@ nav {
 	}
 
 	.nav-btns-container {
-		height: calc(100% - $searchbar-height);
+		display: flex;
+		flex-direction: column;
+		height: 100%;
 		padding: 0 0.5rem;
 
 		.separator {
@@ -86,6 +89,11 @@ nav {
 			margin-top: 0.5rem;
 			background-color: $clr-highlight;
 		}
+	}
+
+	.nav-footer {
+		margin-top: auto;
+		justify-self: flex-end;
 	}
 
 	.nav-btn {
@@ -99,6 +107,10 @@ nav {
 		border-radius: 6px;
 		text-decoration: none;
 		transition: all 0.2s ease;
+
+		&.active {
+			color: $clr-blue;
+		}
 
 		&:hover {
 			@include interactive-hover;
@@ -136,7 +148,6 @@ nav {
 			align-items: center;
 			width: 100%;
 			height: 100%;
-			// padding-left: 0.5rem;
 			white-space: nowrap;
 			overflow: hidden;
 			transition: inherit;
@@ -146,6 +157,27 @@ nav {
 
 		&.nav-toggle-btn {
 			justify-content: flex-end;
+			align-items: center;
+			background-color: transparent;
+			padding-left: calc($nav-icon-size / 2);
+
+			@include mobile {
+				padding-left: calc($nav-icon-size-mobile / 2);
+			}
+
+			&:hover {
+				.nav-btn {
+					@include interactive-hover;
+					background-color: $clr-base;
+				}
+			}
+			.nav-btn {
+				margin-top: 0;
+			}
+
+			.icon-wrapper {
+				transition: 0.2s ease;
+			}
 		}
 	}
 }

@@ -47,3 +47,21 @@ $nav-icon-size-mobile: calc($nav-icon-container-size-mobile / 2);
 		}
 	}
 }
+
+@include tablet {
+	input,
+	select,
+	textarea {
+		-webkit-appearance: none;
+		font-size: 16px;
+	}
+}
+
+@include mobile {
+	input,
+	select,
+	textarea {
+		font-size: 16px;
+		-webkit-appearance: none;
+	}
+}
