@@ -1,72 +1,46 @@
 import { useInfiniteQuery } from 'react-query';
 import { fetchGet, fetchGetAvailableCredentials } from './fetch';
 
-export const useCardholders = (searchbarValue, searchFilter) =>
-	useInfiniteQuery(
-		['cardholders-data', searchbarValue, searchbarValue && searchFilter],
-		async ({ pageParam = 0 }) => {
-			const fetchedData = await fetchGet('cardholders', pageParam, {
-				filter: searchFilter,
-				value: searchbarValue,
-			});
+const queryFunctionBuilder =
+	(collectionName, fetchFn = fetchGet, searchFilter, searchValue) =>
+	async ({ pageParam = 0 }) => {
+		const fetchedData = await fetchFn(collectionName, pageParam, {
+			filter: searchFilter,
+			value: searchValue,
+		});
 
-			if (searchbarValue !== '') {
-				fetchedData.documents = fetchedData.documents.sort((a, b) =>
-					a[searchFilter] < b[searchFilter] ? -1 : 1
-				);
-			}
-
-			return fetchedData;
-		},
-		{
-			getNextPageParam: (_lastGroup, groups) => groups.length,
-			keepPreviousData: false,
-			refetchOnWindowFocus: false,
+		if (searchValue) {
+			fetchedData.documents = fetchedData.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
 		}
+
+		return fetchedData;
+	};
+
+const defaultQueryOptions = {
+	getNextPageParam: (_lastGroup, groups) => groups.length,
+	keepPreviousData: false,
+	refetchOnWindowFocus: false,
+};
+
+export const useCardholders = (searchValue, searchFilter) =>
+	useInfiniteQuery(
+		['cardholders-data', searchValue, searchValue && searchFilter],
+		queryFunctionBuilder('cardholders', undefined, searchFilter, searchValue),
+		defaultQueryOptions
 	);
 
-export const useCredentials = (searchbarValue, searchFilter) =>
+export const useCredentials = (searchValue, searchFilter) =>
 	useInfiniteQuery(
-		['credentials-data', searchbarValue, searchbarValue && searchFilter],
-		async ({ pageParam = 0 }) => {
-			const fetchedData = await fetchGet('credentials', pageParam, {
-				filter: searchFilter,
-				value: searchbarValue,
-			});
-
-			if (searchbarValue) {
-				fetchedData.documents = fetchedData.documents.sort((a, b) =>
-					a[searchFilter] < b[searchFilter] ? -1 : 1
-				);
-			}
-
-			return fetchedData;
-		},
-		{
-			getNextPageParam: (_lastGroup, groups) => groups.length,
-			keepPreviousData: false,
-			refetchOnWindowFocus: false,
-		}
+		['credentials-data', searchValue, searchValue && searchFilter],
+		queryFunctionBuilder('credentials', undefined, searchFilter, searchValue),
+		defaultQueryOptions
 	);
 
-export const useAvailableCredentials = (searchbarValue) =>
+export const useAvailableCredentials = (searchValue) =>
 	useInfiniteQuery(
-		['availableCredentials-data', searchbarValue],
-		async ({ pageParam = 0 }) => {
-			const fetchedData = await fetchGetAvailableCredentials(pageParam, {
-				filter: '_id',
-				value: searchbarValue,
-			});
+		['availableCredentials-data', searchValue],
+		queryFunctionBuilder(null, fetchGetAvailableCredentials, '_id', searchValue),
+		defaultQueryOptions
+	);
 
-			if (searchbarValue) {
-				fetchedData.documents = fetchedData.documents.sort((a, b) => (a._id < b._id ? -1 : 1));
-			}
-
-			return fetchedData;
-		},
-		{
-			getNextPageParam: (_lastGroup, groups) => groups.length,
-			keepPreviousData: false,
-			refetchOnWindowFocus: false,
-		}
 	);
