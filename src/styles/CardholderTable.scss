@@ -1,11 +1,27 @@
 $searchbar-height: 64px;
 
 .cardholder-page {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: $navbar-width;
 	color: $clr-text;
 	background-color: $clr-dark;
-	width: 100%;
-	height: 100%;
+	transition: all 0.2s ease;
 	overflow: hidden;
+
+	@include mobile {
+		left: $navbar-width-mobile;
+
+		&.navbar-closed {
+			left: $navbar-collapsed-width-mobile;
+		}
+	}
+
+	&.navbar-closed {
+		left: $navbar-collapsed-width;
+	}
 
 	.table-body {
 		position: relative;
@@ -25,7 +41,7 @@ $searchbar-height: 64px;
 		color: $clr-text-dark;
 		background-color: transparent;
 		border-collapse: initial;
-		transition: 0.1s ease;
+		transition: 0.2s ease;
 		border: none;
 		font-size: 1.45em;
 		cursor: pointer;

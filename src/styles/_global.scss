@@ -4,6 +4,16 @@
 
 $searchbar-height: 64px;
 
+$navbar-width: 192px;
+$navbar-collapsed-width: 64px;
+$nav-icon-container-size: 48px;
+$nav-icon-size: 24px;
+
+$navbar-width-mobile: 192px;
+$navbar-collapsed-width-mobile: 48px;
+$nav-icon-container-size-mobile: calc($navbar-collapsed-width-mobile * 0.75);
+$nav-icon-size-mobile: calc($nav-icon-container-size-mobile / 2);
+
 .toast {
 	color: $clr-text !important;
 	background-color: $clr-darkest !important;

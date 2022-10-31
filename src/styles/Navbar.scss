@@ -1,94 +1,138 @@
 @import '../styles/_global.scss';
 
-.navbar-container {
+.logo-container {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: $searchbar-height;
+	color: $clr-highlight;
+	background-color: $clr-base;
+	--ggs: 2;
+
+	.text {
+		position: absolute;
+		color: $clr-blue;
+		font-size: 20px;
+		font-weight: 900;
+		user-select: none;
+		z-index: 1;
+	}
+}
+
+nav {
+	position: absolute;
+	inset: 0 0 0 0;
 	display: flex;
 	flex-direction: column;
-	gap: 2px;
-	color: $clr-text;
+	width: $navbar-width;
 	background-color: $clr-darkest;
+	transition: all 0.2s ease;
 	box-shadow: 0 2px 2px rgb(25, 25, 25);
 	z-index: 100;
 
-	.logo-container {
+	@include mobile {
+		width: $navbar-width-mobile;
+	}
+
+	&.closed {
+		width: $navbar-collapsed-width;
+
+		@include mobile {
+			width: $navbar-collapsed-width-mobile;
+		}
+
+		.nav-btn {
+			padding: 0;
+			.icon-wrapper {
+				min-width: $nav-icon-container-size;
+
+				@include mobile {
+					min-width: $nav-icon-container-size-mobile;
+				}
+			}
+		}
+
+		.nav-toggle-btn {
+			display: flex;
+			flex-direction: column;
+
+			.icon-wrapper {
+				transform: rotateZ(180deg);
+			}
+		}
+	}
+
+	.nav-btns-container {
+		height: calc(100% - $searchbar-height);
+		padding: 0 0.5rem;
+
+		.separator {
+			width: 100%;
+			height: 1px;
+			margin-top: 0.5rem;
+			background-color: $clr-highlight;
+		}
+	}
+
+	.nav-btn {
 		position: relative;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: $searchbar-height;
-		color: $clr-highlight;
-		background-color: $clr-base;
-		--ggs: 2;
-
-		.text {
-			position: absolute;
-			color: $clr-blue;
-			font-size: 20px;
-			font-weight: 900;
-			user-select: none;
-			z-index: 1;
-		}
-	}
-
-	.btn {
-		position: relative;
-		padding: 0;
-		color: inherit;
+		margin-top: 0.5rem;
+		color: $clr-text;
 		background-color: inherit;
-		border: none;
+		border-radius: 6px;
+		text-decoration: none;
+		transition: all 0.2s ease;
 
-		$icon-size: 64px;
-
-		&.github {
-			margin-top: auto;
-
-			.icon-container {
-				box-shadow: -2px -2px 2px rgb(25 25 25);
-			}
-
-			.title {
-				box-shadow: 0 -2px 2px rgb(25 25 25);
-			}
+		&:hover {
+			@include interactive-hover;
+			background-color: $clr-base;
 		}
 
-		.icon-container {
+		.icon-wrapper {
 			position: relative;
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			width: $icon-size;
-			height: $icon-size;
-			background-color: inherit;
-			box-shadow: -2px 2px 2px rgb(25, 25, 25);
-			font-size: 32px;
-			transition: all 0.2s ease;
+			min-width: $nav-icon-container-size;
+			height: $nav-icon-container-size;
+			font-size: 18px;
 			z-index: 1;
+
+			@include mobile {
+				min-width: $nav-icon-container-size-mobile;
+				height: $nav-icon-container-size-mobile;
+			}
+
+			svg {
+				width: $nav-icon-size;
+				height: $nav-icon-size;
+
+				@include mobile {
+					width: $nav-icon-size-mobile;
+					height: $nav-icon-size-mobile;
+				}
+			}
 		}
 
-		.title {
+		label {
 			display: flex;
 			align-items: center;
-			width: 8rem;
+			width: 100%;
 			height: 100%;
-			padding-right: 1.5rem;
-			padding-left: 0.5rem;
-			position: absolute;
-			top: 0;
-			right: 0;
-			background-color: inherit;
-			border-top-right-radius: 8px;
-			border-bottom-right-radius: 8px;
-			box-shadow: 0 2px 2px rgb(25, 25, 25);
+			// padding-left: 0.5rem;
 			white-space: nowrap;
-			transition: all 0.2s ease;
+			overflow: hidden;
+			transition: inherit;
+			user-select: none;
+			cursor: pointer;
 		}
 
-		&:hover {
-			background-color: $clr-highlight;
-			cursor: pointer;
-
-			.title {
-				transform: translateX(100%);
-			}
+		&.nav-toggle-btn {
+			justify-content: flex-end;
 		}
 	}
 }

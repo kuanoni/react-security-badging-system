@@ -1,40 +1,50 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import { faAddressCard, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faAnglesLeft, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 
-const Navbar = () => {
+const Navbar = ({ isNavbarOpen, setIsNavbarOpen }) => {
 	return (
-		<div className='navbar-container'>
+		<nav className={isNavbarOpen ? 'open' : 'closed'}>
 			<div className='logo-container'>
 				<span className='text'>SEC</span>
 				<span className='gg-shape-hexagon'></span>
 			</div>
-			<a href='/' className='btn'>
-				<span className='icon-container'>
-					<FontAwesomeIcon icon={faUser} />
-				</span>
-				<span className='title'>Cardholders</span>
-			</a>
-			<a href='credentials' className='btn'>
-				<span className='icon-container'>
-					<FontAwesomeIcon icon={faAddressCard} />
-				</span>
-				<span className='title'>Credentials</span>
-			</a>
-			<a href='access-groups' className='btn'>
-				<span className='icon-container'>
-					<FontAwesomeIcon icon={faUsers} />
-				</span>
-				<span className='title'>Access Groups</span>
-			</a>
-			<a href='https://github.com/kuanoni/react-table-security-system' className='btn github'>
-				<span className='icon-container'>
-					<FontAwesomeIcon icon={fab.faGithub} />
-				</span>
-				<span className='title'>Github</span>
-			</a>
-		</div>
+			<div className='nav-btns-container'>
+				<div className='separator' />
+				<div className='nav-btn nav-toggle-btn' onClick={() => setIsNavbarOpen(!isNavbarOpen)}>
+					<span className='icon-wrapper'>
+						<FontAwesomeIcon icon={faAnglesLeft} />
+					</span>
+				</div>
+				<div className='separator' />
+				<a href='/' className='nav-btn'>
+					<span className='icon-wrapper'>
+						<FontAwesomeIcon icon={faUser} />
+					</span>
+					<label>Cardholders</label>
+				</a>
+				<a href='credentials' className='nav-btn'>
+					<span className='icon-wrapper'>
+						<FontAwesomeIcon icon={faAddressCard} />
+					</span>
+					<label>Credentials</label>
+				</a>
+				<a href='access-groups' className='nav-btn'>
+					<span className='icon-wrapper'>
+						<FontAwesomeIcon icon={faUsers} />
+					</span>
+					<label>Access Groups</label>
+				</a>
+				<div className='separator' />
+				<a href='https://github.com/kuanoni/react-table-security-system' className='nav-btn'>
+					<span className='icon-wrapper'>
+						<FontAwesomeIcon icon={fab.faGithub} />
+					</span>
+					<label>Github</label>
+				</a>
+			</div>
+		</nav>
 	);
 };
 

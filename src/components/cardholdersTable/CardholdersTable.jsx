@@ -10,7 +10,7 @@ import Table from '../Table';
 import Modal from '../Modal';
 import Searchbar from '../forms/Searchbar';
 
-const CardholdersTable = () => {
+const CardholdersTable = ({ isNavbarOpen }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [cardholderToEdit, setCardholderToEdit] = useState({});
 	const [cardholderCount, setCardholderCount] = useState(0);
@@ -188,7 +188,7 @@ const CardholdersTable = () => {
 				/>
 			</Modal>
 
-			<div className='cardholder-page'>
+			<div className={'cardholder-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
 				<div className='table-header'>
 					<h1>Cardholders</h1>
 					<Searchbar
