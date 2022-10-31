@@ -1,45 +1,24 @@
 import React, { useMemo, useState } from 'react';
-import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
-import { fetchGet } from '../../api/fetch';
 import Table from '../Table';
 import Searchbar from '../forms/Searchbar';
+import { useCredentials } from '../../api/queries';
 
 const CredentialsTable = ({ isNavbarOpen }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('_id');
-	const [credentialsCount, setCredentialsCount] = useState('firstName');
 
 	/* =======================
             DATA FETCHING
        ======================= */
 
-	const searchParams = useMemo(() => {
-		return searchbarValue ? { filter: searchFilter, value: searchbarValue } : {};
-	}, [searchbarValue, searchFilter]);
-
-	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
-		['table-data', searchbarValue, searchbarValue && searchFilter],
-		async ({ pageParam = 0 }) => {
-			const fetchedData = await fetchGet('credentials', pageParam, searchParams);
-			setCredentialsCount(fetchedData.count);
-
-			if (searchbarValue) {
-				return fetchedData.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
-			}
-
-			return fetchedData.documents;
-		},
-		{
-			getNextPageParam: (_lastGroup, groups) => groups.length,
-			keepPreviousData: false,
-			refetchOnWindowFocus: false,
-		}
-	);
+	const { data, fetchNextPage, remove, isFetching, isFetched } = useCredentials(searchbarValue, searchFilter);
 
 	const flatData = useMemo(() => {
-		return data?.pages?.flat() ?? [];
+		return data?.pages?.flatMap((page) => page.documents) ?? [];
 	}, [data]);
+
+	const credentialsCount = useMemo(() => data?.pages[0].count, [data]);
 
 	const fetchMoreOnBottomReached = (containerRef) => {
 		if (containerRef) {

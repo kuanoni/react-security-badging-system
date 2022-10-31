@@ -4,7 +4,7 @@ const apiUrl = 'https://security-system-api.herokuapp.com/';
 export const fetchGet = async (collection, page, search, props) => {
 	let fetchUrl = apiUrl + collection + '/get';
 
-	if (search.filter) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
+	if (search.value) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
 	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
 
 	if (props) fetchUrl += '&props=' + props;
