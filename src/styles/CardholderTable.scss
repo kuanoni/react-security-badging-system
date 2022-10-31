@@ -5,22 +5,29 @@ $searchbar-height: 64px;
 	top: 0;
 	bottom: 0;
 	right: 0;
-	left: $navbar-width;
 	color: $clr-text;
 	background-color: $clr-dark;
 	transition: all 0.2s ease;
 	overflow: hidden;
 
 	@include mobile {
-		left: $navbar-width-mobile;
+		left: $navbar-collapsed-width-mobile;
+	}
+
+	@include tablet {
+		left: $navbar-width;
 
 		&.navbar-closed {
-			left: $navbar-collapsed-width-mobile;
+			left: $navbar-collapsed-width;
 		}
 	}
 
-	&.navbar-closed {
-		left: $navbar-collapsed-width;
+	@include desktop {
+		left: $navbar-width;
+
+		&.navbar-closed {
+			left: $navbar-collapsed-width;
+		}
 	}
 
 	.table-body {
