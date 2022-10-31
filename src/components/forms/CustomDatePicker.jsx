@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getYear, getMonth } from 'date-fns';
@@ -65,11 +65,20 @@ const customHeader = ({
 };
 
 const CustomDatePicker = ({ label, date, setDate, minDate, disabled }) => {
+	const pickerRef = useRef(null);
+
+	useEffect(() => {
+		if (pickerRef.current !== null) {
+			pickerRef.current.input.readOnly = true;
+		}
+	}, [pickerRef]);
+
 	return (
 		<>
 			<label className='label'>{label}</label>
 			<div className='datepicker-container'>
 				<DatePicker
+					ref={pickerRef}
 					selected={date}
 					onChange={(date) => setDate(date)}
 					onChangeRaw={(e) => {
