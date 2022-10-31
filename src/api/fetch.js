@@ -21,6 +21,26 @@ export const fetchGet = async (collection, page, search, props) => {
 	return { documents: data.documents, count: data.count };
 };
 
+export const fetchGetAvailableCredentials = async (page, search, props) => {
+	let fetchUrl = apiUrl + 'credentials/getAvailable';
+
+	if (search.filter) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
+	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
+
+	if (props) fetchUrl += '&props=' + props;
+
+	// console.log(fetchUrl);
+
+	const data = await fetch(fetchUrl, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	}).then((res) => res.json());
+
+	return { documents: data.documents, count: data.count };
+};
+
 export const fetchGetById = async (collection, id) => {
 	let fetchUrl = apiUrl + collection + '/get/' + id;
 

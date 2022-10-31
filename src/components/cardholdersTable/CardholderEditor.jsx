@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { fetchGet, fetchUpdate } from '../../api/fetch';
+import { fetchGet, fetchGetAvailableCredentials, fetchUpdate } from '../../api/fetch';
 import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
@@ -117,7 +117,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 				modalClassName={'modal'}
 			>
 				<SelectionListModal
-					fetchFn={(page, search) => fetchGet('credentials', page, search, '_id')}
+					fetchFn={(page, search) => fetchGetAvailableCredentials(page, search)}
 					listPropertyKey={'_id'}
 					initialSelected={credentials}
 					saveNewList={setCredentials}

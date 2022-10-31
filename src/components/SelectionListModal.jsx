@@ -92,7 +92,7 @@ const SelectionListModal = ({ fetchFn, listPropertyKey, initialSelected, saveNew
 			<SelectableListItem
 				key={item._id}
 				item={item}
-				label={item[listPropertyKey]}
+				label={item[listPropertyKey] + ' ' + item?.badgeType}
 				defaultChecked={checkIfSelected(item)}
 				toggleSelected={toggleSelected}
 			/>
