@@ -165,6 +165,7 @@
 
 		.input {
 			width: 100%;
+			min-height: 19px;
 			margin-top: 4px;
 			margin-bottom: 1rem;
 			padding: 0.5rem;
@@ -172,6 +173,7 @@
 			background-color: $clr-darkest;
 			border: 1px solid $clr-darkest;
 			border-bottom: 1px solid transparent;
+			border-radius: 0;
 			outline: none;
 			resize: none;
 
@@ -192,6 +194,7 @@
 			.input {
 				margin-bottom: 0;
 				outline: none;
+				user-select: none;
 			}
 			margin-bottom: 1rem;
 		}
