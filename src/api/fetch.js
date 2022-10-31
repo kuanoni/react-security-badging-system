@@ -21,13 +21,11 @@ export const fetchGet = async (collection, page, search, props) => {
 	return { documents: data.documents, count: data.count };
 };
 
-export const fetchGetAvailableCredentials = async (page, search, props) => {
+export const fetchGetAvailableCredentials = async (page, search) => {
 	let fetchUrl = apiUrl + 'credentials/getAvailable';
 
-	if (search.filter) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
+	if (search.value) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
 	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
-
-	if (props) fetchUrl += '&props=' + props;
 
 	// console.log(fetchUrl);
 

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { fetchGet, fetchGetAvailableCredentials, fetchUpdate } from '../../api/fetch';
+import { fetchGet, fetchUpdate } from '../../api/fetch';
 import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
 import SelectionListModal from '../SelectionListModal';
 import CustomDatePicker from '../forms/CustomDatePicker';
+import { useAvailableCredentials } from '../../api/queries';
 
 const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -117,7 +118,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 				modalClassName={'modal'}
 			>
 				<SelectionListModal
-					fetchFn={(page, search) => fetchGetAvailableCredentials(page, search)}
+					queryHook={useAvailableCredentials}
 					listPropertyKey={'_id'}
 					initialSelected={credentials}
 					saveNewList={setCredentials}

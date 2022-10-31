@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from 'react-query';
-import { fetchGet } from './fetch';
+import { fetchGet, fetchGetAvailableCredentials } from './fetch';
 
 export const useCardholders = (searchbarValue, searchFilter) =>
 	useInfiniteQuery(
@@ -38,6 +38,28 @@ export const useCredentials = (searchbarValue, searchFilter) =>
 				fetchedData.documents = fetchedData.documents.sort((a, b) =>
 					a[searchFilter] < b[searchFilter] ? -1 : 1
 				);
+			}
+
+			return fetchedData;
+		},
+		{
+			getNextPageParam: (_lastGroup, groups) => groups.length,
+			keepPreviousData: false,
+			refetchOnWindowFocus: false,
+		}
+	);
+
+export const useAvailableCredentials = (searchbarValue) =>
+	useInfiniteQuery(
+		['availableCredentials-data', searchbarValue],
+		async ({ pageParam = 0 }) => {
+			const fetchedData = await fetchGetAvailableCredentials(pageParam, {
+				filter: '_id',
+				value: searchbarValue,
+			});
+
+			if (searchbarValue) {
+				fetchedData.documents = fetchedData.documents.sort((a, b) => (a._id < b._id ? -1 : 1));
 			}
 
 			return fetchedData;

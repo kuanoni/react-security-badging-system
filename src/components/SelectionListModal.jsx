@@ -8,32 +8,18 @@ import { useAsyncDebounce } from 'react-table';
 import SelectableListItem from './forms/SelectableListItem';
 import Searchbar from './forms/Searchbar';
 
-const SelectionListModal = ({ fetchFn, listPropertyKey, initialSelected, saveNewList, closeModal }) => {
+const SelectionListModal = ({ queryHook, listPropertyKey, initialSelected, saveNewList, closeModal }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
-	const [listLength, setListLength] = useState(0);
 	const [selectedList, setSelectedList] = useState(initialSelected.sort((a, b) => a._id - b._id));
 	const [onlyShowSelected, setOnlyShowSelected] = useState(false);
 
-	const searchParams = useMemo(() => {
-		return searchbarValue ? { filter: listPropertyKey, value: searchbarValue } : {};
-	}, [searchbarValue, listPropertyKey]);
+	const { data, fetchNextPage, remove, isFetching, isFetched } = queryHook(searchbarValue);
 
-	// custom component list items, state array that holds selected items
+	const itemsList = useMemo(() => {
+		return data?.pages?.flatMap((page) => page.documents) ?? [];
+	}, [data]);
 
-	const { data, fetchNextPage, remove, isFetching, isFetched } = useInfiniteQuery(
-		['table-data', searchbarValue],
-		async ({ pageParam = 0 }) => {
-			const fetchedData = await fetchFn(pageParam, searchParams);
-			setListLength(fetchedData.count);
-
-			return fetchedData.documents;
-		},
-		{
-			getNextPageParam: (_lastGroup, groups) => groups.length,
-			keepPreviousData: false,
-			refetchOnWindowFocus: false,
-		}
-	);
+	const listLength = useMemo(() => data?.pages[0].count, [data]);
 
 	const fetchMoreOnBottomReached = (containerRefElement) => {
 		if (containerRefElement) {
@@ -45,10 +31,6 @@ const SelectionListModal = ({ fetchFn, listPropertyKey, initialSelected, saveNew
 			}
 		}
 	};
-
-	const itemsList = useMemo(() => {
-		return data?.pages?.flat() ?? [];
-	}, [data]);
 
 	useEffect(() => {
 		return () => {
