@@ -5,7 +5,7 @@ import { fetchGet } from '../../api/fetch';
 import Table from '../Table';
 import Searchbar from '../forms/Searchbar';
 
-const CredentialsTable = () => {
+const CredentialsTable = ({ isNavbarOpen }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('_id');
 	const [credentialsCount, setCredentialsCount] = useState('firstName');
@@ -95,7 +95,7 @@ const CredentialsTable = () => {
 	};
 
 	return (
-		<div className='credentials-page'>
+		<div className={'table-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
 			<div className='table-header'>
 				<h1>Credentials</h1>
 				<Searchbar

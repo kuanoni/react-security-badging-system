@@ -149,6 +149,14 @@
 			padding: 0.25rem 0.5rem;
 			border-bottom: none;
 			border-right: 1px solid $clr-highlight;
+
+			.avatar {
+				display: block;
+				width: 36px;
+				margin-left: 4px;
+				border-radius: 50%;
+				aspect-ratio: 1 / 1;
+			}
 		}
 
 		tr {

@@ -1,6 +1,4 @@
-$searchbar-height: 64px;
-
-.cardholder-page {
+.table-page {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -34,14 +32,6 @@ $searchbar-height: 64px;
 		position: relative;
 		width: 100%;
 		height: calc(100% - $searchbar-height);
-	}
-
-	.avatar {
-		display: block;
-		width: 36px;
-		margin-left: 4px;
-		border-radius: 50%;
-		aspect-ratio: 1 / 1;
 	}
 
 	.btn-edit-user {

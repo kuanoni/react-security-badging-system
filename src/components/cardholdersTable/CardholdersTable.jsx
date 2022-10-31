@@ -188,7 +188,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 				/>
 			</Modal>
 
-			<div className={'cardholder-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
+			<div className={'table-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
 				<div className='table-header'>
 					<h1>Cardholders</h1>
 					<Searchbar
