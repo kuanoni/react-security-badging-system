@@ -1,7 +1,7 @@
 const fetchSize = 30;
 const apiUrl = 'https://security-system-api.herokuapp.com/';
 
-export const fetchGet = async (collection, page, search, props) => {
+export const fetchGet = async ({ collection, page, search, props }) => {
 	let fetchUrl = apiUrl + collection + '/get';
 
 	if (search.value) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
@@ -21,7 +21,7 @@ export const fetchGet = async (collection, page, search, props) => {
 	return { documents: data.documents, count: data.count };
 };
 
-export const fetchGetAvailableCredentials = async (page, search) => {
+export const fetchGetAvailableCredentials = async ({ page, search }) => {
 	let fetchUrl = apiUrl + 'credentials/getAvailable';
 
 	if (search.value) fetchUrl += `?filter=${search.filter}&value=${search.value}`;

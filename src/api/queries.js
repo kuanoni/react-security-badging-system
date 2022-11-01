@@ -2,12 +2,13 @@ import { useInfiniteQuery } from 'react-query';
 import { fetchGet, fetchGetAvailableCredentials } from './fetch';
 
 const queryFunctionBuilder =
-	(collectionName, fetchFn = fetchGet, searchFilter, searchValue) =>
-	async ({ pageParam = 0 }) => {
-		const fetchedData = await fetchFn(collectionName, pageParam, {
+	(collection, fetchFn = fetchGet, searchFilter, searchValue) =>
+	async ({ page = 0 }) => {
+		const search = {
 			filter: searchFilter,
 			value: searchValue,
-		});
+		};
+		const fetchedData = await fetchFn({ collection, page, search });
 
 		if (searchValue) {
 			fetchedData.documents = fetchedData.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
