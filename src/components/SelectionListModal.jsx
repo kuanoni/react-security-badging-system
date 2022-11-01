@@ -3,12 +3,11 @@ import toast from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useInfiniteQuery } from 'react-query';
 import { useAsyncDebounce } from 'react-table';
 import SelectableListItem from './forms/SelectableListItem';
 import Searchbar from './forms/Searchbar';
 
-const SelectionListModal = ({ queryHook, listPropertyKey, initialSelected, saveNewList, closeModal }) => {
+const SelectionListModal = ({ queryHook, listItemComponentBuilder, initialSelected, saveNewList, closeModal }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [selectedList, setSelectedList] = useState(initialSelected.sort((a, b) => a._id - b._id));
 	const [onlyShowSelected, setOnlyShowSelected] = useState(false);
@@ -70,16 +69,8 @@ const SelectionListModal = ({ queryHook, listPropertyKey, initialSelected, saveN
 	const listItems = useMemo(() => {
 		const listToRender = onlyShowSelected ? selectedList : itemsList;
 
-		return listToRender.map((item) => (
-			<SelectableListItem
-				key={item._id}
-				item={item}
-				label={item[listPropertyKey] + ' ' + item?.badgeType}
-				defaultChecked={checkIfSelected(item)}
-				toggleSelected={toggleSelected}
-			/>
-		));
-	}, [itemsList, listPropertyKey, selectedList, onlyShowSelected, checkIfSelected, toggleSelected]);
+		return listToRender.map((item) => listItemComponentBuilder(item, checkIfSelected, toggleSelected));
+	}, [listItemComponentBuilder, itemsList, selectedList, onlyShowSelected, checkIfSelected, toggleSelected]);
 
 	return (
 		<>

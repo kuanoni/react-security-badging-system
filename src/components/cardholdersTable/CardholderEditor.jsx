@@ -7,6 +7,7 @@ import ListAddRemove from '../forms/ListAddRemove';
 import SelectionListModal from '../SelectionListModal';
 import CustomDatePicker from '../forms/CustomDatePicker';
 import { useAccessGroups, useAvailableCredentials } from '../../api/queries';
+import SelectableListItem from '../forms/SelectableListItem';
 
 const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -105,7 +106,15 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 			>
 				<SelectionListModal
 					queryHook={useAccessGroups}
-					listPropertyKey={'groupName'}
+					listItemComponentBuilder={(item, checkIfSelected, toggleSelected) => (
+						<SelectableListItem
+							key={item._id}
+							item={item}
+							label={item.groupName}
+							defaultChecked={checkIfSelected(item)}
+							toggleSelected={toggleSelected}
+						/>
+					)}
 					initialSelected={accessGroups}
 					saveNewList={setAccessGroups}
 					closeModal={() => setIsGroupsModalOpen(false)}
@@ -119,7 +128,22 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 			>
 				<SelectionListModal
 					queryHook={useAvailableCredentials}
-					listPropertyKey={'_id'}
+					listItemComponentBuilder={(item, checkIfSelected, toggleSelected) => (
+						<SelectableListItem
+							key={item._id}
+							item={item}
+							label={
+								item._id +
+								'-' +
+								item?.badgeType // shorten badgeType to abbreviation
+									?.split(' ')
+									.map((word) => word[0])
+									.join('')
+							}
+							defaultChecked={checkIfSelected(item)}
+							toggleSelected={toggleSelected}
+						/>
+					)}
 					initialSelected={credentials}
 					saveNewList={setCredentials}
 					closeModal={() => setIsCredentialsModalOpen(false)}
