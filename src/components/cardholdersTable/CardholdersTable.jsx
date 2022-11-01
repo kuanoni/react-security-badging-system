@@ -20,7 +20,10 @@ const CardholdersTable = ({ isNavbarOpen }) => {
             DATA FETCHING
        ======================= */
 
-	const { data, fetchNextPage, remove, isFetching, isFetched } = useCardholders(searchbarValue, searchFilter);
+	const { data, fetchNextPage, hasNextPage, refetch, isFetching, isFetched } = useCardholders(
+		searchbarValue,
+		searchFilter
+	);
 
 	const flatData = useMemo(() => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
@@ -32,7 +35,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		if (containerRef) {
 			const { scrollHeight, scrollTop, clientHeight } = containerRef;
 
-			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && flatData.length < cardholderCount) {
+			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && hasNextPage) {
 				fetchNextPage();
 			}
 		}
@@ -124,12 +127,12 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 
 	const onSaveCardholder = (newCardholder) => {
 		setCardholderToEdit(newCardholder);
-		remove(); // reloads infiniteQuery data cache
+		refetch(); // reloads infiniteQuery data cache
 	};
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbarValue(value);
-		remove(); // reloads infiniteQuery data cache on search
+		refetch(); // reloads infiniteQuery data cache on search
 	}, 500);
 
 	const onChangeSearchSetting = (value) => {
@@ -184,7 +187,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 				</div>
 				<div className='table-body'>
 					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-						{Object.keys(flatData).length ? (
+						{data ? (
 							<Table data={flatData} columns={tableColumns} handleRowClick={handleRowClick} />
 						) : (
 							<div className='loader-container'>

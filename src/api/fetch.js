@@ -1,5 +1,6 @@
 const fetchSize = 30;
-const apiUrl = 'https://security-system-api.herokuapp.com/';
+// const apiUrl = 'https://security-system-api.herokuapp.com/';
+const apiUrl = 'http://localhost:5000/';
 
 export const fetchGet = async ({ collection, page, search, props }) => {
 	let fetchUrl = apiUrl + collection + '/get';
@@ -9,16 +10,18 @@ export const fetchGet = async ({ collection, page, search, props }) => {
 
 	if (props) fetchUrl += '&props=' + props;
 
-	// console.log(fetchUrl);
+	console.log(fetchUrl);
 
-	const data = await fetch(fetchUrl, {
+	const response = await fetch(fetchUrl, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-	}).then((res) => res.json());
+	});
 
-	return { documents: data.documents, count: data.count };
+	if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+
+	return response.json();
 };
 
 export const fetchGetAvailableCredentials = async ({ page, search }) => {
@@ -29,27 +32,31 @@ export const fetchGetAvailableCredentials = async ({ page, search }) => {
 
 	// console.log(fetchUrl);
 
-	const data = await fetch(fetchUrl, {
+	const response = await fetch(fetchUrl, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-	}).then((res) => res.json());
+	});
 
-	return { documents: data.documents, count: data.count };
+	if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+
+	return response.json();
 };
 
 export const fetchGetById = async (collection, id) => {
 	let fetchUrl = apiUrl + collection + '/get/' + id;
 
-	const data = await fetch(fetchUrl, {
+	const response = await fetch(fetchUrl, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-	}).then((res) => res.json());
+	});
 
-	return data;
+	if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+
+	return response.json();
 };
 
 export const fetchUpdate = async (collection, id, body) => {

@@ -12,7 +12,7 @@ const CredentialsTable = ({ isNavbarOpen }) => {
             DATA FETCHING
        ======================= */
 
-	const { data, fetchNextPage, remove, isFetching, isFetched } = useCredentials(searchbarValue, searchFilter);
+	const { data, fetchNextPage, refetch, isFetching, isFetched } = useCredentials(searchbarValue, searchFilter);
 
 	const flatData = useMemo(() => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
@@ -61,7 +61,7 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 
 	const onChangeSearchbar = useAsyncDebounce((value) => {
 		setSearchbarValue(value);
-		remove(); // clear infiniteQuery data cache on search
+		refetch(); // clear infiniteQuery data cache on search
 	}, 500);
 
 	const onChangeSearchSetting = (value) => {

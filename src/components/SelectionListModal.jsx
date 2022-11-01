@@ -12,7 +12,7 @@ const SelectionListModal = ({ queryHook, listItemComponentBuilder, initialSelect
 	const [selectedList, setSelectedList] = useState(initialSelected.sort((a, b) => a._id - b._id));
 	const [onlyShowSelected, setOnlyShowSelected] = useState(false);
 
-	const { data, fetchNextPage, remove, isFetching, isFetched } = queryHook(searchbarValue);
+	const { data, fetchNextPage, refetch, isFetching, isFetched } = queryHook(searchbarValue);
 
 	const itemsList = useMemo(() => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
@@ -34,7 +34,7 @@ const SelectionListModal = ({ queryHook, listItemComponentBuilder, initialSelect
 	useEffect(() => {
 		return () => {
 			// remove infiniteQuery cache on unmount
-			remove();
+			refetch();
 		};
 		// eslint-disable-next-line
 	}, []);

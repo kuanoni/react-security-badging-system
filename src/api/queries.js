@@ -3,22 +3,23 @@ import { fetchGet, fetchGetAvailableCredentials } from './fetch';
 
 const queryFunctionBuilder =
 	(collection, fetchFn = fetchGet, searchFilter, searchValue) =>
-	async ({ page = 0 }) => {
+	async ({ pageParam = 0 }) => {
 		const search = {
 			filter: searchFilter,
 			value: searchValue,
 		};
-		const fetchedData = await fetchFn({ collection, page, search });
+
+		const data = await fetchFn({ collection, page: pageParam, search });
 
 		if (searchValue) {
-			fetchedData.documents = fetchedData.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
+			data.documents = data.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
 		}
 
-		return fetchedData;
+		return data;
 	};
 
 const defaultQueryOptions = {
-	getNextPageParam: (_lastGroup, groups) => groups.length,
+	getNextPageParam: (lastPage, pages) => (lastPage.page < lastPage.totalPages ? lastPage.page : false),
 	keepPreviousData: false,
 	refetchOnWindowFocus: false,
 };
