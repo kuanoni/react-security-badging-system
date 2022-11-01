@@ -117,6 +117,25 @@
 		}
 	}
 
+	.load-more-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 50px;
+		margin: 0.5rem;
+		padding: 0.5rem;
+		background-color: $clr-accent-dark;
+		border-radius: 6px;
+		font-size: 28px;
+
+		.loader {
+			width: 2rem;
+			height: 2rem;
+			border-color: $clr-accent;
+			border-top-color: $clr-text;
+		}
+	}
+
 	table {
 		position: relative;
 		width: 100%;

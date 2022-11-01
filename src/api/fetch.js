@@ -10,7 +10,7 @@ export const fetchGet = async ({ collection, page, search, props }) => {
 
 	if (props) fetchUrl += '&props=' + props;
 
-	console.log(fetchUrl);
+	// console.log(fetchUrl);
 
 	const response = await fetch(fetchUrl, {
 		method: 'GET',

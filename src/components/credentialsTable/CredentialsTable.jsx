@@ -3,6 +3,8 @@ import { useAsyncDebounce } from 'react-table';
 import Table from '../Table';
 import Searchbar from '../forms/Searchbar';
 import { useCredentials } from '../../api/queries';
+import { faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CredentialsTable = ({ isNavbarOpen }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
@@ -12,19 +14,20 @@ const CredentialsTable = ({ isNavbarOpen }) => {
             DATA FETCHING
        ======================= */
 
-	const { data, fetchNextPage, refetch, isFetching, isFetched } = useCredentials(searchbarValue, searchFilter);
+	const { data, fetchNextPage, hasNextPage, refetch, isFetching, isFetched } = useCredentials(
+		searchbarValue,
+		searchFilter
+	);
 
 	const flatData = useMemo(() => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
 	}, [data]);
 
-	const credentialsCount = useMemo(() => data?.pages[0].count, [data]);
-
 	const fetchMoreOnBottomReached = (containerRef) => {
 		if (containerRef) {
 			const { scrollHeight, scrollTop, clientHeight } = containerRef;
 
-			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && flatData.length < credentialsCount) {
+			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && hasNextPage) {
 				fetchNextPage();
 			}
 		}
@@ -95,6 +98,17 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 					) : (
 						<div className='loader-container'>
 							{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
+						</div>
+					)}
+					{hasNextPage && (
+						<div className='load-more-container'>
+							{!isFetching ? (
+								<FontAwesomeIcon icon={faAngleDoubleDown} />
+							) : (
+								<div className='loader-container'>
+									<div className='loader'></div>
+								</div>
+							)}
 						</div>
 					)}
 				</div>

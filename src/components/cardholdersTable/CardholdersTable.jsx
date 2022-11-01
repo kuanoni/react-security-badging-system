@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
 import { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleDown, faChevronDown, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { fetchGetById } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
@@ -29,13 +29,11 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
 	}, [data]);
 
-	const cardholderCount = useMemo(() => data?.pages[0].count, [data]);
-
 	const fetchMoreOnBottomReached = (containerRef) => {
 		if (containerRef) {
 			const { scrollHeight, scrollTop, clientHeight } = containerRef;
 
-			if (scrollHeight - scrollTop - clientHeight < 10 && !isFetching && hasNextPage) {
+			if (scrollHeight - scrollTop - clientHeight < 20 && !isFetching && hasNextPage) {
 				fetchNextPage();
 			}
 		}
@@ -192,6 +190,17 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 						) : (
 							<div className='loader-container'>
 								{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
+							</div>
+						)}
+						{hasNextPage && (
+							<div className='load-more-container'>
+								{!isFetching ? (
+									<FontAwesomeIcon icon={faAngleDoubleDown} />
+								) : (
+									<div className='loader-container'>
+										<div className='loader'></div>
+									</div>
+								)}
 							</div>
 						)}
 					</div>
