@@ -132,14 +132,7 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 						<SelectableListItem
 							key={item._id}
 							item={item}
-							label={
-								item._id +
-								'-' +
-								item?.badgeType // shorten badgeType to abbreviation
-									?.split(' ')
-									.map((word) => word[0])
-									.join('')
-							}
+							label={item._id}
 							defaultChecked={checkIfSelected(item)}
 							toggleSelected={toggleSelected}
 						/>
