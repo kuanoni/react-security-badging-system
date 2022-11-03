@@ -34,6 +34,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 			{
 				header: 'Picture',
 				accessorKey: 'avatar',
+				size: 75,
 				cell: (info) => (
 					<img
 						src={info ? info.getValue() : 'https://robohash.org/hicveldicta.png?size=50x50&set=set1'}
@@ -53,7 +54,8 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 			{
 				header: 'Status',
 				accessorKey: 'profileStatus',
-				Cell: (info) => {
+				size: 100,
+				cell: (info) => {
 					return info.getValue() ? (
 						<div className='badge green-txt'>Active</div>
 					) : (
@@ -73,6 +75,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 				header: '',
 				id: 'editBtn',
 				accessorKey: '_id',
+				size: 50,
 				cell: (info) => {
 					return (
 						<div
@@ -87,10 +90,6 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 						</div>
 					);
 				},
-			},
-			{
-				header: 'Debug ID',
-				accessorKey: 'debugId',
 			},
 		],
 		[]
@@ -127,7 +126,6 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 	};
 
 	const handleRowClick = (e, id) => {
-		console.log(id);
 		// if double clicked, open editor
 		if (e.detail === 2) openCardholderEditor(id);
 	};

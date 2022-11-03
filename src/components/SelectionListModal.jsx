@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useAsyncDebounce } from 'react-table';
-import SelectableListItem from './forms/SelectableListItem';
 import Searchbar from './forms/Searchbar';
 
 const SelectionListModal = ({ queryHook, listItemComponentBuilder, initialSelected, saveNewList, closeModal }) => {

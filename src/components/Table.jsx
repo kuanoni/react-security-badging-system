@@ -1,7 +1,6 @@
-import { useReactTable, flexRender, getCoreRowModel, ColumnResizeMode } from '@tanstack/react-table';
+import { useReactTable, flexRender, getCoreRowModel } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { useState } from 'react';
 
 const rowHeight = 48;
 
@@ -67,14 +66,6 @@ const Table = ({ flatData, columns, handleRowClick, hasNextPage, fetchNextPage, 
 												className: `resizer ${
 													header.column.getIsResizing() ? 'isResizing' : ''
 												}`,
-												// style: {
-												// 	transform:
-												// 		columnResizeMode === 'onEnd' && header.column.getIsResizing()
-												// 			? `translateX(${
-												// 					table.getState().columnSizingInfo.deltaOffset
-												// 			  }px)`
-												// 			: '',
-												// },
 											}}
 										/>
 									</th>
