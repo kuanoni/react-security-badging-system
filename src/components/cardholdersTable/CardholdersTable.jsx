@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
-import { useVirtualizer } from '@tanstack/react-virtual';
 import { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDoubleDown, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { fetchGetById } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
@@ -21,7 +20,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
             DATA FETCHING
        ======================= */
 
-	const { data, fetchNextPage, hasNextPage, refetch, isFetchingNextPage, isFetching, isFetched } = useCardholders(
+	const { data, fetchNextPage, hasNextPage, refetch, isFetching, isFetched } = useCardholders(
 		searchbarValue,
 		searchFilter
 	);
@@ -30,77 +29,72 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
 	}, [data]);
 
-	const tableColumns = [
-		{
-			Header: 'Picture',
-			accessor: 'avatar',
-			Cell: ({ value }) => (
-				<img
-					src={value ? value : 'https://robohash.org/hicveldicta.png?size=50x50&set=set1'}
-					alt=''
-					className='avatar'
-				/>
-			),
-			style: {
-				width: '100px',
+	const tableColumns = useMemo(
+		() => [
+			{
+				header: 'Picture',
+				accessorKey: 'avatar',
+				cell: (info) => (
+					<img
+						src={info ? info.getValue() : 'https://robohash.org/hicveldicta.png?size=50x50&set=set1'}
+						alt=''
+						className='avatar'
+					/>
+				),
 			},
-		},
-		{
-			Header: 'First Name',
-			accessor: 'firstName',
-		},
-		{
-			Header: 'Last Name',
-			accessor: 'lastName',
-		},
-		{
-			Header: 'Status',
-			accessor: 'profileStatus',
-			Cell: ({ value }) => {
-				return value ? (
-					<div className='badge green-txt'>Active</div>
-				) : (
-					<div className='badge red-txt'>Inactive</div>
-				);
+			{
+				header: 'First Name',
+				accessorKey: 'firstName',
 			},
-			style: {
-				width: '120px',
+			{
+				header: 'Last Name',
+				accessorKey: 'lastName',
 			},
-		},
-		{
-			Header: 'Type',
-			accessor: 'profileType',
-		},
-		{
-			Header: 'Employee ID',
-			accessor: '_id',
-		},
-		{
-			id: 'editBtn',
-			accessor: '_id',
-			Cell: ({ value }) => {
-				return (
-					<div
-						style={{
-							display: 'flex',
-							justifyContent: 'center',
-						}}
-					>
-						<button className='btn-edit-user' onClick={() => openCardholderEditor(value)}>
-							<FontAwesomeIcon icon={faPenToSquare} />
-						</button>
-					</div>
-				);
+			{
+				header: 'Status',
+				accessorKey: 'profileStatus',
+				Cell: (info) => {
+					return info.getValue() ? (
+						<div className='badge green-txt'>Active</div>
+					) : (
+						<div className='badge red-txt'>Inactive</div>
+					);
+				},
 			},
-			style: {
-				width: '4rem',
+			{
+				header: 'Type',
+				accessorKey: 'profileType',
 			},
-		},
-		{
-			Header: 'Debug ID',
-			accessor: 'debugId',
-		},
-	];
+			{
+				header: 'Employee ID',
+				accessorKey: '_id',
+			},
+			{
+				header: '',
+				id: 'editBtn',
+				accessorKey: '_id',
+				cell: (info) => {
+					return (
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+							}}
+						>
+							<button className='btn-edit-user' onClick={() => openCardholderEditor(info.getValue())}>
+								<FontAwesomeIcon icon={faPenToSquare} />
+							</button>
+						</div>
+					);
+				},
+			},
+			{
+				header: 'Debug ID',
+				accessorKey: 'debugId',
+			},
+		],
+		[]
+	);
 
 	/* =======================
               HANDLERS
@@ -133,30 +127,10 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 	};
 
 	const handleRowClick = (e, id) => {
+		console.log(id);
 		// if double clicked, open editor
 		if (e.detail === 2) openCardholderEditor(id);
 	};
-
-	// const tableContainerRef = React.useRef(null);
-
-	// const rowVirtualizer = useVirtualizer({
-	// 	count: hasNextPage ? flatData.length + 1 : flatData.length,
-	// 	getScrollElement: () => tableContainerRef.current,
-	// 	estimateSize: () => 48,
-	// 	overscan: 5,
-	// });
-
-	// useEffect(() => {
-	// 	const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
-
-	// 	if (!lastItem) {
-	// 		return;
-	// 	}
-
-	// 	if (lastItem.index >= flatData.length - 1 && hasNextPage && !isFetchingNextPage) {
-	// 		fetchNextPage();
-	// 	}
-	// }, [hasNextPage, fetchNextPage, flatData.length, isFetchingNextPage, rowVirtualizer.getVirtualItems()]);
 
 	return (
 		<>
@@ -202,26 +176,16 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 				<div className='table-body'>
 					{data ? (
 						<Table
-							pages={data.pages}
+							flatData={flatData}
 							columns={tableColumns}
 							handleRowClick={handleRowClick}
+							hasNextPage={hasNextPage}
 							fetchNextPage={fetchNextPage}
 							isFetching={isFetching}
 						/>
 					) : (
 						<div className='loader-container'>
 							{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
-						</div>
-					)}
-					{hasNextPage && (
-						<div className='load-more-container'>
-							{!isFetching ? (
-								<FontAwesomeIcon icon={faAngleDoubleDown} />
-							) : (
-								<div className='loader-container'>
-									<div className='loader'></div>
-								</div>
-							)}
 						</div>
 					)}
 				</div>
