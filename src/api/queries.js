@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from 'react-query';
-import { fetchGet, fetchGetAvailableCredentials } from './fetch';
+import { fetchGet, fetchGetAvailableCredentials, fetchSize } from './fetch';
 
 const queryFunctionBuilder =
 	(collection, fetchFn = fetchGet, searchFilter, searchValue) =>
@@ -11,6 +11,11 @@ const queryFunctionBuilder =
 
 		const data = await fetchFn({ collection, page: pageParam, search });
 
+		data.documents = data.documents.map((doc, i) => ({
+			...doc,
+			debugId: i === 0 ? 'first' : pageParam,
+		}));
+
 		if (searchValue) {
 			data.documents = data.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
 		}
@@ -19,7 +24,7 @@ const queryFunctionBuilder =
 	};
 
 const defaultQueryOptions = {
-	getNextPageParam: (lastPage, pages) => (lastPage.page < lastPage.totalPages ? lastPage.page : false),
+	getNextPageParam: (lastPage, pages) => pages.length,
 	keepPreviousData: false,
 	refetchOnWindowFocus: false,
 };
