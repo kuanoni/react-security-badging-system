@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDoubleDown, faChevronDown, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleDown, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { fetchGetById } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
@@ -20,7 +21,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
             DATA FETCHING
        ======================= */
 
-	const { data, fetchNextPage, hasNextPage, refetch, isFetching, isFetched } = useCardholders(
+	const { data, fetchNextPage, hasNextPage, refetch, isFetchingNextPage, isFetching, isFetched } = useCardholders(
 		searchbarValue,
 		searchFilter
 	);
@@ -28,16 +29,6 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 	const flatData = useMemo(() => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
 	}, [data]);
-
-	const fetchMoreOnBottomReached = (containerRef) => {
-		if (containerRef) {
-			const { scrollHeight, scrollTop, clientHeight } = containerRef;
-
-			if (scrollHeight - scrollTop - clientHeight < 20 && !isFetching && hasNextPage) {
-				fetchNextPage();
-			}
-		}
-	};
 
 	const tableColumns = [
 		{
@@ -105,6 +96,10 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 				width: '4rem',
 			},
 		},
+		{
+			Header: 'Debug ID',
+			accessor: 'debugId',
+		},
 	];
 
 	/* =======================
@@ -141,6 +136,27 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		// if double clicked, open editor
 		if (e.detail === 2) openCardholderEditor(id);
 	};
+
+	// const tableContainerRef = React.useRef(null);
+
+	// const rowVirtualizer = useVirtualizer({
+	// 	count: hasNextPage ? flatData.length + 1 : flatData.length,
+	// 	getScrollElement: () => tableContainerRef.current,
+	// 	estimateSize: () => 48,
+	// 	overscan: 5,
+	// });
+
+	// useEffect(() => {
+	// 	const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+
+	// 	if (!lastItem) {
+	// 		return;
+	// 	}
+
+	// 	if (lastItem.index >= flatData.length - 1 && hasNextPage && !isFetchingNextPage) {
+	// 		fetchNextPage();
+	// 	}
+	// }, [hasNextPage, fetchNextPage, flatData.length, isFetchingNextPage, rowVirtualizer.getVirtualItems()]);
 
 	return (
 		<>
@@ -184,26 +200,30 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 					</select>
 				</div>
 				<div className='table-body'>
-					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-						{data ? (
-							<Table data={flatData} columns={tableColumns} handleRowClick={handleRowClick} />
-						) : (
-							<div className='loader-container'>
-								{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
-							</div>
-						)}
-						{hasNextPage && (
-							<div className='load-more-container'>
-								{!isFetching ? (
-									<FontAwesomeIcon icon={faAngleDoubleDown} />
-								) : (
-									<div className='loader-container'>
-										<div className='loader'></div>
-									</div>
-								)}
-							</div>
-						)}
-					</div>
+					{data ? (
+						<Table
+							pages={data.pages}
+							columns={tableColumns}
+							handleRowClick={handleRowClick}
+							fetchNextPage={fetchNextPage}
+							isFetching={isFetching}
+						/>
+					) : (
+						<div className='loader-container'>
+							{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
+						</div>
+					)}
+					{hasNextPage && (
+						<div className='load-more-container'>
+							{!isFetching ? (
+								<FontAwesomeIcon icon={faAngleDoubleDown} />
+							) : (
+								<div className='loader-container'>
+									<div className='loader'></div>
+								</div>
+							)}
+						</div>
+					)}
 				</div>
 			</div>
 		</>
