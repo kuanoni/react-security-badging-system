@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import { useAsyncDebounce } from 'react-table';
 import { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
@@ -116,11 +115,6 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		refetch(); // reloads infiniteQuery data cache
 	};
 
-	const onChangeSearchbar = useAsyncDebounce((value) => {
-		setSearchbarValue(value);
-		refetch(); // reloads infiniteQuery data cache on search
-	}, 500);
-
 	const onChangeSearchSetting = (value) => {
 		setSearchFilter(value);
 	};
@@ -160,11 +154,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 			<div className={'table-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
 				<div className='table-header'>
 					<h1>Cardholders</h1>
-					<Searchbar
-						containerClass={'searchbar-container'}
-						onChange={onChangeSearchbar}
-						setClear={setSearchbarValue}
-					/>
+					<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} />
 					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 						<option value='firstName'>First Name</option>
 						<option value='lastName'>Last Name</option>
@@ -176,7 +166,6 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 						<Table
 							flatData={flatData}
 							columns={tableColumns}
-							handleRowClick={handleRowClick}
 							hasNextPage={hasNextPage}
 							fetchNextPage={fetchNextPage}
 							isFetching={isFetching}
