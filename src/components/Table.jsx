@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 
 const rowHeight = 48;
 
-const Table = ({ flatData, columns, handleRowClick, hasNextPage, fetchNextPage, isFetching }) => {
+const Table = ({ flatData, columns, handleRowClick, hasNextPage, fetchNextPage, isFetching, searchbarValue }) => {
 	const tableContainerRef = useRef(null);
 
 	const fetchMoreOnBottomReached = useCallback(
@@ -19,11 +19,6 @@ const Table = ({ flatData, columns, handleRowClick, hasNextPage, fetchNextPage, 
 		[hasNextPage, fetchNextPage, isFetching]
 	);
 
-	//a check on mount and after a fetch to see if the table is already scrolled to the bottom and immediately needs to fetch more data
-	useEffect(() => {
-		fetchMoreOnBottomReached(tableContainerRef.current);
-	}, [fetchMoreOnBottomReached]);
-
 	const table = useReactTable({
 		data: flatData,
 		columns,
@@ -33,18 +28,38 @@ const Table = ({ flatData, columns, handleRowClick, hasNextPage, fetchNextPage, 
 
 	const { rows } = table.getRowModel();
 
-	//Virtualizing is optional, but might be necessary if we are going to potentially have hundreds or thousands of rows
 	const rowVirtualizer = useVirtualizer({
 		count: rows.length,
 		getScrollElement: () => tableContainerRef.current,
 		estimateSize: () => rowHeight,
-		overscan: 10,
+		overscan: 5,
 	});
 
 	const { totalSize } = rowVirtualizer;
 	const virtualRows = rowVirtualizer.getVirtualItems();
 	const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
 	const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
+
+	/*  This is a horrible hack to manually update the rowVirtualizer count after a search.
+        rowVirtualizer.measure() is supposed to do this, but it doesn't.
+        
+        https://github.com/TanStack/virtual/issues/363 */
+	useEffect(() => {
+		if (searchbarValue !== '') return;
+
+		for (let i = virtualRows.length; i < rows.length; i++) {
+			virtualRows.push({
+				index: i,
+				size: rowHeight,
+				start: i * rowHeight,
+				end: i * rowHeight + rowHeight,
+				key: i,
+				measureElement: (element, instance) => {
+					return element.getBoundingClientRect()[instance.options.horizontal ? 'width' : 'height'];
+				},
+			});
+		}
+	}, [searchbarValue]);
 
 	return (
 		<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)} ref={tableContainerRef}>

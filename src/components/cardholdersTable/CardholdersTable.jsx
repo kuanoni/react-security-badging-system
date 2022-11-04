@@ -169,6 +169,8 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 							hasNextPage={hasNextPage}
 							fetchNextPage={fetchNextPage}
 							isFetching={isFetching}
+							searchbarValue={searchbarValue}
+							handleRowClick={handleRowClick}
 						/>
 					) : (
 						<div className='loader-container'>

@@ -1,4 +1,4 @@
-export const fetchSize = 20;
+export const fetchSize = 30;
 // const apiUrl = 'https://security-system-api.herokuapp.com/';
 const apiUrl = 'http://localhost:5000/';
 
