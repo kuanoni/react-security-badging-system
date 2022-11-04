@@ -29,7 +29,6 @@ const Table = ({ flatData, columns, handleRowClick, hasNextPage, fetchNextPage, 
 		columns,
 		columnResizeMode: 'onChange',
 		getCoreRowModel: getCoreRowModel(),
-		debugTable: true,
 	});
 
 	const { rows } = table.getRowModel();
@@ -103,48 +102,6 @@ const Table = ({ flatData, columns, handleRowClick, hasNextPage, fetchNextPage, 
 			</table>
 		</div>
 	);
-
-	// return (
-	// 	<>
-	// 		<div className='table-container' ref={tableContainerRef} onScroll={(e) => handleScroll(e.target)}>
-	// 			<table {...getTableProps()}>
-	// 				<thead>
-	// 					{headerGroups.map((headerGroup) => (
-	// 						<tr {...headerGroup.getHeaderGroupProps()}>
-	// 							{headerGroup.headers.map((column) => (
-	// 								<th {...column.getHeaderProps()} style={{ ...getColumnStyle(column) }}>
-	// 									{column.render('Header')}
-	// 								</th>
-	// 							))}
-	// 						</tr>
-	// 					))}
-	// 				</thead>
-	// 				<tbody {...getTableBodyProps()}>
-	// 					<tr
-	// 						style={{
-	// 							height: 0,
-	// 						}}
-	// 					></tr>
-	// 					{rows.map((row, idxRow) => {
-	// 						prepareRow(row);
-	// 						return (
-	// 							<tr
-	// 								{...row.getRowProps()}
-	// 								style={{ height: rowHeight }}
-	// 								onClick={(e) => handleRowClick(e, row.original._id)}
-	// 							>
-	// 								{row.cells.map((cell, idx) => (
-	// 									<td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-	// 								))}
-	// 							</tr>
-	// 						);
-	// 					})}
-	// 					<tr style={{ height: 0 }}></tr>
-	// 				</tbody>
-	// 			</table>
-	// 		</div>
-	// 	</>
-	// );
 };
 
 export default Table;

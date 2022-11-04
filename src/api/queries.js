@@ -19,7 +19,7 @@ const queryFunctionBuilder =
 	};
 
 const defaultQueryOptions = {
-	getNextPageParam: (lastPage, pages) => pages.length,
+	getNextPageParam: (lastPage, pages) => pages.length < lastPage.totalPages && pages.length,
 	keepPreviousData: false,
 	refetchOnWindowFocus: false,
 };
