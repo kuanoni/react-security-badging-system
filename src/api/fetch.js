@@ -5,8 +5,9 @@ const apiUrl = 'http://localhost:5000/';
 export const fetchGet = async ({ collection, page, search, props }) => {
 	let fetchUrl = apiUrl + collection + '/get';
 
-	if (search.value) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
-	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
+	fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
+
+	if (search.value) fetchUrl += `&filter=${search.filter}&value=${search.value}`;
 
 	if (props) fetchUrl += '&props=' + props;
 
