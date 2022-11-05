@@ -1,8 +1,32 @@
 .error-page {
-	display: flex;
-	width: 100%;
-	padding: 1rem;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
 	color: $clr-text;
+	background-color: $clr-dark;
+	transition: all 0.2s ease;
+	overflow: hidden;
+
+	@include mobile {
+		left: $navbar-collapsed-width-mobile;
+	}
+
+	@include tablet {
+		left: $navbar-width;
+
+		&.navbar-closed {
+			left: $navbar-collapsed-width;
+		}
+	}
+
+	@include desktop {
+		left: $navbar-width;
+
+		&.navbar-closed {
+			left: $navbar-collapsed-width;
+		}
+	}
 
 	.error-container {
 		height: fit-content;
