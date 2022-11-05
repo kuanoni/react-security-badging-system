@@ -1,11 +1,13 @@
+import './index.scss';
+
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+import CardholdersPage from './pages/cardholdersPage/CardholdersPage';
+import CredentialsPage from './pages/credentialsPage/CredentialsPage';
+import ErrorPage from './pages/ErrorPage';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import CardholdersPage from './routes/CardholdersPage';
-import ErrorPage from './routes/ErrorPage';
-import CredentialsPage from './routes/CredentialsPage';
-import './index.scss';
 
 const router = createBrowserRouter([
 	{

@@ -2,9 +2,9 @@ import '../../styles/TablePage.scss';
 
 import React, { useMemo, useState } from 'react';
 
-import Searchbar from '../forms/Searchbar';
-import Table from '../Table';
-import { useCredentials } from '../../api/queries';
+import Searchbar from '../../components/forms/Searchbar';
+import Table from '../../components/Table';
+import { useCredentials } from '../../helpers/api/queries';
 
 const tableColumns = [
 	{
@@ -50,10 +50,6 @@ const CredentialsTable = ({ isNavbarOpen }) => {
               HANDLERS
        ======================= */
 
-	const onChangeSearchSetting = (value) => {
-		setSearchFilter(value);
-	};
-
 	const handleRowClick = (e, id) => {
 		// if double clicked, open editor
 		if (e.detail === 2) console.log(id);
@@ -64,7 +60,7 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 			<div className='table-header'>
 				<h1>Credentials</h1>
 				<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} />
-				<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
+				<select name='search' onChange={(e) => setSearchFilter(e.target.value)}>
 					<option value='_id'>Credential Number</option>
 					<option value='badgeOwnerName'>Badge Owner</option>
 					<option value='badgeOwnerId'>Badge Owner ID</option>

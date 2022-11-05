@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
-import CredentialsTable from '../components/credentialsTable/CredentialsTable';
+
+import CredentialsTable from './CredentialsTable';
+import Navbar from '../../components/Navbar';
 
 const CredentialsPage = () => {
 	const [isNavbarOpen, setIsNavbarOpen] = useState(false);

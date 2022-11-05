@@ -30,12 +30,6 @@
 		}
 	}
 
-	.table-body {
-		position: relative;
-		width: 100%;
-		height: calc(100% - $searchbar-height);
-	}
-
 	.btn-edit-user {
 		color: $clr-text-dark;
 		background-color: transparent;

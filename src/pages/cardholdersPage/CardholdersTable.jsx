@@ -4,13 +4,13 @@ import React, { useMemo, useState } from 'react';
 
 import CardholderEditor from './CardholderEditor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Modal from '../Modal';
-import Searchbar from '../forms/Searchbar';
-import Table from '../Table';
+import Modal from '../../components/Modal';
+import Searchbar from '../../components/forms/Searchbar';
+import Table from '../../components/Table';
 import { Toaster } from 'react-hot-toast';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { fetchGetById } from '../../api/fetch';
-import { useCardholders } from '../../api/queries';
+import { fetchGetById } from '../../helpers/api/fetch';
+import { useCardholders } from '../../helpers/api/queries';
 
 const CardholdersTable = ({ isNavbarOpen }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -118,10 +118,6 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		refetch(); // reloads infiniteQuery data cache
 	};
 
-	const onChangeSearchSetting = (value) => {
-		setSearchFilter(value);
-	};
-
 	const handleRowClick = (e, id) => {
 		// if double clicked, open editor
 		if (e.detail === 2) openCardholderEditor(id);
@@ -158,7 +154,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 				<div className='table-header'>
 					<h1>Cardholders</h1>
 					<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} />
-					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
+					<select name='search' onChange={(e) => setSearchFilter(e.target.value)}>
 						<option value='firstName'>First Name</option>
 						<option value='lastName'>Last Name</option>
 						<option value='employeeId'>Employee ID</option>

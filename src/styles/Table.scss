@@ -1,6 +1,12 @@
 @use './utils';
 @import '../styles/master';
 
+.table-body {
+	position: relative;
+	width: 100%;
+	height: calc(100% - $searchbar-height);
+}
+
 .table-header {
 	display: flex;
 	position: sticky;
@@ -166,25 +172,6 @@
 
 		tr:hover {
 			background-color: $clr-highlight;
-		}
-	}
-
-	.load-more-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 50px;
-		margin: 0.5rem;
-		padding: 0.5rem;
-		background-color: $clr-highlight;
-		border-radius: 6px;
-		font-size: 28px;
-
-		.loader {
-			width: 2rem;
-			height: 2rem;
-			border-color: $clr-text;
-			border-top-color: $clr-accent;
 		}
 	}
 }

@@ -1,6 +1,6 @@
+import CardholdersTable from './CardholdersTable';
+import Navbar from '../../components/Navbar';
 import { useState } from 'react';
-import CardholdersTable from '../components/cardholdersTable/CardholdersTable';
-import Navbar from '../components/Navbar';
 
 function CardholdersPage() {
 	const [isNavbarOpen, setIsNavbarOpen] = useState(false);
