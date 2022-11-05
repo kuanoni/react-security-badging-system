@@ -161,6 +161,8 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 				<div className='column'>
 					<div className='container'>
 						<h1 className='title'>General</h1>
+						<LabeledInput label={'Employee ID'} defaultValue={cardholder._id} disabled={true} />
+
 						<LabeledInput
 							label={'First name'}
 							defaultValue={firstName}
@@ -185,7 +187,6 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 							handleChange={setJobTitle}
 							disabled={!isEditing}
 						/>
-						<LabeledInput label={'Employee ID'} defaultValue={cardholder._id} disabled={true} />
 					</div>
 					<div className='container'>
 						<h1 className='title'>Access Rights</h1>
@@ -221,16 +222,6 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 				<div className='column'>
 					<div className='container'>
 						<h1 className='title'>Status</h1>
-						<label className='label'>Status</label>
-						<select
-							className='input'
-							disabled={!isEditing}
-							defaultValue={profileStatus}
-							onChange={(e) => setProfileStatus(e.target.value)}
-						>
-							<option value={true}>Active</option>
-							<option value={false}>Inactive</option>
-						</select>
 						<CustomDatePicker
 							label='Activation'
 							date={activationDate}
@@ -244,6 +235,16 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 							minDate={new Date()}
 							disabled={!isEditing}
 						/>
+						<label className='label'>Status</label>
+						<select
+							className='input'
+							disabled={!isEditing}
+							defaultValue={profileStatus}
+							onChange={(e) => setProfileStatus(e.target.value)}
+						>
+							<option value={true}>Active</option>
+							<option value={false}>Inactive</option>
+						</select>
 					</div>
 					<div className='container'>
 						<h1 className='title'>Additional info</h1>

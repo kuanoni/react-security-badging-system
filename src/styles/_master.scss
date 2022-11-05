@@ -2,7 +2,7 @@
 //      VARS
 // ==============
 
-$searchbar-height: 64px;
+$searchbar-height: 72px;
 
 $navbar-width: 192px;
 $navbar-collapsed-width: 64px;
@@ -10,12 +10,12 @@ $nav-icon-container-size: 48px;
 $nav-icon-size: 24px;
 
 $navbar-width-mobile: 192px;
-$navbar-collapsed-width-mobile: 48px;
+$navbar-collapsed-width-mobile: 54px;
 $nav-icon-container-size-mobile: calc($navbar-collapsed-width-mobile * 0.75);
 $nav-icon-size-mobile: calc($nav-icon-container-size-mobile / 2);
 
 $mobile-width: 480px;
-$tablet-width: 768px;
+$tablet-width: 822px;
 $desktop-width: 1024px;
 
 // ==============
@@ -35,6 +35,7 @@ $clr-text-darkest: hsl(0, 0%, 47%);
 
 $clr-accent: rgb(100, 198, 255);
 $clr-accent-dark: rgb(0, 134, 197);
+$clr-accent-secondary-dark: rgb(0, 144, 61);
 $clr-green: rgb(65, 224, 65);
 $clr-red: rgb(255, 65, 65);
 $clr-blue: rgb(100, 198, 255);
