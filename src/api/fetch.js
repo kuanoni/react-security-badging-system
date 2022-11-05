@@ -27,9 +27,9 @@ export const fetchGet = async ({ collection, page, search, props }) => {
 
 export const fetchGetAvailableCredentials = async ({ page, search }) => {
 	let fetchUrl = apiUrl + 'credentials/getAvailable';
+	fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
 
-	if (search.value) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
-	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
+	if (search.value) fetchUrl += `&filter=${search.filter}&value=${search.value}`;
 
 	// console.log(fetchUrl);
 

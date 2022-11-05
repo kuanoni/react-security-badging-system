@@ -58,7 +58,7 @@ const Table = ({ flatData, columns, handleRowClick, hasNextPage, fetchNextPage, 
 					return element.getBoundingClientRect()[instance.options.horizontal ? 'width' : 'height'];
 				},
 			});
-		}
+		} // eslint-disable-next-line
 	}, [searchbarValue]);
 
 	return (
