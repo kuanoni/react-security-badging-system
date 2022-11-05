@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 
 const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, closeModal }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
+	const [selectedList, setSelectedList] = useState(initialSelected.sort((a, b) => a._id - b._id));
 	const [onlyShowSelected, setOnlyShowSelected] = useState(false);
 
 	const query = queryHook(searchbarValue);
@@ -23,7 +24,7 @@ const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, close
 		// eslint-disable-next-line
 	}, []);
 
-	const saveSelected = (selectedList) => {
+	const saveSelected = () => {
 		saveNewList(selectedList);
 		toast.success(<b>Saved!</b>);
 		closeModal();
@@ -43,9 +44,10 @@ const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, close
 					<SelectionListRows
 						query={query}
 						dataKey={dataKey}
-						initialSelected={initialSelected}
-						onlyShowSelected={onlyShowSelected}
 						searchbarValue={searchbarValue}
+						onlyShowSelected={onlyShowSelected}
+						selectedList={selectedList}
+						setSelectedList={setSelectedList}
 					/>
 				) : (
 					<div className='loader-container'>

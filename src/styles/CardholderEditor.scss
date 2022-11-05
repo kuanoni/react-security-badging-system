@@ -339,7 +339,6 @@
 
 				&:hover:not(:disabled) {
 					@include interactive-hover;
-					transform: scale(1.2);
 				}
 
 				&:disabled {

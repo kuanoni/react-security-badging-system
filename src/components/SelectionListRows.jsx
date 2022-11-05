@@ -1,12 +1,12 @@
-import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRef } from 'react';
+
 import SelectableListItem from './forms/SelectableListItem';
+import { useRef } from 'react';
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 const rowHeight = 45;
 
-const SelectionListRows = ({ query, dataKey, initialSelected, onlyShowSelected, searchbarValue }) => {
-	const [selectedList, setSelectedList] = useState(initialSelected.sort((a, b) => a._id - b._id));
+const SelectionListRows = ({ query, dataKey, searchbarValue, onlyShowSelected, selectedList, setSelectedList }) => {
 	const containerRef = useRef(null);
 
 	const { data, fetchNextPage, hasNextPage, isFetching } = query;
