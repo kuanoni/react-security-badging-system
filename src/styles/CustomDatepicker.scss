@@ -43,10 +43,12 @@
 		&__triangle {
 			&::before {
 				border-bottom-color: $clr-base !important;
+				border-top-color: $clr-base !important;
 			}
 
 			&::after {
 				border-bottom-color: $clr-base !important;
+				border-top-color: $clr-base !important;
 			}
 		}
 
