@@ -142,6 +142,28 @@
 			border-top: none;
 			border-left: none;
 			font-weight: 300;
+
+			.resizer {
+				position: absolute;
+				right: 0;
+				top: 0;
+				height: 100%;
+				width: 4px;
+				opacity: 0;
+
+				cursor: col-resize;
+				user-select: none;
+				touch-action: none;
+
+				&.isResizing {
+					background: $clr-highlight;
+					opacity: 1;
+				}
+
+				&:hover {
+					opacity: 1;
+				}
+			}
 		}
 
 		td {

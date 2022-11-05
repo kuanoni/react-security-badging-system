@@ -1,12 +1,13 @@
-const fetchSize = 30;
+export const fetchSize = 30;
 // const apiUrl = 'https://security-system-api.herokuapp.com/';
 const apiUrl = 'http://localhost:5000/';
 
 export const fetchGet = async ({ collection, page, search, props }) => {
 	let fetchUrl = apiUrl + collection + '/get';
 
-	if (search.value) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
-	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
+	fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
+
+	if (search.value) fetchUrl += `&filter=${search.filter}&value=${search.value}`;
 
 	if (props) fetchUrl += '&props=' + props;
 
@@ -26,9 +27,9 @@ export const fetchGet = async ({ collection, page, search, props }) => {
 
 export const fetchGetAvailableCredentials = async ({ page, search }) => {
 	let fetchUrl = apiUrl + 'credentials/getAvailable';
+	fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
 
-	if (search.value) fetchUrl += `?filter=${search.filter}&value=${search.value}`;
-	else fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
+	if (search.value) fetchUrl += `&filter=${search.filter}&value=${search.value}`;
 
 	// console.log(fetchUrl);
 

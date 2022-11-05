@@ -1,8 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { useAsyncDebounce } from 'react-table';
 import { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDoubleDown, faChevronDown, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { fetchGetById } from '../../api/fetch';
 import CardholderEditor from './CardholderEditor';
 import Table from '../Table';
@@ -29,83 +28,71 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
 	}, [data]);
 
-	const fetchMoreOnBottomReached = (containerRef) => {
-		if (containerRef) {
-			const { scrollHeight, scrollTop, clientHeight } = containerRef;
-
-			if (scrollHeight - scrollTop - clientHeight < 20 && !isFetching && hasNextPage) {
-				fetchNextPage();
-			}
-		}
-	};
-
-	const tableColumns = [
-		{
-			Header: 'Picture',
-			accessor: 'avatar',
-			Cell: ({ value }) => (
-				<img
-					src={value ? value : 'https://robohash.org/hicveldicta.png?size=50x50&set=set1'}
-					alt=''
-					className='avatar'
-				/>
-			),
-			style: {
-				width: '100px',
+	const tableColumns = useMemo(
+		() => [
+			{
+				header: 'Picture',
+				accessorKey: 'avatar',
+				size: 75,
+				cell: (info) => (
+					<img
+						src={info ? info.getValue() : 'https://robohash.org/hicveldicta.png?size=50x50&set=set1'}
+						alt=''
+						className='avatar'
+					/>
+				),
 			},
-		},
-		{
-			Header: 'First Name',
-			accessor: 'firstName',
-		},
-		{
-			Header: 'Last Name',
-			accessor: 'lastName',
-		},
-		{
-			Header: 'Status',
-			accessor: 'profileStatus',
-			Cell: ({ value }) => {
-				return value ? (
-					<div className='badge green-txt'>Active</div>
-				) : (
-					<div className='badge red-txt'>Inactive</div>
-				);
+			{
+				header: 'First Name',
+				accessorKey: 'firstName',
 			},
-			style: {
-				width: '120px',
+			{
+				header: 'Last Name',
+				accessorKey: 'lastName',
 			},
-		},
-		{
-			Header: 'Type',
-			accessor: 'profileType',
-		},
-		{
-			Header: 'Employee ID',
-			accessor: '_id',
-		},
-		{
-			id: 'editBtn',
-			accessor: '_id',
-			Cell: ({ value }) => {
-				return (
-					<div
-						style={{
-							display: 'flex',
-							justifyContent: 'center',
-						}}
-					>
-						<button className='btn-edit-user' onClick={() => openCardholderEditor(value)}>
-							<FontAwesomeIcon icon={faPenToSquare} />
-						</button>
-					</div>
-				);
+			{
+				header: 'Status',
+				accessorKey: 'profileStatus',
+				size: 100,
+				cell: (info) => {
+					return info.getValue() ? (
+						<div className='badge green-txt'>Active</div>
+					) : (
+						<div className='badge red-txt'>Inactive</div>
+					);
+				},
 			},
-			style: {
-				width: '4rem',
+			{
+				header: 'Type',
+				accessorKey: 'profileType',
 			},
-		},
-	];
+			{
+				header: 'Employee ID',
+				accessorKey: '_id',
+			},
+			{
+				header: '',
+				id: 'editBtn',
+				accessorKey: '_id',
+				size: 50,
+				cell: (info) => {
+					return (
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+							}}
+						>
+							<button className='btn-edit-user' onClick={() => openCardholderEditor(info.getValue())}>
+								<FontAwesomeIcon icon={faPenToSquare} />
+							</button>
+						</div>
+					);
+				},
+			},
+		],
+		[]
+	);
 
 	/* =======================
               HANDLERS
@@ -127,11 +114,6 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		setCardholderToEdit(newCardholder);
 		refetch(); // reloads infiniteQuery data cache
 	};
-
-	const onChangeSearchbar = useAsyncDebounce((value) => {
-		setSearchbarValue(value);
-		refetch(); // reloads infiniteQuery data cache on search
-	}, 500);
 
 	const onChangeSearchSetting = (value) => {
 		setSearchFilter(value);
@@ -172,11 +154,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 			<div className={'table-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
 				<div className='table-header'>
 					<h1>Cardholders</h1>
-					<Searchbar
-						containerClass={'searchbar-container'}
-						onChange={onChangeSearchbar}
-						setClear={setSearchbarValue}
-					/>
+					<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} />
 					<select name='search' onChange={(e) => onChangeSearchSetting(e.target.value)}>
 						<option value='firstName'>First Name</option>
 						<option value='lastName'>Last Name</option>
@@ -184,26 +162,21 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 					</select>
 				</div>
 				<div className='table-body'>
-					<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-						{data ? (
-							<Table data={flatData} columns={tableColumns} handleRowClick={handleRowClick} />
-						) : (
-							<div className='loader-container'>
-								{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
-							</div>
-						)}
-						{hasNextPage && (
-							<div className='load-more-container'>
-								{!isFetching ? (
-									<FontAwesomeIcon icon={faAngleDoubleDown} />
-								) : (
-									<div className='loader-container'>
-										<div className='loader'></div>
-									</div>
-								)}
-							</div>
-						)}
-					</div>
+					{data ? (
+						<Table
+							flatData={flatData}
+							columns={tableColumns}
+							hasNextPage={hasNextPage}
+							fetchNextPage={fetchNextPage}
+							isFetching={isFetching}
+							searchbarValue={searchbarValue}
+							handleRowClick={handleRowClick}
+						/>
+					) : (
+						<div className='loader-container'>
+							{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
+						</div>
+					)}
 				</div>
 			</div>
 		</>

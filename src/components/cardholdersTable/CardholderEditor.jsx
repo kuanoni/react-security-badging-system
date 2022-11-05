@@ -4,10 +4,9 @@ import { fetchUpdate } from '../../api/fetch';
 import Modal from '../Modal';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
-import SelectionListModal from '../SelectionListModal';
+import SelectionList from '../SelectionListContainer';
 import CustomDatePicker from '../forms/CustomDatePicker';
 import { useAccessGroups, useAvailableCredentials } from '../../api/queries';
-import SelectableListItem from '../forms/SelectableListItem';
 
 const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -104,17 +103,9 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 				overlayClassName={'overlay selection-list'}
 				modalClassName={'modal'}
 			>
-				<SelectionListModal
+				<SelectionList
 					queryHook={useAccessGroups}
-					listItemComponentBuilder={(item, checkIfSelected, toggleSelected) => (
-						<SelectableListItem
-							key={item._id}
-							item={item}
-							label={item.groupName}
-							defaultChecked={checkIfSelected(item)}
-							toggleSelected={toggleSelected}
-						/>
-					)}
+					dataKey={'groupName'}
 					initialSelected={accessGroups}
 					saveNewList={setAccessGroups}
 					closeModal={() => setIsGroupsModalOpen(false)}
@@ -126,17 +117,9 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 				overlayClassName={'overlay selection-list'}
 				modalClassName={'modal'}
 			>
-				<SelectionListModal
+				<SelectionList
 					queryHook={useAvailableCredentials}
-					listItemComponentBuilder={(item, checkIfSelected, toggleSelected) => (
-						<SelectableListItem
-							key={item._id}
-							item={item}
-							label={item._id}
-							defaultChecked={checkIfSelected(item)}
-							toggleSelected={toggleSelected}
-						/>
-					)}
+					dataKey={'_id'}
 					initialSelected={credentials}
 					saveNewList={setCredentials}
 					closeModal={() => setIsCredentialsModalOpen(false)}
