@@ -1,0 +1,73 @@
+// ==============
+//      VARS
+// ==============
+
+$searchbar-height: 64px;
+
+$navbar-width: 192px;
+$navbar-collapsed-width: 64px;
+$nav-icon-container-size: 48px;
+$nav-icon-size: 24px;
+
+$navbar-width-mobile: 192px;
+$navbar-collapsed-width-mobile: 48px;
+$nav-icon-container-size-mobile: calc($navbar-collapsed-width-mobile * 0.75);
+$nav-icon-size-mobile: calc($nav-icon-container-size-mobile / 2);
+
+$mobile-width: 480px;
+$tablet-width: 768px;
+$desktop-width: 1024px;
+
+// ==============
+//     COLORS
+// ==============
+
+$clr-base: hsl(0, 0%, 20%);
+$clr-dark: hsl(0, 0%, 17%);
+$clr-darker: hsl(0, 0%, 15%);
+$clr-darkest: hsl(0, 0%, 14%);
+$clr-highlight: hsl(0, 0%, 27%);
+
+$clr-text: hsl(100, 13%, 91%);
+$clr-text-dark: hsl(0, 0%, 73%);
+$clr-text-darker: hsl(0, 0%, 60%);
+$clr-text-darkest: hsl(0, 0%, 47%);
+
+$clr-accent: rgb(100, 198, 255);
+$clr-accent-dark: rgb(0, 134, 197);
+$clr-green: rgb(65, 224, 65);
+$clr-red: rgb(255, 65, 65);
+$clr-blue: rgb(100, 198, 255);
+$clr-purple: rgb(196, 95, 255);
+
+// ==============
+//     MIXINS
+// ==============
+
+@mixin mobile {
+	@media (min-width: 0px) and (max-width: #{$mobile-width - 1px}) {
+		@content;
+	}
+}
+
+@mixin tablet {
+	@media (min-width: #{$mobile-width}) and (max-width: #{$tablet-width - 1px}) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@media (min-width: #{$tablet-width + 1}) {
+		@content;
+	}
+}
+
+@mixin reset-padding-margin {
+	padding: 0;
+	margin: 0;
+}
+
+@mixin interactive-hover {
+	filter: brightness(1.25);
+	cursor: pointer;
+}

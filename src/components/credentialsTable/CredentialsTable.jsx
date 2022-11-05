@@ -1,7 +1,36 @@
+import '../../styles/TablePage.scss';
+
 import React, { useMemo, useState } from 'react';
-import Table from '../Table';
+
 import Searchbar from '../forms/Searchbar';
+import Table from '../Table';
 import { useCredentials } from '../../api/queries';
+
+const tableColumns = [
+	{
+		header: 'Credential Number',
+		accessorKey: '_id',
+	},
+	{
+		header: 'Badge Type',
+		accessorKey: 'badgeType',
+		cell: (info) => {
+			const value = info.getValue();
+			if (value === 'Employee') return <span className='blue-txt'>{value}</span>;
+			if (value === 'Contractor') return <span className='green-txt'>{value}</span>;
+			if (value === 'Privileged Visitor') return <span className='purple-txt'>{value}</span>;
+			return value;
+		},
+	},
+	{
+		header: 'Badge Owner',
+		accessorKey: 'badgeOwnerName',
+	},
+	{
+		header: 'Badge Owner ID',
+		accessorKey: 'badgeOwnerId',
+	},
+];
 
 const CredentialsTable = ({ isNavbarOpen }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
@@ -16,32 +45,6 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 	const flatData = useMemo(() => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
 	}, [data]);
-
-	const tableColumns = [
-		{
-			header: 'Credential Number',
-			accessorKey: '_id',
-		},
-		{
-			header: 'Badge Type',
-			accessorKey: 'badgeType',
-			cell: (info) => {
-				const value = info.getValue();
-				if (value === 'Employee') return <span className='blue-txt'>{value}</span>;
-				if (value === 'Contractor') return <span className='green-txt'>{value}</span>;
-				if (value === 'Privileged Visitor') return <span className='purple-txt'>{value}</span>;
-				return value;
-			},
-		},
-		{
-			header: 'Badge Owner',
-			accessorKey: 'badgeOwnerName',
-		},
-		{
-			header: 'Badge Owner ID',
-			accessorKey: 'badgeOwnerId',
-		},
-	];
 
 	/* =======================
               HANDLERS

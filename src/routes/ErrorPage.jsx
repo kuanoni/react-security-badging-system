@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { useRouteError } from 'react-router-dom';
+import '../styles/Error.scss';
+
 import Navbar from '../components/Navbar';
+import { useRouteError } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function ErrorPage() {
 	const [isNavbarOpen, setIsNavbarOpen] = useState(false);

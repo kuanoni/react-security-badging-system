@@ -1,6 +1,9 @@
-import { useReactTable, flexRender, getCoreRowModel } from '@tanstack/react-table';
-import { useVirtualizer } from '@tanstack/react-virtual';
+import '../styles/Table.scss';
+
 import React, { useCallback, useEffect, useRef } from 'react';
+import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 const rowHeight = 48;
 

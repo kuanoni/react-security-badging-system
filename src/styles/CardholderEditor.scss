@@ -1,3 +1,5 @@
+@import '../styles/master';
+
 .cardholder-editor {
 	.label {
 		margin-top: 0.5rem;
@@ -13,14 +15,6 @@
 	}
 
 	.header {
-		display: flex;
-		position: relative;
-		padding: 1rem;
-		background-color: $clr-base;
-		box-shadow: 0 1px 2px #242424;
-		font-weight: 600;
-		font-size: 0.9em;
-
 		@include mobile {
 			flex-direction: column;
 			gap: 0.5rem;
@@ -127,12 +121,7 @@
 	}
 
 	.body {
-		display: flex;
-		flex-direction: row;
 		gap: 5%;
-		height: 100%;
-		overflow-y: scroll;
-		padding: 1rem;
 
 		@include mobile {
 			flex-direction: column;
@@ -165,7 +154,7 @@
 
 		.input {
 			width: 100%;
-			min-height: 19px;
+			height: 2.25rem;
 			margin-top: 4px;
 			margin-bottom: 1rem;
 			padding: 0.5rem;
@@ -175,19 +164,25 @@
 			border-bottom: 1px solid transparent;
 			border-radius: 0;
 			outline: none;
-			resize: none;
+			transition: 0.2s ease;
 
 			&:focus {
 				border-color: $clr-text-dark;
 			}
 
 			&:disabled {
-				filter: brightness(0.8);
+				color: adjust-color($color: $clr-text, $blackness: 50%);
+				background-color: adjust-color($color: $clr-darkest, $blackness: 100%);
 			}
 
 			&:placeholder-shown {
 				border-color: $clr-red;
 			}
+		}
+
+		textarea.input {
+			height: 5em;
+			resize: none;
 		}
 
 		.datepicker-container {

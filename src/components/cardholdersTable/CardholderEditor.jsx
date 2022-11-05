@@ -1,12 +1,15 @@
+import '../../styles/CardholderEditor.scss';
+
 import React, { useState } from 'react';
-import toast from 'react-hot-toast';
-import { fetchUpdate } from '../../api/fetch';
-import Modal from '../Modal';
+import { useAccessGroups, useAvailableCredentials } from '../../api/queries';
+
+import CustomDatePicker from '../forms/CustomDatePicker';
 import LabeledInput from '../forms/LabeledInput';
 import ListAddRemove from '../forms/ListAddRemove';
+import Modal from '../Modal';
 import SelectionList from '../SelectionListContainer';
-import CustomDatePicker from '../forms/CustomDatePicker';
-import { useAccessGroups, useAvailableCredentials } from '../../api/queries';
+import { fetchUpdate } from '../../api/fetch';
+import toast from 'react-hot-toast';
 
 const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 	const [isEditing, setIsEditing] = useState(false);

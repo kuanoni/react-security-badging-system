@@ -1,10 +1,13 @@
+import '../styles/SelectionList.scss';
+
 import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Searchbar from './forms/Searchbar';
 import SelectionListRows from './SelectionListRows';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import toast from 'react-hot-toast';
 
 const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, closeModal }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');

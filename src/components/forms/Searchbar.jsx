@@ -1,6 +1,9 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import '../../styles/Searchbar.scss';
+
 import React, { useRef, useState } from 'react';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const Searchbar = ({ containerClass, setSearchValue, autoFocus = false }) => {
 	const inputRef = useRef(null);

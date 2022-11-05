@@ -1,4 +1,7 @@
+import '../styles/Modal.scss';
+
 import React, { useRef } from 'react';
+
 import { createPortal } from 'react-dom';
 
 const Modal = ({ isOpen, closeModal, overlayClassName, modalClassName, children }) => {

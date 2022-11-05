@@ -1,3 +1,5 @@
+@import '../styles/master';
+
 .overlay {
 	display: flex;
 	justify-content: center;
@@ -16,12 +18,30 @@
 		min-width: 250px;
 		max-width: 750px;
 		margin: 3rem 1.5rem;
-		background-color: $clr-dark;
 		color: $clr-text;
+		background-color: $clr-dark;
+		box-shadow: 0 0 20px 1px #000000;
 
 		@include mobile {
 			margin: 1rem;
 			max-width: 90vw;
+		}
+
+		.header {
+			display: flex;
+			position: relative;
+			padding: 1rem;
+			background-color: $clr-base;
+			box-shadow: 0 1px 2px $clr-darkest;
+			font-weight: 600;
+			font-size: 0.9em;
+		}
+
+		.body {
+			display: flex;
+			height: 100%;
+			padding: 1rem;
+			overflow-y: scroll;
 		}
 
 		.footer {

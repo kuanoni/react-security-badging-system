@@ -1,3 +1,6 @@
+@use './utils';
+@import '../styles/master';
+
 .table-header {
 	display: flex;
 	position: sticky;
@@ -20,49 +23,24 @@
 	}
 
 	.searchbar-container {
-		position: relative;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
 		margin-left: auto;
 
 		input {
-			width: 100%;
-			height: 100%;
 			padding-left: 0.5rem;
-			color: $clr-text;
-			background-color: $clr-darkest;
 			border: 1px solid $clr-highlight;
 			border-radius: 0;
 			caret-color: $clr-text;
-			outline: none;
 
 			&:focus {
 				border-color: $clr-text-dark;
 			}
-
-			&::placeholder {
-				color: $clr-text-dark;
-			}
 		}
 
 		button {
-			position: absolute;
-			color: #bbbbbb;
-			background-color: transparent;
-			border-color: transparent;
 			font-size: 1.1em;
-			opacity: 0;
-			transition: opacity 0.2s ease;
-			cursor: pointer;
-
-			&.show {
-				opacity: 1;
-			}
-
-			&:hover {
-				@include interactive-hover;
-			}
 		}
 	}
 

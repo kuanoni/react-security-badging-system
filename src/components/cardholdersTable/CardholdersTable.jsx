@@ -1,12 +1,15 @@
+import '../../styles/TablePage.scss';
+
 import React, { useMemo, useState } from 'react';
-import { Toaster } from 'react-hot-toast';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { fetchGetById } from '../../api/fetch';
+
 import CardholderEditor from './CardholderEditor';
-import Table from '../Table';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../Modal';
 import Searchbar from '../forms/Searchbar';
+import Table from '../Table';
+import { Toaster } from 'react-hot-toast';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { fetchGetById } from '../../api/fetch';
 import { useCardholders } from '../../api/queries';
 
 const CardholdersTable = ({ isNavbarOpen }) => {
@@ -19,7 +22,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
             DATA FETCHING
        ======================= */
 
-	const { data, fetchNextPage, hasNextPage, refetch, isFetching, isFetched } = useCardholders(
+	const { data, hasNextPage, fetchNextPage, refetch, isFetching, isFetched } = useCardholders(
 		searchbarValue,
 		searchFilter
 	);

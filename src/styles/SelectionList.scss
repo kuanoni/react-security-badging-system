@@ -1,3 +1,5 @@
+@import '../styles/master';
+
 .overlay.selection-list {
 	background-color: transparent;
 
@@ -7,12 +9,9 @@
 	}
 
 	.header {
-		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 1rem;
 		background-color: $clr-darker;
-		box-shadow: 0 1px 2px $clr-darkest;
 
 		h2 {
 			margin: 0;
@@ -33,26 +32,20 @@
 	}
 
 	.body {
-		display: flex;
 		flex-direction: column;
-		height: 100%;
+		padding: 0;
 		margin: 0.5rem 1rem;
 		overflow-y: auto;
 
 		border: 1px solid $clr-highlight;
 
 		.searchbar-container {
-			position: relative;
 			padding: 1rem;
 
 			input {
-				width: 100%;
 				padding: 0.75rem 0.25rem;
-				color: $clr-text;
-				background-color: $clr-darker;
 				border: none;
 				border-bottom: 1px solid transparent;
-				outline: none;
 				transition: 0.2s ease;
 
 				&:focus {
@@ -61,25 +54,10 @@
 			}
 
 			button {
-				position: absolute;
 				right: 0 + 1em;
 				top: 50%;
-				transform: translateY(-50%);
-				color: #bbbbbb;
-				background-color: transparent;
-				border-color: transparent;
 				font-size: 1.25em;
-				opacity: 0;
-				transition: opacity 0.2s ease;
-				cursor: pointer;
-
-				&.show {
-					opacity: 1;
-				}
-
-				&:hover {
-					@include interactive-hover;
-				}
+				transform: translateY(-50%);
 			}
 		}
 

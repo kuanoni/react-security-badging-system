@@ -1,7 +1,10 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { fab } from '@fortawesome/free-brands-svg-icons';
+import '../styles/Navbar.scss';
+
 import { faAddressCard, faAnglesLeft, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 
 const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
 	return (

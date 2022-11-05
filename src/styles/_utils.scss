@@ -1,18 +1,21 @@
-@import './_colors';
-@import './_mixins';
-@import './styles/icons/shape-hexagon.css';
+@import './master';
+@import './icons/shape-hexagon.css';
 
-$searchbar-height: 64px;
+.green-txt {
+	color: $clr-green !important;
+}
 
-$navbar-width: 192px;
-$navbar-collapsed-width: 64px;
-$nav-icon-container-size: 48px;
-$nav-icon-size: 24px;
+.red-txt {
+	color: $clr-red !important;
+}
 
-$navbar-width-mobile: 192px;
-$navbar-collapsed-width-mobile: 48px;
-$nav-icon-container-size-mobile: calc($navbar-collapsed-width-mobile * 0.75);
-$nav-icon-size-mobile: calc($nav-icon-container-size-mobile / 2);
+.blue-txt {
+	color: $clr-blue !important;
+}
+
+.purple-txt {
+	color: $clr-purple !important;
+}
 
 .toast {
 	color: $clr-text !important;
