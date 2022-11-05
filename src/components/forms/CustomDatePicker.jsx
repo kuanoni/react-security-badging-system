@@ -1,7 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import DatePicker from 'react-datepicker';
+import '../../styles/CustomDatepicker.scss';
 import 'react-datepicker/dist/react-datepicker.css';
-import { getYear, getMonth } from 'date-fns';
+
+import React, { useEffect, useRef } from 'react';
+import { getMonth, getYear } from 'date-fns';
+
+import DatePicker from 'react-datepicker';
 
 const customHeader = ({
 	date,
@@ -87,8 +90,9 @@ const CustomDatePicker = ({ label, date, setDate, minDate, disabled }) => {
 					minDate={minDate}
 					renderCustomHeader={customHeader}
 					className='input'
-					popperClassName='datepicker-popper'
+					popperClassName='custom-datepicker-popper'
 					popperPlacement='top'
+					fixedHeight
 					disabled={disabled}
 				/>
 			</div>
