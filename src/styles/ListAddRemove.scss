@@ -1,0 +1,60 @@
+@import '../styles/master';
+
+.list {
+	button {
+		border-color: transparent;
+		background-color: transparent;
+		opacity: 1;
+		transition: 0.2s ease-out;
+		aspect-ratio: 1 / 1;
+
+		&:hover:not(:disabled) {
+			@include interactive-hover;
+			transform: scale(1.25);
+		}
+
+		&:disabled {
+			opacity: 0;
+		}
+	}
+
+	.list-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		padding-bottom: 0.25rem;
+
+		button {
+			color: $clr-green;
+			border: none;
+			font-size: 1.15em;
+		}
+	}
+
+	.list-body {
+		border-top: 1px solid $clr-highlight;
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+		padding-top: 0.5rem;
+		padding-left: 0;
+		list-style: none;
+		user-select: none;
+	}
+
+	.list-item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 0.25em 0;
+		padding: 0.35rem 0.5rem;
+		padding-right: 0;
+
+		&:hover {
+			background-color: $clr-highlight;
+		}
+
+		button {
+			color: $clr-red;
+		}
+	}
+}

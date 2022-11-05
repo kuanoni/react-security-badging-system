@@ -110,7 +110,7 @@
 			}
 
 			input:checked + label {
-				background: $clr-accent;
+				background: $clr-accent-dark;
 			}
 
 			input:checked + label:after {
@@ -285,66 +285,6 @@
 
 		.checkbox {
 			background-color: $clr-darkest;
-		}
-
-		.list-header {
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-end;
-			padding-bottom: 0.25rem;
-
-			button {
-				color: $clr-green;
-				background-color: transparent;
-				border: none;
-				font-size: 1.15em;
-
-				&:hover:not(:disabled) {
-					@include interactive-hover;
-				}
-
-				&:disabled {
-					visibility: hidden;
-				}
-			}
-		}
-
-		.list {
-			border-top: 1px solid $clr-highlight;
-			margin-top: 0;
-			margin-bottom: 1.5rem;
-			padding-top: 0.5rem;
-			padding-left: 0;
-			list-style: none;
-			user-select: none;
-		}
-
-		.list-item {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			margin: 0.25em 0;
-			padding: 0.35rem 0.5rem;
-			padding-right: 0;
-
-			&:hover {
-				background-color: $clr-highlight;
-			}
-
-			button {
-				border-color: transparent;
-				color: $clr-red;
-				background-color: transparent;
-				transition: 0.1s ease-out;
-
-				&:hover:not(:disabled) {
-					@include interactive-hover;
-				}
-
-				&:disabled {
-					visibility: hidden;
-				}
-			}
 		}
 	}
 }
