@@ -1,6 +1,7 @@
 import '../../styles/TablePage.scss';
 
 import React, { useMemo, useState } from 'react';
+import { faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import CardholderEditor from './CardholderEditor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,9 +9,23 @@ import Modal from '../../components/Modal';
 import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
 import { Toaster } from 'react-hot-toast';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { fetchGetById } from '../../helpers/api/fetch';
 import { useCardholders } from '../../helpers/api/queries';
+
+const blankCardholder = {
+	_id: '',
+	firstName: '',
+	lastName: '',
+	email: '',
+	jobTitle: '',
+	profileStatus: true,
+	activationDate: new Date(),
+	expirationDate: new Date(),
+	profileType: 'Employee',
+	accessGroups: [],
+	credentials: [],
+	exists: false,
+};
 
 const CardholdersTable = ({ isNavbarOpen }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -159,6 +174,12 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 						<option value='lastName'>Last Name</option>
 						<option value='employeeId'>Employee ID</option>
 					</select>
+					<button className='add-btn'>
+						<span>Create Cardholder</span>
+						<div className='icon'>
+							<FontAwesomeIcon icon={faPlus} />
+						</div>
+					</button>
 				</div>
 				<div className='table-body'>
 					{data ? (

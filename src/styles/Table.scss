@@ -8,13 +8,19 @@
 }
 
 .table-header {
-	display: flex;
 	position: sticky;
 	top: 0;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
 	height: $searchbar-height;
 	padding: 1rem 1rem;
 	background-color: $clr-dark;
 	z-index: 1;
+
+	@include mobile {
+		gap: 0.5rem;
+	}
 
 	h1 {
 		margin: 0;
@@ -32,6 +38,7 @@
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
+		height: 100%;
 		margin-left: auto;
 
 		input {
@@ -52,7 +59,6 @@
 
 	select {
 		height: 100%;
-		margin-left: 1rem;
 		padding: 0 0.5rem;
 		padding-right: 1rem;
 		color: $clr-text-dark;
@@ -67,6 +73,69 @@
 
 		option {
 			color: $clr-text;
+		}
+	}
+
+	.add-btn {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.25rem;
+		width: auto;
+		height: 90%;
+		padding: 0;
+		color: $clr-text;
+		background-color: $clr-accent-secondary-dark;
+		border: 1px solid transparent;
+		border-bottom: none;
+		border-radius: 3px;
+
+		@include mobile {
+			gap: 0;
+		}
+
+		@include tablet {
+			gap: 0;
+		}
+
+		span {
+			width: 8rem;
+			padding-left: 0.5rem;
+			font-weight: 600;
+			overflow: hidden;
+			white-space: nowrap;
+			transition: width 0.5s ease;
+
+			@include mobile {
+				width: 0px;
+				padding: 0;
+			}
+
+			@include tablet {
+				width: 0px;
+				padding: 0;
+			}
+		}
+
+		.icon {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+			aspect-ratio: 1 / 1;
+
+			svg {
+				height: 70%;
+				aspect-ratio: 1 / 1;
+			}
+		}
+
+		&:hover {
+			@include interactive-hover;
+
+			span {
+				filter: brightness(0.85);
+			}
 		}
 	}
 }
