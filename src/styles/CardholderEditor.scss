@@ -153,6 +153,7 @@
 		}
 
 		.input {
+			content: ' ';
 			width: 100%;
 			height: 2.25rem;
 			margin-top: 4px;
@@ -175,8 +176,8 @@
 				background-color: adjust-color($color: $clr-darkest, $blackness: 100%);
 			}
 
-			&:placeholder-shown {
-				border-color: $clr-red;
+			&.blank {
+				border-bottom-color: $clr-red;
 			}
 		}
 
