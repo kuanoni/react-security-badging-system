@@ -71,3 +71,18 @@ export const fetchUpdate = async (collection, id, body) => {
 
 	return response;
 };
+
+export const fetchPost = async (collection, body) => {
+	const response = await fetch(apiUrl + collection + '/post', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(body),
+	});
+
+	const resBody = await response.json();
+	if (!response.ok) throw new Error(`Error ${response.status}: ${resBody.message}`);
+
+	return resBody;
+};

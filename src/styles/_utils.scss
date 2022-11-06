@@ -18,9 +18,9 @@
 }
 
 .toast {
-	color: $clr-text !important;
-	background-color: $clr-darkest !important;
 	border: 1px solid $clr-highlight !important;
+	background-color: $clr-darkest !important;
+	color: $clr-text !important;
 	user-select: none !important;
 }
 
@@ -28,18 +28,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100%;
 	width: 100%;
-
-	.loader {
-		$size: 3rem;
-		border: calc($size / 7.5) solid $clr-highlight;
-		border-top: calc($size / 7.5) solid $clr-accent;
-		border-radius: 50%;
-		width: $size;
-		height: $size;
-		animation: spin 1.5s linear infinite;
-	}
+	height: 100%;
 
 	@keyframes spin {
 		0% {
@@ -49,14 +39,24 @@
 			transform: rotate(360deg);
 		}
 	}
+
+	.loader {
+		$size: 3rem;
+		width: $size;
+		height: $size;
+		border: calc($size / 7.5) solid $clr-highlight;
+		border-top: calc($size / 7.5) solid $clr-accent;
+		border-radius: 50%;
+		animation: spin 1.5s linear infinite;
+	}
 }
 
 @include tablet {
 	input,
 	select,
 	textarea {
-		-webkit-appearance: none;
 		font-size: 16px;
+		-webkit-appearance: none;
 	}
 }
 

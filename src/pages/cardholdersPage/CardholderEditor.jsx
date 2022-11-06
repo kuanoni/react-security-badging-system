@@ -1,263 +1,114 @@
 import '../../styles/CardholderEditor.scss';
 
+import BuildForm, { cardholderEditorForm } from '../../helpers/utils/formBuilder';
 import React, { useState } from 'react';
-import { useAccessGroups, useAvailableCredentials } from '../../helpers/api/queries';
+import { fetchPost, fetchUpdate } from '../../helpers/api/fetch';
 
-import CustomDatePicker from '../../components/forms/CustomDatePicker';
-import LabeledInput from '../../components/forms/LabeledInput';
-import ListAddRemove from '../../components/forms/ListAddRemove';
-import Modal from '../../components/Modal';
-import SelectionList from '../../components/SelectionListContainer';
-import { fetchUpdate } from '../../helpers/api/fetch';
 import toast from 'react-hot-toast';
+import { useMutation } from 'react-query';
 
-const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
-	const [isEditing, setIsEditing] = useState(false);
+const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardholder }) => {
+	const [newCardholder, setNewCardholder] = useState({ ...cardholder });
+	const [isEditing, setIsEditing] = useState(isCardholderNew);
 	const [isSaving, setIsSaving] = useState(false);
 
-	const [isGroupsModalOpen, setIsGroupsModalOpen] = useState(false);
-	const [isCredentialsModalOpen, setIsCredentialsModalOpen] = useState(false);
+	const post = useMutation({
+		mutationFn: (cardholder) => fetchPost('cardholders', cardholder),
+		onError: (error) => {
+			if (error.message.includes('E11000')) toast.error(<b>Employee ID is already in use. Try another.</b>);
+			else toast.error(<b>Failed to save cardholder.</b>);
+		},
+		onSuccess: () => {
+			toast.success(<b>Cardholder saved!</b>);
+			closeModal();
+		},
+		onSettled: () => {
+			toast.remove('loadingToast');
+		},
+	});
 
-	// editor controlled input values
-	const [firstName, setFirstName] = useState(cardholder.firstName);
-	const [lastName, setLastName] = useState(cardholder.lastName);
-	const [email, setEmail] = useState(cardholder.email);
-	const [jobTitle, setJobTitle] = useState(cardholder.jobTitle);
-	const [profileStatus, setProfileStatus] = useState(cardholder.profileStatus);
-	const [activationDate, setActivationDate] = useState(new Date(cardholder.activationDate));
-	const [expirationDate, setExpirationDate] = useState(new Date(cardholder.expirationDate));
-	const [profileType, setProfileType] = useState(cardholder.profileType);
-	const [accessGroups, setAccessGroups] = useState(cardholder.accessGroups);
-	const [credentials, setCredentials] = useState(cardholder.credentials);
-	const [notes, setNotes] = useState('');
+	const update = useMutation({
+		mutationFn: ({ id, cardholder }) => fetchUpdate('cardholders', id, cardholder),
+		onError: (error) => {
+			toast.error(<b>Failed to update cardholder.</b>);
+		},
+		onSuccess: (data, variables) => {
+			toast.success(<b>Cardholder updated!</b>);
+			setIsEditing(false);
+			onSaveCardholder(variables.cardholder);
+		},
+		onSettled: () => {
+			toast.remove('loadingToast');
+		},
+	});
 
-	const handleRemoveAccessGroup = (value) => {
-		const idx = accessGroups.indexOf(value);
-		const newArr = [...accessGroups];
-		newArr.splice(idx, 1);
+	const saveCardholder = async () => {
+		setIsSaving(true);
+		toast.loading(<b>Waiting...</b>, { id: 'loadingToast' });
 
-		if (idx > -1) setAccessGroups(newArr);
-	};
+		if (isCardholderNew) {
+			const hasErrors = !Object.keys(newCardholder).every((key) => !newCardholder[key]?.errors);
+			if (hasErrors) return toast.error(<b>Please fill out all fields correctly.</b>);
 
-	const handleRemoveCredential = (value) => {
-		const idx = credentials.indexOf(value);
-		const newArr = [...credentials];
-		newArr.splice(idx, 1);
-
-		if (idx > -1) setCredentials(newArr);
-	};
-
-	const saveCardholder = () => {
-		if (!firstName || !lastName || !email || !jobTitle || !activationDate || !expirationDate) {
-			toast.error(<b>Please fill all fields.</b>);
-			return;
+			await post.mutate({ ...newCardholder });
+		} else {
+			await update.mutate({ id: cardholder._id, cardholder: { ...newCardholder } });
 		}
 
-		const newCardholder = {
-			_id: cardholder._id,
-			avatar: cardholder.avatar,
-			firstName,
-			lastName,
-			email,
-			jobTitle,
-			profileStatus,
-			activationDate,
-			expirationDate,
-			profileType,
-			accessGroups,
-			credentials,
-		};
-
-		setIsSaving(true);
-		setIsEditing(false);
-
-		toast.promise(
-			fetchUpdate('cardholders', cardholder._id, newCardholder)
-				.then((res) => {
-					setIsSaving(false);
-					onSaveCardholder(newCardholder);
-					console.log(res);
-				})
-				.catch((err) => {
-					console.log(err);
-					setIsEditing(true);
-				}),
-			{
-				loading: 'Saving...',
-				success: <b>Cardholder saved!</b>,
-				error: <b>Could not save.</b>,
-			}
-		);
+		setIsSaving(false);
 	};
 
-	if (!Object.keys(cardholder).length) {
+	if (!Object.keys(cardholder).length)
 		return (
 			<div className='loader-container'>
 				<div className='loader'></div>
 			</div>
 		);
-	}
 
 	return (
 		<>
-			<Modal
-				isOpen={isGroupsModalOpen}
-				closeModal={() => setIsGroupsModalOpen(false)}
-				overlayClassName={'overlay selection-list'}
-				modalClassName={'modal'}
-			>
-				<SelectionList
-					queryHook={useAccessGroups}
-					dataKey={'groupName'}
-					initialSelected={accessGroups}
-					saveNewList={setAccessGroups}
-					closeModal={() => setIsGroupsModalOpen(false)}
-				/>
-			</Modal>
-			<Modal
-				isOpen={isCredentialsModalOpen}
-				closeModal={() => setIsCredentialsModalOpen(false)}
-				overlayClassName={'overlay selection-list'}
-				modalClassName={'modal'}
-			>
-				<SelectionList
-					queryHook={useAvailableCredentials}
-					dataKey={'_id'}
-					initialSelected={credentials}
-					saveNewList={setCredentials}
-					closeModal={() => setIsCredentialsModalOpen(false)}
-				/>
-			</Modal>
-
-			<div className='header'>
-				<div className='avatar'>
-					<img src={cardholder?.avatar} alt='' />
+			{!isCardholderNew ? (
+				<div className='header'>
+					<div className='avatar'>
+						<img src={cardholder?.avatar} alt='' />
+					</div>
+					<div className='cardholder-info'>
+						<h1 className='title'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
+						<div className='label'>Email</div>
+						<div>{cardholder?.email}</div>
+						<div className='label'>Status</div>
+						{cardholder?.profileStatus ? (
+							<div className='green-txt'>Active</div>
+						) : (
+							<div className='red-txt'>Inactive</div>
+						)}
+					</div>
+					<label className='edit-toggle'>
+						<span>
+							EDIT
+							<input
+								type='checkbox'
+								id='switch'
+								checked={isEditing}
+								onChange={(e) => setIsEditing(!isEditing)}
+							/>
+							<label htmlFor='switch'>Toggle</label>
+						</span>
+					</label>
 				</div>
-				<div className='cardholder-info'>
-					<h1 className='title'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
-					<div className='label'>Email</div>
-					<div>{cardholder?.email}</div>
-					<div className='label'>Status</div>
-					{cardholder?.profileStatus ? (
-						<div className='green-txt'>Active</div>
-					) : (
-						<div className='red-txt'>Inactive</div>
-					)}
+			) : (
+				<div className='header'>
+					<h1 className='title'>New cardholder</h1>
 				</div>
-				<label className='edit-toggle'>
-					<span>
-						EDIT
-						<input
-							type='checkbox'
-							id='switch'
-							checked={isEditing}
-							onChange={(e) => setIsEditing(!isEditing)}
-						/>
-						<label htmlFor='switch'>Toggle</label>
-					</span>
-				</label>
-			</div>
+			)}
 			<div className='body'>
-				<div className='column'>
-					<div className='container'>
-						<h1 className='title'>General</h1>
-						<LabeledInput label={'Employee ID'} defaultValue={cardholder._id} disabled={true} />
-
-						<LabeledInput
-							label={'First name'}
-							defaultValue={firstName}
-							handleChange={setFirstName}
-							disabled={!isEditing}
-						/>
-						<LabeledInput
-							label={'Last name'}
-							defaultValue={lastName}
-							handleChange={setLastName}
-							disabled={!isEditing}
-						/>
-						<LabeledInput
-							label={'Email'}
-							defaultValue={email}
-							handleChange={setEmail}
-							disabled={!isEditing}
-						/>
-						<LabeledInput
-							label={'Job title'}
-							defaultValue={jobTitle}
-							handleChange={setJobTitle}
-							disabled={!isEditing}
-						/>
-					</div>
-					<div className='container'>
-						<h1 className='title'>Access Rights</h1>
-						<label className='label'>Profile type</label>
-						<select
-							className='input'
-							disabled={!isEditing}
-							defaultValue={profileType}
-							onChange={(e) => setProfileType(e.target.value)}
-						>
-							<option value={'Employee'}>Employee</option>
-							<option value={'Contractor'}>Contractor</option>
-							<option value={'Privileged Visitor'}>Privileged Visitor</option>
-						</select>
-						<ListAddRemove
-							label={'Cardholder groups'}
-							list={accessGroups}
-							listKey='groupName'
-							onAdd={() => setIsGroupsModalOpen(true)}
-							onRemove={handleRemoveAccessGroup}
-							isEditing={isEditing}
-						/>
-						<ListAddRemove
-							label={'Badges'}
-							list={credentials}
-							listKey='_id'
-							onAdd={() => setIsCredentialsModalOpen(true)}
-							onRemove={handleRemoveCredential}
-							isEditing={isEditing}
-						/>
-					</div>
-				</div>
-				<div className='column'>
-					<div className='container'>
-						<h1 className='title'>Status</h1>
-						<CustomDatePicker
-							label='Activation'
-							date={activationDate}
-							setDate={setActivationDate}
-							disabled={true}
-						/>
-						<CustomDatePicker
-							label='Expiration'
-							date={expirationDate}
-							setDate={setExpirationDate}
-							minDate={new Date()}
-							disabled={!isEditing}
-						/>
-						<label className='label'>Status</label>
-						<select
-							className='input'
-							disabled={!isEditing}
-							defaultValue={profileStatus}
-							onChange={(e) => setProfileStatus(e.target.value)}
-						>
-							<option value={true}>Active</option>
-							<option value={false}>Inactive</option>
-						</select>
-					</div>
-					<div className='container'>
-						<h1 className='title'>Additional info</h1>
-						<label className='label'>Administrative notes</label>
-						<textarea
-							className='input'
-							type='text'
-							defaultValue={notes}
-							onChange={(e) => setNotes(e.target.value)}
-							disabled={!isEditing}
-						/>
-					</div>
-				</div>
+				<BuildForm
+					formTemplate={cardholderEditorForm}
+					defaultData={cardholder}
+					updateData={setNewCardholder}
+					isEditing={isEditing}
+					isSaving={isSaving}
+				/>
 			</div>
 			<div className='footer'>
 				<button className='btn cancel' onClick={() => !isSaving && closeModal()} disabled={isSaving}>

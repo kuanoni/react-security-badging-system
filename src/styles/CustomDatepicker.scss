@@ -3,15 +3,15 @@
 .custom-datepicker-popper {
 	.react-datepicker {
 		width: 100%;
-		background-color: $clr-base;
-		border-color: transparent;
 		border-top: none;
+		border-color: transparent;
+		background-color: $clr-base;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
 
 		&__header {
-			background-color: $clr-darkest;
 			border-color: $clr-highlight;
+			background-color: $clr-darkest;
 
 			&-custom-container {
 				display: flex;
@@ -26,12 +26,12 @@
 				}
 
 				button {
-					color: $clr-text;
-					background-color: transparent;
 					border: none;
-					border-radius: 3px;
+					background-color: transparent;
+					color: $clr-text;
 					font-weight: 900;
 					cursor: pointer;
+					border-radius: 3px;
 
 					&:hover {
 						background-color: $clr-highlight;
@@ -42,13 +42,13 @@
 
 		&__triangle {
 			&::before {
-				border-bottom-color: $clr-base !important;
 				border-top-color: $clr-base !important;
+				border-bottom-color: $clr-base !important;
 			}
 
 			&::after {
-				border-bottom-color: $clr-base !important;
 				border-top-color: $clr-base !important;
+				border-bottom-color: $clr-base !important;
 			}
 		}
 

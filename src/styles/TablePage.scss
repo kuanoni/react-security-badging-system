@@ -3,12 +3,12 @@
 .table-page {
 	position: absolute;
 	top: 0;
-	bottom: 0;
 	right: 0;
-	color: $clr-text;
+	bottom: 0;
 	background-color: $clr-dark;
-	transition: all 0.2s ease;
+	color: $clr-text;
 	overflow: hidden;
+	transition: all 0.2s ease;
 
 	@include mobile {
 		left: $navbar-collapsed-width-mobile;
@@ -31,13 +31,13 @@
 	}
 
 	.btn-edit-user {
-		color: $clr-text-dark;
+		border: none;
 		background-color: transparent;
 		border-collapse: initial;
-		transition: 0.2s ease;
-		border: none;
+		color: $clr-text-dark;
 		font-size: 1.45em;
 		cursor: pointer;
+		transition: 0.2s ease;
 
 		&:hover {
 			@include interactive-hover;

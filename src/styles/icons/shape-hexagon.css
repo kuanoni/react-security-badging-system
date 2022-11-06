@@ -2,11 +2,11 @@
 .gg-shape-hexagon::after,
 .gg-shape-hexagon::before {
 	display: block;
-	box-sizing: border-box;
 	width: 18px;
 	height: 10px;
-	border-left: 3px solid currentColor;
 	border-right: 3px solid currentColor;
+	border-left: 3px solid currentColor;
+	box-sizing: border-box;
 }
 
 .gg-shape-hexagon {
@@ -16,9 +16,9 @@
 
 .gg-shape-hexagon::after,
 .gg-shape-hexagon::before {
-	content: '';
 	position: absolute;
 	left: -3px;
+	content: '';
 }
 
 .gg-shape-hexagon::before {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import SelectableListItem from './forms/SelectableListItem';
 import { useRef } from 'react';
@@ -41,7 +41,7 @@ const SelectionListRows = ({ query, dataKey, searchbarValue, onlyShowSelected, s
 				setSelectedList(selectedList.filter((selectedListItem) => selectedListItem._id !== item._id));
 			else setSelectedList([...selectedList, item].sort((a, b) => a._id - b._id));
 		},
-		[selectedList, checkIfSelected]
+		[selectedList, setSelectedList, checkIfSelected]
 	);
 
 	const rowVirtualizer = useVirtualizer({
