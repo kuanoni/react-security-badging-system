@@ -1,5 +1,4 @@
 import { useAccessGroups, useCredentials } from '../api/queries';
-import { useEffect, useState } from 'react';
 
 import CustomDatePicker from '../../components/forms/CustomDatePicker';
 import DropdownList from '../../components/forms/DropdownList';
@@ -138,9 +137,7 @@ export const cardholderEditorForm = {
 	],
 };
 
-const BuildForm = ({ formTemplate, defaultData, isEditing, isSaving, submit }) => {
-	const [formData, setFormData] = useState(defaultData);
-
+const BuildForm = ({ formTemplate, defaultData, updateData, isEditing, isSaving }) => {
 	const formTypeComponents = {
 		text: (formItem) => (
 			<LabeledInput
@@ -188,19 +185,14 @@ const BuildForm = ({ formTemplate, defaultData, isEditing, isSaving, submit }) =
 		),
 	};
 
-	// if a formItem has an error, it will set its value to null
 	const onChangeHandler = (key, value) => {
 		if (!isSaving)
-			setFormData((currentFormData) => {
-				const newFormData = { ...currentFormData };
+			updateData((currentData) => {
+				const newFormData = { ...currentData };
 				newFormData[key] = value;
 				return newFormData;
 			});
 	};
-
-	useEffect(() => {
-		if (isSaving) submit(formData);
-	}, [isSaving, submit, formData]);
 
 	return ['left', 'right'].map((column) => (
 		<div className='column' key={column}>

@@ -1,5 +1,5 @@
-import { useInfiniteQuery } from 'react-query';
-import { fetchGet, fetchGetAvailableCredentials } from './fetch';
+import { fetchGet, fetchGetAvailableCredentials, fetchPost } from './fetch';
+import { useInfiniteQuery, useMutation } from 'react-query';
 
 const queryFunctionBuilder =
 	(collection, fetchFn = fetchGet, searchFilter, searchValue) =>

@@ -2,58 +2,68 @@ import '../../styles/CardholderEditor.scss';
 
 import BuildForm, { cardholderEditorForm } from '../../helpers/utils/formBuilder';
 import React, { useState } from 'react';
+import { fetchPost, fetchUpdate } from '../../helpers/api/fetch';
 
-import { fetchUpdate } from '../../helpers/api/fetch';
 import toast from 'react-hot-toast';
+import { useMutation } from 'react-query';
 
 const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardholder }) => {
+	const [newCardholder, setNewCardholder] = useState({ ...cardholder });
 	const [isEditing, setIsEditing] = useState(isCardholderNew);
 	const [isSaving, setIsSaving] = useState(false);
 
-	const saveCardholder = (newCardholder) => {
-		// look into React Query mutations for PUT and POST
+	const post = useMutation({
+		mutationFn: (cardholder) => fetchPost('cardholders', cardholder),
+		onError: (error) => {
+			if (error.message.includes('E11000')) toast.error(<b>Employee ID is already in use. Try another.</b>);
+			else toast.error(<b>Failed to save cardholder.</b>);
+		},
+		onSuccess: () => {
+			toast.success(<b>Cardholder saved!</b>);
+			closeModal();
+		},
+		onSettled: () => {
+			toast.remove('loadingToast');
+		},
+	});
 
-		if (isCardholderNew)
-			if (!Object.keys(newCardholder).every((key) => !newCardholder[key]?.errors)) {
-				toast.error(<b>Please fill out all fields correctly.</b>);
-				console.log('invalid: ', newCardholder);
-				setIsSaving(false);
-				return;
-			}
+	const update = useMutation({
+		mutationFn: ({ id, cardholder }) => fetchUpdate('cardholders', id, cardholder),
+		onError: (error) => {
+			toast.error(<b>Failed to update cardholder.</b>);
+		},
+		onSuccess: (data, variables) => {
+			toast.success(<b>Cardholder updated!</b>);
+			setIsEditing(false);
+			onSaveCardholder(variables.cardholder);
+		},
+		onSettled: () => {
+			toast.remove('loadingToast');
+		},
+	});
 
-		console.log('valid: ', newCardholder);
+	const saveCardholder = async () => {
+		setIsSaving(true);
+		toast.loading(<b>Waiting...</b>, { id: 'loadingToast' });
 
-		return;
+		if (isCardholderNew) {
+			const hasErrors = !Object.keys(newCardholder).every((key) => !newCardholder[key]?.errors);
+			if (hasErrors) return toast.error(<b>Please fill out all fields correctly.</b>);
+
+			await post.mutate({ ...newCardholder });
+		} else {
+			await update.mutate({ id: cardholder._id, cardholder: { ...newCardholder } });
+		}
 
 		setIsSaving(false);
-		setIsEditing(false);
-
-		toast.promise(
-			fetchUpdate('cardholders', cardholder._id, newCardholder)
-				.then((res) => {
-					setIsSaving(false);
-					onSaveCardholder(newCardholder);
-					console.log(res);
-				})
-				.catch((err) => {
-					console.log(err);
-					setIsEditing(true);
-				}),
-			{
-				loading: 'Saving...',
-				success: <b>Cardholder saved!</b>,
-				error: <b>Could not save.</b>,
-			}
-		);
 	};
 
-	if (!Object.keys(cardholder).length) {
+	if (!Object.keys(cardholder).length)
 		return (
 			<div className='loader-container'>
 				<div className='loader'></div>
 			</div>
 		);
-	}
 
 	return (
 		<>
@@ -95,16 +105,16 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 				<BuildForm
 					formTemplate={cardholderEditorForm}
 					defaultData={cardholder}
+					updateData={setNewCardholder}
 					isEditing={isEditing}
 					isSaving={isSaving}
-					submit={saveCardholder}
 				/>
 			</div>
 			<div className='footer'>
 				<button className='btn cancel' onClick={() => !isSaving && closeModal()} disabled={isSaving}>
 					Cancel
 				</button>
-				<button className='btn save' onClick={() => setIsSaving(true)} disabled={!isEditing}>
+				<button className='btn save' onClick={() => saveCardholder()} disabled={!isEditing}>
 					Save
 				</button>
 			</div>
