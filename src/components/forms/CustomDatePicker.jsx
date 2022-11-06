@@ -68,7 +68,7 @@ const customHeader = ({
 	);
 };
 
-const CustomDatePicker = ({ label, defaultDate, handleChange, minDate, isDisabled }) => {
+const CustomDatePicker = ({ label, defaultDate, handleChange, minDate, maxDate, isDisabled }) => {
 	const pickerRef = useRef(null);
 	const [selectedDate, setSelectedDate] = useState(Date.parse(defaultDate));
 
@@ -96,6 +96,7 @@ const CustomDatePicker = ({ label, defaultDate, handleChange, minDate, isDisable
 						e.preventDefault();
 					}}
 					minDate={minDate}
+					maxDate={maxDate}
 					renderCustomHeader={customHeader}
 					className='input'
 					popperClassName='custom-datepicker-popper'
