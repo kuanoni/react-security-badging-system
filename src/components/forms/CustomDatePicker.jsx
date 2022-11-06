@@ -5,6 +5,7 @@ import React, { useEffect, useRef } from 'react';
 import { getMonth, getYear } from 'date-fns';
 
 import DatePicker from 'react-datepicker';
+import { useState } from 'react';
 
 const customHeader = ({
 	date,
@@ -67,9 +68,16 @@ const customHeader = ({
 	);
 };
 
-const CustomDatePicker = ({ label, date, setDate, minDate, disabled }) => {
+const CustomDatePicker = ({ label, defaultDate, handleChange, minDate, isDisabled }) => {
 	const pickerRef = useRef(null);
+	const [selectedDate, setSelectedDate] = useState(Date.parse(defaultDate));
 
+	const onChange = (newDate) => {
+		setSelectedDate(newDate);
+		handleChange(newDate);
+	};
+
+	// prevents typing in datepicker input
 	useEffect(() => {
 		if (pickerRef.current !== null) {
 			pickerRef.current.input.readOnly = true;
@@ -82,8 +90,8 @@ const CustomDatePicker = ({ label, date, setDate, minDate, disabled }) => {
 			<div className='datepicker-container'>
 				<DatePicker
 					ref={pickerRef}
-					selected={date}
-					onChange={(date) => setDate(date)}
+					selected={selectedDate}
+					onChange={(date) => onChange(date)}
 					onChangeRaw={(e) => {
 						e.preventDefault();
 					}}
@@ -93,7 +101,7 @@ const CustomDatePicker = ({ label, date, setDate, minDate, disabled }) => {
 					popperClassName='custom-datepicker-popper'
 					popperPlacement='top'
 					fixedHeight
-					disabled={disabled}
+					disabled={isDisabled}
 				/>
 			</div>
 		</>

@@ -1,7 +1,7 @@
 import '../../styles/TablePage.scss';
 
 import React, { useMemo, useState } from 'react';
-import { faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
 import CardholderEditor from './CardholderEditor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,21 +11,6 @@ import Table from '../../components/Table';
 import { Toaster } from 'react-hot-toast';
 import { fetchGetById } from '../../helpers/api/fetch';
 import { useCardholders } from '../../helpers/api/queries';
-
-const blankCardholder = {
-	_id: '',
-	firstName: '',
-	lastName: '',
-	email: '',
-	jobTitle: '',
-	profileStatus: true,
-	activationDate: new Date(),
-	expirationDate: new Date(),
-	profileType: 'Employee',
-	accessGroups: [],
-	credentials: [],
-	exists: false,
-};
 
 const CardholdersTable = ({ isNavbarOpen }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -177,7 +162,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 					<button className='add-btn'>
 						<span>Create Cardholder</span>
 						<div className='icon'>
-							<FontAwesomeIcon icon={faPlus} />
+							<FontAwesomeIcon icon={faSquarePlus} />
 						</div>
 					</button>
 				</div>
