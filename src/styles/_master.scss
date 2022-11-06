@@ -64,11 +64,11 @@ $clr-purple: rgb(196, 95, 255);
 }
 
 @mixin reset-padding-margin {
-	padding: 0;
 	margin: 0;
+	padding: 0;
 }
 
 @mixin interactive-hover {
-	filter: brightness(1.25);
 	cursor: pointer;
+	filter: brightness(1.25);
 }

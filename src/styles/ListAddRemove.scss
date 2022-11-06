@@ -9,8 +9,8 @@
 		aspect-ratio: 1 / 1;
 
 		&:hover:not(:disabled) {
-			@include interactive-hover;
 			transform: scale(1.25);
+			@include interactive-hover;
 		}
 
 		&:disabled {
@@ -25,18 +25,18 @@
 		padding-bottom: 0.25rem;
 
 		button {
-			color: $clr-green;
 			border: none;
+			color: $clr-green;
 			font-size: 1.15em;
 		}
 	}
 
 	.list-body {
-		border-top: 1px solid $clr-highlight;
 		margin-top: 0;
 		margin-bottom: 1.5rem;
 		padding-top: 0.5rem;
 		padding-left: 0;
+		border-top: 1px solid $clr-highlight;
 		list-style: none;
 		user-select: none;
 	}

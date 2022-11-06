@@ -5,9 +5,9 @@
 	justify-content: center;
 	position: fixed;
 	top: 0;
+	right: 0;
 	bottom: 0;
 	left: 0;
-	right: 0;
 	background-color: rgba(0, 0, 0, 0.651);
 	z-index: 100;
 
@@ -18,13 +18,13 @@
 		min-width: 250px;
 		max-width: 750px;
 		margin: 3rem 1.5rem;
-		color: $clr-text;
 		background-color: $clr-dark;
+		color: $clr-text;
 		box-shadow: 0 0 20px 1px #000000;
 
 		@include mobile {
-			margin: 1rem;
 			max-width: 90vw;
+			margin: 1rem;
 		}
 
 		.header {
@@ -32,9 +32,9 @@
 			position: relative;
 			padding: 1rem;
 			background-color: $clr-base;
-			box-shadow: 0 1px 2px $clr-darkest;
-			font-weight: 600;
 			font-size: 0.9em;
+			font-weight: 600;
+			box-shadow: 0 1px 2px $clr-darkest;
 		}
 
 		.body {
@@ -53,15 +53,15 @@
 			box-shadow: 0 -1px 2px $clr-darkest;
 
 			.btn {
-				color: $clr-text;
 				padding: 0.75em;
 				border: none;
-				border-radius: 3px;
-				box-shadow: 1px 1px 2px $clr-base;
+				color: $clr-text;
 				font-size: 0.9em;
 				font-weight: 600;
-				transition: 0.15s ease-in-out;
 				cursor: pointer;
+				border-radius: 3px;
+				box-shadow: 1px 1px 2px $clr-base;
+				transition: 0.15s ease-in-out;
 
 				&.save {
 					background-color: $clr-accent-dark;

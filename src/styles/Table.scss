@@ -8,11 +8,11 @@
 }
 
 .table-header {
-	position: sticky;
-	top: 0;
 	display: flex;
 	align-items: center;
 	gap: 1rem;
+	position: sticky;
+	top: 0;
 	height: $searchbar-height;
 	padding: 1rem 1rem;
 	background-color: $clr-dark;
@@ -23,11 +23,11 @@
 	}
 
 	h1 {
-		margin: 0;
 		min-width: 0;
+		margin: 0;
+		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		white-space: nowrap;
 
 		@include mobile {
 			display: none;
@@ -61,11 +61,11 @@
 		height: 100%;
 		padding: 0 0.5rem;
 		padding-right: 1rem;
-		color: $clr-text-dark;
-		background-color: $clr-darkest;
 		border: 1px solid $clr-highlight;
-		border-radius: 0px;
 		outline: none;
+		background-color: $clr-darkest;
+		color: $clr-text-dark;
+		border-radius: 0px;
 
 		&:focus {
 			border-color: $clr-text-dark;
@@ -78,16 +78,16 @@
 
 	.add-btn {
 		display: flex;
-		align-items: center;
 		justify-content: flex-end;
+		align-items: center;
 		gap: 0.25rem;
 		width: auto;
 		height: 90%;
 		padding: 0;
-		color: $clr-text;
-		background-color: $clr-accent-secondary-dark;
 		border: 1px solid transparent;
 		border-bottom: none;
+		background-color: $clr-accent-secondary-dark;
+		color: $clr-text;
 		border-radius: 3px;
 
 		@include mobile {
@@ -101,9 +101,9 @@
 		span {
 			width: 8rem;
 			padding-left: 0.5rem;
+			white-space: nowrap;
 			font-weight: 600;
 			overflow: hidden;
-			white-space: nowrap;
 			transition: width 0.5s ease;
 
 			@include mobile {
@@ -144,11 +144,11 @@
 	$padding: 1rem;
 	position: absolute;
 	top: 0;
+	right: $padding;
 	bottom: $padding;
 	left: $padding;
-	right: $padding;
-	background-color: $clr-dark;
 	border: 1px solid $clr-highlight;
+	background-color: $clr-dark;
 	overflow: auto;
 
 	&::-webkit-scrollbar {
@@ -156,9 +156,9 @@
 		height: 1rem;
 
 		&-thumb {
+			border: 3px solid $clr-dark;
 			background-color: $clr-text-dark;
 			border-radius: 5px;
-			border: 3px solid $clr-dark;
 
 			&:hover {
 				background-color: $clr-text;
@@ -177,31 +177,31 @@
 
 		border-collapse: separate;
 		border-spacing: 0;
+		text-align: left;
 
 		font-size: 14px;
 		font-weight: 300;
-		text-align: left;
 		user-select: none;
 
 		th {
 			position: sticky;
 			top: 0;
-			z-index: 10;
-			padding: 0.5rem;
 			margin-bottom: 0.5rem;
-			color: $clr-text-dark;
-			background-color: $clr-dark;
+			padding: 0.5rem;
 			border: 1px solid $clr-highlight;
 			border-top: none;
 			border-left: none;
+			background-color: $clr-dark;
+			color: $clr-text-dark;
 			font-weight: 300;
+			z-index: 10;
 
 			.resizer {
 				position: absolute;
-				right: 0;
 				top: 0;
-				height: 100%;
+				right: 0;
 				width: 4px;
+				height: 100%;
 				opacity: 0;
 
 				cursor: col-resize;
@@ -222,8 +222,8 @@
 		td {
 			height: 3rem;
 			padding: 0.25rem 0.5rem;
-			border-bottom: none;
 			border-right: 1px solid $clr-highlight;
+			border-bottom: none;
 
 			.avatar {
 				display: block;
@@ -235,8 +235,8 @@
 		}
 
 		tr {
-			color: $clr-text;
 			background-color: $clr-base;
+			color: $clr-text;
 		}
 
 		tr:hover {

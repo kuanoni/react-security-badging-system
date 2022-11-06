@@ -3,12 +3,12 @@
 .error-page {
 	position: absolute;
 	top: 0;
-	bottom: 0;
 	right: 0;
-	color: $clr-text;
+	bottom: 0;
 	background-color: $clr-dark;
-	transition: all 0.2s ease;
+	color: $clr-text;
 	overflow: hidden;
+	transition: all 0.2s ease;
 
 	@include mobile {
 		left: $navbar-collapsed-width-mobile;

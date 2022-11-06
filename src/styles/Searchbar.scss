@@ -6,9 +6,9 @@
 	input {
 		width: 100%;
 		height: 100%;
-		color: $clr-text;
-		background-color: $clr-darker;
 		outline: none;
+		background-color: $clr-darker;
+		color: $clr-text;
 
 		&::placeholder {
 			color: $clr-text-dark;
@@ -17,13 +17,13 @@
 
 	button {
 		position: absolute;
-		color: $clr-text-dark;
-		background-color: transparent;
 		border-color: transparent;
+		background-color: transparent;
+		color: $clr-text-dark;
 		font-size: 1.25em;
 		opacity: 0;
-		transition: opacity 0.2s ease;
 		cursor: pointer;
+		transition: opacity 0.2s ease;
 
 		&.show {
 			opacity: 1;
