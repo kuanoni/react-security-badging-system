@@ -6,14 +6,16 @@ import React, { useState } from 'react';
 import { fetchUpdate } from '../../helpers/api/fetch';
 import toast from 'react-hot-toast';
 
-const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
-	const [isEditing, setIsEditing] = useState(false);
+const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardholder }) => {
+	const [isEditing, setIsEditing] = useState(isCardholderNew);
 	const [isSaving, setIsSaving] = useState(false);
 
 	const saveCardholder = (newCardholder) => {
-		console.log(newCardholder);
+		if (isCardholderNew) return;
+
 		setIsSaving(false);
 		setIsEditing(false);
+
 		toast.promise(
 			fetchUpdate('cardholders', cardholder._id, newCardholder)
 				.then((res) => {
@@ -43,34 +45,38 @@ const CardholderEditor = ({ cardholder, closeModal, onSaveCardholder }) => {
 
 	return (
 		<>
-			<div className='header'>
-				<div className='avatar'>
-					<img src={cardholder?.avatar} alt='' />
+			{!isCardholderNew ? (
+				<div className='header'>
+					<div className='avatar'>
+						<img src={cardholder?.avatar} alt='' />
+					</div>
+					<div className='cardholder-info'>
+						<h1 className='title'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
+						<div className='label'>Email</div>
+						<div>{cardholder?.email}</div>
+						<div className='label'>Status</div>
+						{cardholder?.profileStatus ? (
+							<div className='green-txt'>Active</div>
+						) : (
+							<div className='red-txt'>Inactive</div>
+						)}
+					</div>
+					<label className='edit-toggle'>
+						<span>
+							EDIT
+							<input
+								type='checkbox'
+								id='switch'
+								checked={isEditing}
+								onChange={(e) => setIsEditing(!isEditing)}
+							/>
+							<label htmlFor='switch'>Toggle</label>
+						</span>
+					</label>
 				</div>
-				<div className='cardholder-info'>
-					<h1 className='title'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
-					<div className='label'>Email</div>
-					<div>{cardholder?.email}</div>
-					<div className='label'>Status</div>
-					{cardholder?.profileStatus ? (
-						<div className='green-txt'>Active</div>
-					) : (
-						<div className='red-txt'>Inactive</div>
-					)}
-				</div>
-				<label className='edit-toggle'>
-					<span>
-						EDIT
-						<input
-							type='checkbox'
-							id='switch'
-							checked={isEditing}
-							onChange={(e) => setIsEditing(!isEditing)}
-						/>
-						<label htmlFor='switch'>Toggle</label>
-					</span>
-				</label>
-			</div>
+			) : (
+				''
+			)}
 			<div className='body'>
 				<BuildForm
 					formTemplate={cardholderEditorForm}

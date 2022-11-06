@@ -11,10 +11,27 @@ import Table from '../../components/Table';
 import { Toaster } from 'react-hot-toast';
 import { fetchGetById } from '../../helpers/api/fetch';
 import { useCardholders } from '../../helpers/api/queries';
+import { useEffect } from 'react';
+
+const blankCardholder = {
+	_id: '',
+	firstName: '',
+	lastName: '',
+	email: '',
+	jobTitle: '',
+	profileStatus: true,
+	activationDate: new Date(),
+	expirationDate: new Date(),
+	profileType: 'Employee',
+	accessGroups: [],
+	credentials: [],
+	exists: false,
+};
 
 const CardholdersTable = ({ isNavbarOpen }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [cardholderToEdit, setCardholderToEdit] = useState({});
+	const [isNewCardholder, setIsNewCardholder] = useState(false);
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('firstName');
 
@@ -86,7 +103,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 								justifyContent: 'center',
 							}}
 						>
-							<button className='btn-edit-user' onClick={() => openCardholderEditor(info.getValue())}>
+							<button className='btn-edit-user' onClick={() => editCardholder(info.getValue())}>
 								<FontAwesomeIcon icon={faPenToSquare} />
 							</button>
 						</div>
@@ -101,7 +118,15 @@ const CardholdersTable = ({ isNavbarOpen }) => {
               HANDLERS
        ======================= */
 
-	const openCardholderEditor = async (id) => {
+	const newCardholder = () => {
+		if (!isModalOpen) {
+			setCardholderToEdit({ ...blankCardholder });
+			setIsNewCardholder(true);
+			setIsModalOpen(true);
+		}
+	};
+
+	const editCardholder = async (id) => {
 		setIsModalOpen(true);
 		await fetchGetById('cardholders', id).then((cardholder) => {
 			setCardholderToEdit(cardholder);
@@ -109,8 +134,9 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 	};
 
 	const closeCardholderEditor = () => {
-		setIsModalOpen(false);
 		setCardholderToEdit({});
+		setIsNewCardholder(false);
+		setIsModalOpen(false);
 	};
 
 	const onSaveCardholder = (newCardholder) => {
@@ -120,8 +146,12 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 
 	const handleRowClick = (e, id) => {
 		// if double clicked, open editor
-		if (e.detail === 2) openCardholderEditor(id);
+		if (e.detail === 2) editCardholder(id);
 	};
+
+	useEffect(() => {
+		!isModalOpen && setIsNewCardholder(false);
+	}, [isModalOpen, setIsNewCardholder]);
 
 	return (
 		<>
@@ -145,6 +175,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 				<CardholderEditor
 					key={cardholderToEdit._id}
 					cardholder={cardholderToEdit}
+					isCardholderNew={isNewCardholder}
 					closeModal={closeCardholderEditor}
 					onSaveCardholder={onSaveCardholder}
 				/>
@@ -159,7 +190,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 						<option value='lastName'>Last Name</option>
 						<option value='employeeId'>Employee ID</option>
 					</select>
-					<button className='add-btn'>
+					<button className='add-btn' onClick={newCardholder}>
 						<span>Create Cardholder</span>
 						<div className='icon'>
 							<FontAwesomeIcon icon={faSquarePlus} />
