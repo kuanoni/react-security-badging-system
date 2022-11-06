@@ -25,8 +25,8 @@
 			height: 100%;
 			max-height: 128px;
 			border: 2px solid $clr-highlight;
-			aspect-ratio: 1 / 1;
 			border-radius: 6px;
+			aspect-ratio: 1 / 1;
 			box-shadow: 0 0 4px #3a3a3a;
 
 			img {
@@ -96,10 +96,10 @@
 				position: relative;
 				width: 40px;
 				height: 20px;
+				border-radius: 100px;
 				background: $clr-highlight;
 				text-indent: -9999px;
 				cursor: pointer;
-				border-radius: 100px;
 			}
 
 			label:after {
@@ -108,9 +108,9 @@
 				left: 1px;
 				width: 18px;
 				height: 18px;
+				border-radius: 90px;
 				background: $clr-text;
 				content: '';
-				border-radius: 90px;
 				transition: 0.3s;
 			}
 
@@ -148,8 +148,8 @@
 
 			&-thumb {
 				border: 3px solid $clr-dark;
-				background-color: $clr-text-dark;
 				border-radius: 5px;
+				background-color: $clr-text-dark;
 			}
 
 			&-track {
@@ -169,12 +169,11 @@
 			margin-top: 4px;
 			padding: 0.5rem;
 			border: 1px solid $clr-darkest;
-			border-bottom: 1px solid transparent;
+			border-bottom: 1px solid $clr-accent-darkest;
 			outline: none;
 			background-color: $clr-darkest;
 			color: $clr-text;
 			content: ' ';
-			border-radius: 0;
 			transition: 0.2s ease;
 
 			&:focus {
@@ -182,6 +181,7 @@
 			}
 
 			&:disabled {
+				border-bottom-color: transparent;
 				background-color: adjust-color($color: $clr-darkest, $blackness: 100%);
 				color: adjust-color($color: $clr-text, $blackness: 50%);
 			}
