@@ -17,6 +17,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 		onError: (error) => {
 			if (error.message.includes('E11000')) toast.error(<b>Employee ID is already in use. Try another.</b>);
 			else toast.error(<b>Failed to save cardholder.</b>);
+			setIsEditing(true);
 		},
 		onSuccess: () => {
 			toast.success(<b>Cardholder saved!</b>);
@@ -24,6 +25,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 		},
 		onSettled: () => {
 			toast.remove('loadingToast');
+			setIsSaving(false);
 		},
 	});
 
@@ -31,6 +33,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 		mutationFn: ({ id, cardholder }) => fetchUpdate('cardholders', id, cardholder),
 		onError: (error) => {
 			toast.error(<b>Failed to update cardholder.</b>);
+			setIsEditing(true);
 		},
 		onSuccess: (data, variables) => {
 			toast.success(<b>Cardholder updated!</b>);
@@ -39,11 +42,13 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 		},
 		onSettled: () => {
 			toast.remove('loadingToast');
+			setIsSaving(false);
 		},
 	});
 
 	const saveCardholder = async () => {
 		setIsSaving(true);
+		setIsEditing(false);
 		toast.loading(<b>Waiting...</b>, { id: 'loadingToast' });
 
 		if (isCardholderNew) {
@@ -54,8 +59,6 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 		} else {
 			await update.mutate({ id: cardholder._id, cardholder: { ...newCardholder } });
 		}
-
-		setIsSaving(false);
 	};
 
 	if (!Object.keys(cardholder).length)
@@ -90,7 +93,10 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 								type='checkbox'
 								id='switch'
 								checked={isEditing}
-								onChange={(e) => setIsEditing(!isEditing)}
+								disabled={isSaving}
+								onChange={(e) => {
+									if (!isSaving) setIsEditing(!isEditing);
+								}}
 							/>
 							<label htmlFor='switch'>Toggle</label>
 						</span>
