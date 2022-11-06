@@ -75,7 +75,9 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 					</label>
 				</div>
 			) : (
-				''
+				<div className='header'>
+					<h1 className='title'>New cardholder</h1>
+				</div>
 			)}
 			<div className='body'>
 				<BuildForm

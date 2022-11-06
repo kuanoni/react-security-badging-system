@@ -35,6 +35,11 @@
 			}
 		}
 
+		.title {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
 		.cardholder-info {
 			margin-left: 2rem;
 			margin-right: 45px;
@@ -157,7 +162,6 @@
 			width: 100%;
 			height: 2.25rem;
 			margin-top: 4px;
-			margin-bottom: 1rem;
 			padding: 0.5rem;
 			color: $clr-text;
 			background-color: $clr-darkest;
@@ -181,6 +185,10 @@
 			}
 		}
 
+		select {
+			margin-bottom: 1rem;
+		}
+
 		textarea.input {
 			height: 5em;
 			resize: none;
@@ -197,6 +205,19 @@
 
 		.checkbox {
 			background-color: $clr-darkest;
+		}
+
+		.errors {
+			height: 1rem;
+			font-size: 0.8em;
+			margin-top: 4px;
+			margin-bottom: 1rem;
+			transition: 0.2s ease;
+
+			&:empty {
+				margin: 0;
+				height: 1rem;
+			}
 		}
 	}
 }

@@ -8,23 +8,31 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 const lettersField = (val) => {
-	if (val.length === 0) return 'This field is required.';
-	if (!/^[A-Za-z]*$/.test(val)) return 'This field can only contain letters.';
+	const errors = [];
+	if (val.length === 0) errors.push('This field must not be empty.');
+	if (!/^[A-Za-z]*$/.test(val)) errors.push('This field can only contain letters.');
+	return errors;
 };
 
 const numbersField = (val) => {
-	if (val.length === 0) return 'This field is required.';
-	if (!/^[0-9]*$/.test(val)) return 'This field can only contain numbers.';
+	const errors = [];
+	if (val.length === 0) errors.push('This field must not be empty.');
+	if (!/^[0-9]*$/.test(val)) errors.push('This field can only contain numbers.');
+	return errors;
 };
 
 const lettersNumbersField = (val) => {
-	if (val.length === 0) return 'This field is required.';
-	if (!/^[A-Za-z0-9]*$/.test(val)) return 'This field can only contain letter or numbers.';
+	const errors = [];
+	if (val.length === 0) errors.push('This field must not be empty.');
+	if (!/^[A-Za-z0-9]*$/.test(val)) errors.push('This field can only contain letter or numbers.');
+	return errors;
 };
 
 const emailField = (val) => {
-	if (val.length === 0) return 'This field is required.';
-	if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(val)) return 'This field must be a valid email address.';
+	const errors = [];
+	if (val.length === 0) errors.push('This field must not be empty.');
+	if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(val)) errors.push('This field must be a valid email address.');
+	return errors;
 };
 
 export const cardholderEditorForm = {
@@ -136,14 +144,17 @@ const BuildForm = ({ formTemplate, defaultData, isEditing, isSaving, submit }) =
 	const formTypeComponents = {
 		text: (formItem) => (
 			<LabeledInput
+				key={formItem.key}
 				label={formItem.label}
 				defaultValue={defaultData[formItem.key]}
 				handleChange={(newValue) => onChangeHandler(formItem.key, newValue)}
+				checkErrors={formItem.error}
 				isDisabled={!isEditing}
 			/>
 		),
 		select: (formItem) => (
 			<DropdownList
+				key={formItem.key}
 				label={formItem.label}
 				defaultValue={defaultData[formItem.key]}
 				options={formItem.options}
@@ -153,6 +164,7 @@ const BuildForm = ({ formTemplate, defaultData, isEditing, isSaving, submit }) =
 		),
 		list: (formItem) => (
 			<ListAddRemove
+				key={formItem.key}
 				label={formItem.label}
 				defaultList={defaultData[formItem.key]}
 				listKey={formItem.listKey}
@@ -165,6 +177,7 @@ const BuildForm = ({ formTemplate, defaultData, isEditing, isSaving, submit }) =
 		),
 		datepicker: (formItem) => (
 			<CustomDatePicker
+				key={formItem.key}
 				label={formItem.label}
 				defaultDate={defaultData[formItem.key]}
 				handleChange={(newDate) => onChangeHandler(formItem.key, newDate)}
