@@ -157,6 +157,12 @@
 			}
 		}
 
+		.labeled-input {
+			margin-top: 1rem;
+
+			transition: 0.2s ease;
+		}
+
 		.input {
 			width: 100%;
 			height: 2.25rem;
@@ -208,15 +214,15 @@
 		}
 
 		.errors {
-			height: 1rem;
+			max-height: 4rem;
 			margin-top: 4px;
-			margin-bottom: 1rem;
-			font-size: 0.8em;
-			transition: 0.2s ease;
+			margin-left: 1px;
+			color: $clr-red;
+			font-size: 0.8rem;
+			transition: max-height 0.26s ease;
 
-			&:empty {
-				height: 1rem;
-				margin: 0;
+			&.empty {
+				max-height: 0;
 			}
 		}
 	}
