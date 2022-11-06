@@ -31,7 +31,8 @@ const lettersNumbersField = (val) => {
 const emailField = (val) => {
 	const errors = [];
 	if (val.length === 0) errors.push('This field must not be empty.');
-	if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(val)) errors.push('This field must be a valid email address.');
+	if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val))
+		errors.push('This field must be a valid email address.');
 	return errors;
 };
 
@@ -188,6 +189,7 @@ const BuildForm = ({ formTemplate, defaultData, isEditing, isSaving, submit }) =
 		),
 	};
 
+	// if a formItem has an error, it will set its value to null
 	const onChangeHandler = (key, value) => {
 		if (!isSaving)
 			setFormData((currentFormData) => {
