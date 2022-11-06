@@ -187,7 +187,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 					<select name='search' onChange={(e) => setSearchFilter(e.target.value)}>
 						<option value='firstName'>First Name</option>
 						<option value='lastName'>Last Name</option>
-						<option value='employeeId'>Employee ID</option>
+						<option value='_id'>Employee ID</option>
 					</select>
 					<button className='add-btn' onClick={newCardholder}>
 						<span>Create Cardholder</span>
