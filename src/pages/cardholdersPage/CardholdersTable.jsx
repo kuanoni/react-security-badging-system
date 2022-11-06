@@ -25,7 +25,6 @@ const blankCardholder = {
 	profileType: 'Employee',
 	accessGroups: [],
 	credentials: [],
-	exists: false,
 };
 
 const CardholdersTable = ({ isNavbarOpen }) => {

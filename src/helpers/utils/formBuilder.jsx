@@ -1,16 +1,15 @@
 import { useAccessGroups, useCredentials } from '../api/queries';
+import { useEffect, useState } from 'react';
 
 import CustomDatePicker from '../../components/forms/CustomDatePicker';
 import DropdownList from '../../components/forms/DropdownList';
 import LabeledInput from '../../components/forms/LabeledInput';
 import ListAddRemove from '../../components/forms/ListAddRemove';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 const lettersField = (val) => {
 	const errors = [];
 	if (val.length === 0) errors.push('This field must not be empty.');
-	if (!/^[A-Za-z]*$/.test(val)) errors.push('This field can only contain letters.');
+	if (!/^[A-Za-z\s]*$/.test(val)) errors.push('This field can only contain letters.');
 	return errors;
 };
 
@@ -24,14 +23,14 @@ const numbersField = (val) => {
 const lettersNumbersField = (val) => {
 	const errors = [];
 	if (val.length === 0) errors.push('This field must not be empty.');
-	if (!/^[A-Za-z0-9]*$/.test(val)) errors.push('This field can only contain letter or numbers.');
+	if (!/^[A-Za-z0-9\s]*$/.test(val)) errors.push('This field can only contain letter or numbers.');
 	return errors;
 };
 
 const emailField = (val) => {
 	const errors = [];
 	if (val.length === 0) errors.push('This field must not be empty.');
-	if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(val))
+	if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(val))
 		errors.push('This field must be a valid email address.');
 	return errors;
 };
@@ -208,9 +207,9 @@ const BuildForm = ({ formTemplate, defaultData, isEditing, isSaving, submit }) =
 			{formTemplate[column].map((section, i) => (
 				<div className='container' key={i}>
 					<h1 className='title'>{section.label}</h1>
-					{section.form.map((formItem) => {
-						return formTypeComponents[formItem.type](formItem, defaultData, onChangeHandler, !isEditing);
-					})}
+					{section.form.map((formItem) =>
+						formTypeComponents[formItem.type](formItem, defaultData, onChangeHandler, !isEditing)
+					)}
 				</div>
 			))}
 		</div>

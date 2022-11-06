@@ -11,7 +11,19 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 	const [isSaving, setIsSaving] = useState(false);
 
 	const saveCardholder = (newCardholder) => {
-		if (isCardholderNew) return;
+		// look into React Query mutations for PUT and POST
+
+		if (isCardholderNew)
+			if (!Object.keys(newCardholder).every((key) => !newCardholder[key]?.errors)) {
+				toast.error(<b>Please fill out all fields correctly.</b>);
+				console.log('invalid: ', newCardholder);
+				setIsSaving(false);
+				return;
+			}
+
+		console.log('valid: ', newCardholder);
+
+		return;
 
 		setIsSaving(false);
 		setIsEditing(false);

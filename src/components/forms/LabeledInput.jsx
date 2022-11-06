@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const LabeledInput = ({ label, defaultValue, handleChange, checkErrors, isDisabled }) => {
-	const [errors, setErrors] = useState(checkErrors(''));
+	const [errors, setErrors] = useState(checkErrors(defaultValue));
 
-	const onChange = (e) => {
-		const newErrors = checkErrors(e.target.value);
+	const onChange = (value) => {
+		const newErrors = checkErrors(value);
 		setErrors(newErrors);
 
-		handleChange(newErrors.length ? null : e.target.value);
+		handleChange(newErrors.length ? { label, errors: newErrors } : value);
 	};
+
+	useEffect(() => {
+		onChange(defaultValue);
+		// eslint-disable-next-line
+	}, []);
 
 	return (
 		<div className='labeled-input'>
@@ -17,7 +22,7 @@ const LabeledInput = ({ label, defaultValue, handleChange, checkErrors, isDisabl
 				className={'input' + (errors.length ? ' blank' : '')}
 				type='text'
 				defaultValue={defaultValue}
-				onChange={onChange}
+				onChange={(e) => onChange(e.target.value)}
 				placeholder={'Enter ' + label.toLowerCase() + '...'}
 				disabled={isDisabled}
 			/>
