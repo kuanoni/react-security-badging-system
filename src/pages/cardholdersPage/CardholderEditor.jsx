@@ -112,6 +112,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 					formTemplate={cardholderEditorForm}
 					defaultData={cardholder}
 					updateData={setNewCardholder}
+					isDataNew={isCardholderNew}
 					isEditing={isEditing}
 					isSaving={isSaving}
 				/>

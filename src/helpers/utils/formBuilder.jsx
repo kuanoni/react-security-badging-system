@@ -43,6 +43,7 @@ export const cardholderEditorForm = {
 					key: '_id',
 					label: 'Employee ID',
 					type: 'text',
+					disabledUnlessNew: true,
 					error: numbersField,
 				},
 				{
@@ -112,6 +113,7 @@ export const cardholderEditorForm = {
 					key: 'activationDate',
 					label: 'Profile Activation',
 					type: 'datepicker',
+					disabledUnlessNew: true,
 					maxDate: new Date(),
 					error: () => {},
 				},
@@ -137,7 +139,7 @@ export const cardholderEditorForm = {
 	],
 };
 
-const BuildForm = ({ formTemplate, defaultData, updateData, isEditing, isSaving }) => {
+const BuildForm = ({ formTemplate, defaultData, updateData, isDataNew, isEditing, isSaving }) => {
 	const formTypeComponents = {
 		text: (formItem) => (
 			<LabeledInput
@@ -146,7 +148,7 @@ const BuildForm = ({ formTemplate, defaultData, updateData, isEditing, isSaving 
 				defaultValue={defaultData[formItem.key]}
 				handleChange={(newValue) => onChangeHandler(formItem.key, newValue)}
 				checkErrors={formItem.error}
-				isDisabled={!isEditing}
+				isDisabled={formItem.disabledUnlessNew ? !isDataNew : !isEditing}
 			/>
 		),
 		select: (formItem) => (
@@ -156,7 +158,7 @@ const BuildForm = ({ formTemplate, defaultData, updateData, isEditing, isSaving 
 				defaultValue={defaultData[formItem.key]}
 				options={formItem.options}
 				handleChange={(newValue) => onChangeHandler(formItem.key, newValue)}
-				isDisabled={!isEditing}
+				isDisabled={formItem.disabledUnlessNew ? !isDataNew : !isEditing}
 			/>
 		),
 		list: (formItem) => (
@@ -166,7 +168,7 @@ const BuildForm = ({ formTemplate, defaultData, updateData, isEditing, isSaving 
 				defaultList={defaultData[formItem.key]}
 				listKey={formItem.listKey}
 				handleChange={(newList) => onChangeHandler(formItem.key, newList)}
-				isDisabled={!isEditing}
+				isDisabled={formItem.disabledUnlessNew ? !isDataNew : !isEditing}
 				modalProps={{
 					queryHook: formItem.queryHook,
 				}}
@@ -180,7 +182,7 @@ const BuildForm = ({ formTemplate, defaultData, updateData, isEditing, isSaving 
 				handleChange={(newDate) => onChangeHandler(formItem.key, newDate)}
 				minDate={formItem.minDate}
 				maxDate={formItem.maxDate}
-				isDisabled={!isEditing}
+				isDisabled={formItem.disabledUnlessNew ? !isDataNew : !isEditing}
 			/>
 		),
 	};
