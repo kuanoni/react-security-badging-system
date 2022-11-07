@@ -1,4 +1,4 @@
-import { useAccessGroups, useCredentials } from '../api/queries';
+import { useAccessGroups, useAvailableCredentials } from '../api/queries';
 
 import CustomDatePicker from '../../components/forms/CustomDatePicker';
 import DropdownList from '../../components/forms/DropdownList';
@@ -99,7 +99,7 @@ export const cardholderEditorForm = {
 					label: 'Badges',
 					type: 'list',
 					listKey: '_id',
-					queryHook: useCredentials,
+					queryHook: useAvailableCredentials,
 					error: () => {},
 				},
 			],

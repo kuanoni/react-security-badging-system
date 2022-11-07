@@ -36,10 +36,6 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('_id');
 
-	/* =======================
-            DATA FETCHING
-       ======================= */
-
 	const query = useCredentials(searchbarValue, searchFilter);
 
 	/* =======================

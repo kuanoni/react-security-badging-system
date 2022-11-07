@@ -34,12 +34,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('firstName');
 
-	/* =======================
-            DATA FETCHING
-       ======================= */
-
 	const query = useCardholders(searchbarValue, searchFilter);
-
 	const { data, refetch, isFetched } = query;
 
 	const tableColumns = useMemo(
