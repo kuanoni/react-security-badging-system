@@ -24,10 +24,9 @@
 			max-width: 128px;
 			height: 100%;
 			max-height: 128px;
-			border: 2px solid $clr-highlight;
+			border: 2px solid $clr-darker;
 			border-radius: 6px;
 			aspect-ratio: 1 / 1;
-			box-shadow: 0 0 4px #3a3a3a;
 
 			img {
 				width: 100%;
@@ -170,10 +169,8 @@
 			padding: 0.5rem;
 			border: 1px solid $clr-darkest;
 			border-bottom: 1px solid $clr-accent-darkest;
-			outline: none;
 			background-color: $clr-darkest;
 			color: $clr-text;
-			content: ' ';
 			transition: 0.2s ease;
 
 			&:focus {
@@ -183,7 +180,7 @@
 			&:disabled {
 				border-bottom-color: transparent;
 				background-color: adjust-color($color: $clr-darkest, $blackness: 100%);
-				color: adjust-color($color: $clr-text, $blackness: 50%);
+				color: adjust-color($color: $clr-text, $blackness: 20%);
 			}
 
 			&.blank {
