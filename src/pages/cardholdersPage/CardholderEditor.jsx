@@ -74,7 +74,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onUpdateCar
 			const hasErrors = !Object.keys(newCardholder).every((key) => !newCardholder[key]?.errors);
 			if (hasErrors) return toast.error(<b>Please fill out all fields correctly.</b>);
 
-			await postMutation.mutate({ ...newCardholder });
+			await postMutation.mutate({ ...newCardholder, avatar: 'https://xsgames.co/randomusers/avatar.php?g=male' });
 		} else {
 			await updateMutation.mutate({ id: cardholder._id, cardholder: { ...newCardholder } });
 		}
