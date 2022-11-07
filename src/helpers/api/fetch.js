@@ -67,7 +67,9 @@ export const fetchUpdate = async (collection, id, body) => {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(body),
-	}).then((res) => res.json());
+	});
+
+	if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
 	return response;
 };
@@ -85,4 +87,17 @@ export const fetchPost = async (collection, body) => {
 	if (!response.ok) throw new Error(`Error ${response.status}: ${resBody.message}`);
 
 	return resBody;
+};
+
+export const fetchDelete = async (collection, id) => {
+	const response = await fetch(apiUrl + collection + '/delete/' + id, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+
+	return response;
 };

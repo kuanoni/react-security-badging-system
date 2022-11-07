@@ -138,8 +138,8 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		setIsModalOpen(false);
 	};
 
-	const onSaveCardholder = (newCardholder) => {
-		setCardholderToEdit(newCardholder);
+	const onUpdateCardholder = (newCardholder) => {
+		if (newCardholder) setCardholderToEdit(newCardholder);
 		refetch(); // reloads infiniteQuery data cache
 	};
 
@@ -176,7 +176,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 					cardholder={cardholderToEdit}
 					isCardholderNew={isNewCardholder}
 					closeModal={closeCardholderEditor}
-					onSaveCardholder={onSaveCardholder}
+					onUpdateCardholder={onUpdateCardholder}
 				/>
 			</Modal>
 
