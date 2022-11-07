@@ -9,15 +9,19 @@
 	bottom: 0;
 	left: 0;
 	background-color: rgba(0, 0, 0, 0.651);
-	z-index: 100;
+	z-index: 200;
 
-	.modal {
+	&.popup {
+		align-items: center;
+	}
+
+	.popup {
 		display: flex;
 		flex-direction: column;
-		width: 100%;
 		min-width: 250px;
-		max-width: 750px;
-		margin: 3rem 1.5rem;
+		max-width: 450px;
+		max-height: 250px;
+		padding: 1.5rem;
 		background-color: $clr-dark;
 		color: $clr-text;
 		box-shadow: 0 0 20px 1px #000000;
@@ -27,32 +31,13 @@
 			margin: 1rem;
 		}
 
-		.header {
+		.btns {
 			display: flex;
-			position: relative;
-			padding: 1rem;
-			background-color: $clr-base;
-			font-size: 0.9em;
-			font-weight: 600;
-			box-shadow: 0 1px 2px $clr-darkest;
-		}
-
-		.body {
-			display: flex;
-			height: 100%;
-			padding: 1rem;
-			overflow-y: scroll;
-		}
-
-		.footer {
-			display: flex;
-			justify-content: flex-end;
 			gap: 1rem;
-			padding: 1rem;
-			background-color: $clr-darker;
-			box-shadow: 0 -1px 2px $clr-darkest;
+			margin-top: 1rem;
 
-			.btn {
+			button {
+				width: 100%;
 				padding: 0.75em;
 				border: none;
 				border-radius: 3px;
@@ -63,20 +48,12 @@
 				box-shadow: 1px 1px 2px $clr-base;
 				transition: 0.15s ease-in-out;
 
-				&.save {
-					background-color: $clr-accent-dark;
-					padding-inline: 3em;
-				}
-
-				&.cancel {
-					background-color: $clr-highlight;
-					padding-inline: 1em;
-				}
-
-				&.delete {
-					margin-right: auto;
-					background-color: $clr-red-dark;
-					padding-inline: 1em;
+				.loader {
+					$size: 1.5rem;
+					width: $size;
+					height: $size;
+					border-color: $clr-text;
+					border-top-color: $clr-accent;
 				}
 
 				&:disabled {
@@ -85,6 +62,14 @@
 
 				&:hover:not(:disabled) {
 					@include interactive-hover;
+				}
+
+				&.confirm {
+					background-color: $clr-red-dark;
+				}
+
+				&.cancel {
+					background-color: $clr-highlight;
 				}
 			}
 		}

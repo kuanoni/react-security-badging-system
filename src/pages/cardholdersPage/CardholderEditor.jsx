@@ -4,6 +4,8 @@ import BuildForm, { cardholderEditorForm } from '../../helpers/utils/formBuilder
 import React, { useState } from 'react';
 import { fetchPost, fetchUpdate } from '../../helpers/api/fetch';
 
+import Modal from '../../components/Modal';
+import Popup from '../../components/ConfirmationPopup';
 import toast from 'react-hot-toast';
 import { useMutation } from 'react-query';
 
@@ -11,6 +13,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 	const [newCardholder, setNewCardholder] = useState({ ...cardholder });
 	const [isEditing, setIsEditing] = useState(isCardholderNew);
 	const [isSaving, setIsSaving] = useState(false);
+	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
 	const post = useMutation({
 		mutationFn: (cardholder) => fetchPost('cardholders', cardholder),
@@ -70,6 +73,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 
 	return (
 		<>
+			<Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={() => console.log('del')} />
 			{!isCardholderNew ? (
 				<div className='header'>
 					<div className='avatar'>
@@ -118,6 +122,9 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onSaveCardh
 				/>
 			</div>
 			<div className='footer'>
+				<button className='btn delete' onClick={() => !isSaving && setIsPopupOpen(true)} disabled={!isEditing}>
+					Delete
+				</button>
 				<button className='btn cancel' onClick={() => !isSaving && closeModal()} disabled={isSaving}>
 					Cancel
 				</button>
