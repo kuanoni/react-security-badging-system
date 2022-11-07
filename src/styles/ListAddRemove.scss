@@ -39,22 +39,24 @@
 		border-top: 1px solid $clr-highlight;
 		list-style: none;
 		user-select: none;
-	}
 
-	.list-item {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin: 0.25em 0;
-		padding: 0.35rem 0.5rem;
-		padding-right: 0;
-
-		&:hover {
-			background-color: $clr-highlight;
+		& > * {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin: 0.25em 0;
+			padding: 0.35rem 0.5rem;
+			padding-right: 0;
 		}
 
-		button {
-			color: $clr-red;
+		.list-item {
+			&:hover {
+				background-color: $clr-highlight;
+			}
+
+			button {
+				color: $clr-red;
+			}
 		}
 	}
 }

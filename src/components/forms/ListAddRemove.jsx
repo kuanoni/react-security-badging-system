@@ -46,6 +46,7 @@ const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, 
 							</button>
 						</li>
 					))}
+					{list.length === 0 && <span>No items...</span>}
 				</ul>
 			</div>
 			<Modal
