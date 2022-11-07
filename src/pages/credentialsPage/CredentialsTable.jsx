@@ -40,11 +40,7 @@ const CredentialsTable = ({ isNavbarOpen }) => {
             DATA FETCHING
        ======================= */
 
-	const { data, fetchNextPage, hasNextPage, isFetching, isFetched } = useCredentials(searchbarValue, searchFilter);
-
-	const flatData = useMemo(() => {
-		return data?.pages?.flatMap((page) => page.documents) ?? [];
-	}, [data]);
+	const query = useCredentials(searchbarValue, searchFilter);
 
 	/* =======================
               HANDLERS
@@ -67,19 +63,16 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 				</select>
 			</div>
 			<div className='table-body'>
-				{data ? (
+				{query.data ? (
 					<Table
-						flatData={flatData}
+						query={query}
 						columns={tableColumns}
-						hasNextPage={hasNextPage}
-						fetchNextPage={fetchNextPage}
-						isFetching={isFetching}
 						searchbarValue={searchbarValue}
 						handleRowClick={handleRowClick}
 					/>
 				) : (
 					<div className='loader-container'>
-						{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
+						{query.isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
 					</div>
 				)}
 			</div>

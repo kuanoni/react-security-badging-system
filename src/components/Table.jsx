@@ -1,14 +1,20 @@
 import '../styles/Table.scss';
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 const rowHeight = 48;
 
-const Table = ({ flatData, columns, handleRowClick, hasNextPage, fetchNextPage, isFetching, searchbarValue }) => {
+const Table = ({ query, columns, handleRowClick, searchbarValue }) => {
 	const tableContainerRef = useRef(null);
+
+	const { data, hasNextPage, fetchNextPage, isFetching } = query;
+
+	const flatData = useMemo(() => {
+		return data?.pages?.flatMap((page) => page.documents) ?? [];
+	}, [data]);
 
 	const fetchMoreOnBottomReached = useCallback(
 		(containerRefElement) => {

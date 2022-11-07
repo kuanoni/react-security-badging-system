@@ -38,14 +38,9 @@ const CardholdersTable = ({ isNavbarOpen }) => {
             DATA FETCHING
        ======================= */
 
-	const { data, hasNextPage, fetchNextPage, refetch, isFetching, isFetched } = useCardholders(
-		searchbarValue,
-		searchFilter
-	);
+	const query = useCardholders(searchbarValue, searchFilter);
 
-	const flatData = useMemo(() => {
-		return data?.pages?.flatMap((page) => page.documents) ?? [];
-	}, [data]);
+	const { data, refetch, isFetched } = query;
 
 	const tableColumns = useMemo(
 		() => [
@@ -199,11 +194,8 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 				<div className='table-body'>
 					{data ? (
 						<Table
-							flatData={flatData}
+							query={query}
 							columns={tableColumns}
-							hasNextPage={hasNextPage}
-							fetchNextPage={fetchNextPage}
-							isFetching={isFetching}
 							searchbarValue={searchbarValue}
 							handleRowClick={handleRowClick}
 						/>
