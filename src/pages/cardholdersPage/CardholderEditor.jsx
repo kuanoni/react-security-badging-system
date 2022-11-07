@@ -74,9 +74,9 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onUpdateCar
 			const hasErrors = !Object.keys(newCardholder).every((key) => !newCardholder[key]?.errors);
 			if (hasErrors) return toast.error(<b>Please fill out all fields correctly.</b>);
 
-			await postMutation.mutate({ ...newCardholder, avatar: 'https://xsgames.co/randomusers/avatar.php?g=male' });
+			postMutation.mutate({ ...newCardholder, avatar: 'https://xsgames.co/randomusers/avatar.php?g=male' });
 		} else {
-			await updateMutation.mutate({ id: cardholder._id, cardholder: { ...newCardholder } });
+			updateMutation.mutate({ id: cardholder._id, cardholder: { ...newCardholder } });
 		}
 	};
 
@@ -85,7 +85,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onUpdateCar
 		setIsEditing(false);
 		toast.loading(<b>Waiting...</b>, { id: 'loadingToast' });
 
-		await deleteMutation.mutate({ id: cardholder._id });
+		deleteMutation.mutate({ id: cardholder._id });
 	};
 
 	if (!Object.keys(cardholder).length)
