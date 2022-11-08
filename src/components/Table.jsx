@@ -34,7 +34,10 @@ const Table = ({ query, columns, handleRowClick, searchbarValue, sorting, setSor
 		data: flatData,
 		columns,
 		state: { sorting },
-		onSortingChange: setSorting,
+		onSortingChange: (sort) => {
+			rowVirtualizer.scrollToIndex(0);
+			setSorting(sort);
+		},
 		manualSorting: true,
 		columnResizeMode: 'onChange',
 		getCoreRowModel: getCoreRowModel(),
