@@ -7,7 +7,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 
 const rowHeight = 48;
 
-const Table = ({ query, columns, handleRowClick, searchbarValue }) => {
+const Table = ({ query, columns, handleRowClick, searchbarValue, sorting, setSorting }) => {
 	const tableContainerRef = useRef(null);
 
 	const { data, hasNextPage, fetchNextPage, isFetching } = query;
@@ -31,6 +31,9 @@ const Table = ({ query, columns, handleRowClick, searchbarValue }) => {
 	const table = useReactTable({
 		data: flatData,
 		columns,
+		state: { sorting },
+		onSortingChange: setSorting,
+		manualSorting: true,
 		columnResizeMode: 'onChange',
 		getCoreRowModel: getCoreRowModel(),
 	});
@@ -79,9 +82,22 @@ const Table = ({ query, columns, handleRowClick, searchbarValue }) => {
 							{headerGroup.headers.map((header) => {
 								return (
 									<th key={header.id} colSpan={header.colSpan} style={{ width: header.getSize() }}>
-										{header.isPlaceholder
-											? null
-											: flexRender(header.column.columnDef.header, header.getContext())}
+										{header.isPlaceholder ? null : (
+											<div
+												{...{
+													className: header.column.getCanSort()
+														? 'cursor-pointer select-none'
+														: '',
+													onClick: header.column.getToggleSortingHandler(),
+												}}
+											>
+												{flexRender(header.column.columnDef.header, header.getContext())}
+												{{
+													asc: ' 🔼',
+													desc: ' 🔽',
+												}[header.column.getIsSorted()] ?? null}
+											</div>
+										)}
 										<div
 											{...{
 												onMouseDown: header.getResizeHandler(),
@@ -97,32 +113,42 @@ const Table = ({ query, columns, handleRowClick, searchbarValue }) => {
 						</tr>
 					))}
 				</thead>
-				<tbody>
-					{paddingTop > 0 && (
-						<tr>
-							<td style={{ height: `${paddingTop}px` }} />
-						</tr>
-					)}
-					{virtualRows.map((virtualRow) => {
-						const row = rows[virtualRow.index];
-						return (
-							<tr key={row.id} onClick={(e) => handleRowClick(e, row.original._id)}>
-								{row.getVisibleCells().map((cell) => {
-									return (
-										<td key={cell.id} style={{ height: rowHeight }}>
-											{flexRender(cell.column.columnDef.cell, cell.getContext())}
-										</td>
-									);
-								})}
+				{rows.length ? (
+					<tbody>
+						{paddingTop > 0 && (
+							<tr>
+								<td style={{ height: `${paddingTop}px` }} />
 							</tr>
-						);
-					})}
-					{paddingBottom > 0 && (
-						<tr>
-							<td style={{ height: `${paddingBottom}px` }} />
+						)}
+						{virtualRows.map((virtualRow) => {
+							const row = rows[virtualRow.index];
+							return (
+								<tr key={row.id} onClick={(e) => handleRowClick(e, row.original._id)}>
+									{row.getVisibleCells().map((cell) => {
+										return (
+											<td key={cell.id} style={{ height: rowHeight }}>
+												{flexRender(cell.column.columnDef.cell, cell.getContext())}
+											</td>
+										);
+									})}
+								</tr>
+							);
+						})}
+						{paddingBottom > 0 && (
+							<tr>
+								<td style={{ height: `${paddingBottom}px` }} />
+							</tr>
+						)}
+					</tbody>
+				) : (
+					<tbody>
+						<tr className='loader-container' style={{ width: '100%', height: '100%' }}>
+							<td>
+								<div className='loader'></div>
+							</td>
 						</tr>
-					)}
-				</tbody>
+					</tbody>
+				)}
 			</table>
 		</div>
 	);

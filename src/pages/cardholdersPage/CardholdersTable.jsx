@@ -33,8 +33,12 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 	const [isNewCardholder, setIsNewCardholder] = useState(false);
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('firstName');
+	const [sorting, setSorting] = useState([]);
 
-	const query = useCardholders(searchbarValue, searchFilter);
+	const query = useCardholders(
+		{ value: searchbarValue, filter: searchFilter },
+		sorting.length ? { by: sorting[0].id, order: sorting[0].desc ? 'desc' : 'asc' } : { by: '', order: '' }
+	);
 	const { data, refetch, isFetched } = query;
 
 	const tableColumns = useMemo(
@@ -187,18 +191,14 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 					</button>
 				</div>
 				<div className='table-body'>
-					{data ? (
-						<Table
-							query={query}
-							columns={tableColumns}
-							searchbarValue={searchbarValue}
-							handleRowClick={handleRowClick}
-						/>
-					) : (
-						<div className='loader-container'>
-							{isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
-						</div>
-					)}
+					<Table
+						query={query}
+						columns={tableColumns}
+						searchbarValue={searchbarValue}
+						sorting={sorting}
+						setSorting={setSorting}
+						handleRowClick={handleRowClick}
+					/>
 				</div>
 			</div>
 		</>
