@@ -39,7 +39,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 		{ value: searchbarValue, filter: searchFilter },
 		sorting.length ? { by: sorting[0].id, order: sorting[0].desc ? 'desc' : 'asc' } : { by: '', order: '' }
 	);
-	const { data, refetch, isFetched } = query;
+	const { refetch } = query;
 
 	const tableColumns = useMemo(
 		() => [

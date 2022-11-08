@@ -6,37 +6,44 @@ import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
 import { useCredentials } from '../../helpers/api/queries';
 
-const tableColumns = [
-	{
-		header: 'Credential Number',
-		accessorKey: '_id',
-	},
-	{
-		header: 'Badge Type',
-		accessorKey: 'badgeType',
-		cell: (info) => {
-			const value = info.getValue();
-			if (value === 'Employee') return <span className='blue-txt'>{value}</span>;
-			if (value === 'Contractor') return <span className='green-txt'>{value}</span>;
-			if (value === 'Privileged Visitor') return <span className='purple-txt'>{value}</span>;
-			return value;
-		},
-	},
-	{
-		header: 'Badge Owner',
-		accessorKey: 'badgeOwnerName',
-	},
-	{
-		header: 'Badge Owner ID',
-		accessorKey: 'badgeOwnerId',
-	},
-];
-
 const CredentialsTable = ({ isNavbarOpen }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('_id');
+	const [sorting, setSorting] = useState([]);
 
-	const query = useCredentials(searchbarValue, searchFilter);
+	const query = useCredentials(
+		{ value: searchbarValue, filter: searchFilter },
+		sorting.length ? { by: sorting[0].id, order: sorting[0].desc ? 'desc' : 'asc' } : { by: '', order: '' }
+	);
+
+	const tableColumns = useMemo(
+		() => [
+			{
+				header: 'Credential Number',
+				accessorKey: '_id',
+			},
+			{
+				header: 'Badge Type',
+				accessorKey: 'badgeType',
+				cell: (info) => {
+					const value = info.getValue();
+					if (value === 'Employee') return <span className='blue-txt'>{value}</span>;
+					if (value === 'Contractor') return <span className='green-txt'>{value}</span>;
+					if (value === 'Privileged Visitor') return <span className='purple-txt'>{value}</span>;
+					return value;
+				},
+			},
+			{
+				header: 'Badge Owner',
+				accessorKey: 'badgeOwnerName',
+			},
+			{
+				header: 'Badge Owner ID',
+				accessorKey: 'badgeOwnerId',
+			},
+		],
+		[]
+	);
 
 	/* =======================
               HANDLERS
@@ -59,18 +66,14 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 				</select>
 			</div>
 			<div className='table-body'>
-				{query.data ? (
-					<Table
-						query={query}
-						columns={tableColumns}
-						searchbarValue={searchbarValue}
-						handleRowClick={handleRowClick}
-					/>
-				) : (
-					<div className='loader-container'>
-						{query.isFetched ? <h3>No results...</h3> : <div className='loader'></div>}
-					</div>
-				)}
+				<Table
+					query={query}
+					columns={tableColumns}
+					searchbarValue={searchbarValue}
+					sorting={sorting}
+					setSorting={setSorting}
+					handleRowClick={handleRowClick}
+				/>
 			</div>
 		</div>
 	);
