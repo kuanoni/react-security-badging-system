@@ -199,12 +199,12 @@ const BuildForm = ({ formTemplate, defaultData, updateData, isDataNew, isEditing
 	return ['left', 'right'].map((column) => (
 		<div className='column' key={column}>
 			{formTemplate[column].map((section, i) => (
-				<div className='container' key={i}>
+				<section key={i}>
 					<h1 className='title'>{section.label}</h1>
 					{section.form.map((formItem) =>
 						formTypeComponents[formItem.type](formItem, defaultData, onChangeHandler, !isEditing)
 					)}
-				</div>
+				</section>
 			))}
 		</div>
 	));

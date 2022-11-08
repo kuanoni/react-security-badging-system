@@ -55,7 +55,7 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 	};
 
 	return (
-		<div className={'table-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
+		<>
 			<div className='table-header'>
 				<h1>Credentials</h1>
 				<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} />
@@ -75,7 +75,7 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 					handleRowClick={handleRowClick}
 				/>
 			</div>
-		</div>
+		</>
 	);
 };
 

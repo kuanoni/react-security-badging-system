@@ -1,5 +1,6 @@
 import CardholdersTable from './CardholdersTable';
 import Navbar from '../../components/Navbar';
+import { Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 
 function CardholdersPage() {
@@ -7,8 +8,23 @@ function CardholdersPage() {
 
 	return (
 		<div className='app'>
+			<Toaster
+				toastOptions={{
+					className: 'toast',
+					success: {
+						iconTheme: {
+							primary: '#0086c5',
+							secondary: '#ffffff',
+						},
+					},
+				}}
+			/>
 			<Navbar isNavbarOpen={isNavbarOpen} setIsNavbarOpen={setIsNavbarOpen} pageName={'cardholders'} />
-			<CardholdersTable isNavbarOpen={isNavbarOpen} />
+			<div className={'table-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
+				<div className='table-page-container'>
+					<CardholdersTable />
+				</div>
+			</div>
 		</div>
 	);
 }

@@ -24,7 +24,7 @@
 	user-select: none !important;
 }
 
-.loader-container {
+.container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -32,7 +32,7 @@
 	height: 100%;
 }
 
-.loader-overlay {
+.container-overlay {
 	display: flex;
 	justify-content: center;
 	align-items: center;

@@ -50,7 +50,7 @@ const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, close
 						setSelectedList={setSelectedList}
 					/>
 				) : (
-					<div className='loader-container'>
+					<div className='container'>
 						<div className='loader' />
 					</div>
 				)}

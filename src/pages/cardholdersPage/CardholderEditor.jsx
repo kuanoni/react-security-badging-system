@@ -90,7 +90,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onUpdateCar
 
 	if (!Object.keys(cardholder).length)
 		return (
-			<div className='loader-container'>
+			<div className='container'>
 				<div className='loader'></div>
 			</div>
 		);

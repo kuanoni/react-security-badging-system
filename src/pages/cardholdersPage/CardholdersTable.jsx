@@ -27,7 +27,7 @@ const blankCardholder = {
 	credentials: [],
 };
 
-const CardholdersTable = ({ isNavbarOpen }) => {
+const CardholdersTable = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [cardholderToEdit, setCardholderToEdit] = useState({});
 	const [isNewCardholder, setIsNewCardholder] = useState(false);
@@ -150,17 +150,6 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 
 	return (
 		<>
-			<Toaster
-				toastOptions={{
-					className: 'toast',
-					success: {
-						iconTheme: {
-							primary: '#0086c5',
-							secondary: '#ffffff',
-						},
-					},
-				}}
-			/>
 			<Modal
 				isOpen={isModalOpen}
 				closeModal={closeCardholderEditor}
@@ -176,32 +165,30 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 				/>
 			</Modal>
 
-			<div className={'table-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
-				<div className='table-header'>
-					<h1>Cardholders</h1>
-					<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} />
-					<select name='search' onChange={(e) => setSearchFilter(e.target.value)}>
-						<option value='firstName'>First Name</option>
-						<option value='lastName'>Last Name</option>
-						<option value='profileType'>Type</option>
-						<option value='_id'>Employee ID</option>
-					</select>
-					<button className='add-btn' onClick={newCardholder}>
-						<span>Create Cardholder</span>
-						<div className='icon'>
-							<FontAwesomeIcon icon={faSquarePlus} />
-						</div>
-					</button>
-				</div>
-				<div className='table-body'>
-					<Table
-						query={query}
-						columns={tableColumns}
-						sorting={sorting}
-						setSorting={setSorting}
-						handleRowClick={handleRowClick}
-					/>
-				</div>
+			<div className='table-header'>
+				<h1>Cardholders</h1>
+				<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} />
+				<select name='search' onChange={(e) => setSearchFilter(e.target.value)}>
+					<option value='firstName'>First Name</option>
+					<option value='lastName'>Last Name</option>
+					<option value='profileType'>Type</option>
+					<option value='_id'>Employee ID</option>
+				</select>
+				<button className='add-btn' onClick={newCardholder}>
+					<span>Create Cardholder</span>
+					<div className='icon'>
+						<FontAwesomeIcon icon={faSquarePlus} />
+					</div>
+				</button>
+			</div>
+			<div className='table-body'>
+				<Table
+					query={query}
+					columns={tableColumns}
+					sorting={sorting}
+					setSorting={setSorting}
+					handleRowClick={handleRowClick}
+				/>
 			</div>
 		</>
 	);

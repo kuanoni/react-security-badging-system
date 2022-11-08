@@ -33,7 +33,7 @@ const Popup = ({ isPopupOpen, setIsPopupOpen, onConfirm }) => {
 				</button>
 				<button className='confirm' onClick={onConfirm} disabled={isDisabled}>
 					{isDisabled ? (
-						<div className='loader-container'>
+						<div className='container'>
 							<div className='loader'></div>
 						</div>
 					) : (

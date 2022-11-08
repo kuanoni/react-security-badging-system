@@ -9,7 +9,11 @@ const CredentialsPage = () => {
 	return (
 		<div className='app'>
 			<Navbar isNavbarOpen={isNavbarOpen} setIsNavbarOpen={setIsNavbarOpen} pageName={'credentials'} />
-			<CredentialsTable isNavbarOpen={isNavbarOpen} />
+			<div className={'table-page' + (isNavbarOpen ? ' navbar-open' : ' navbar-closed')}>
+				<div className='table-page-container'>
+					<CredentialsTable />
+				</div>
+			</div>
 		</div>
 	);
 };

@@ -2,9 +2,11 @@
 @import '../styles/master';
 
 .table-body {
+	$margin: 1rem;
 	position: relative;
-	width: 100%;
-	height: calc(100% - $searchbar-height);
+	height: 100%;
+	margin: $margin;
+	margin-top: 0;
 }
 
 .table-header {
@@ -143,10 +145,7 @@
 .table-container {
 	$padding: 1rem;
 	position: absolute;
-	top: 0;
-	right: $padding;
-	bottom: $padding;
-	left: $padding;
+	inset: 0 0 0 0;
 	border: 1px solid $clr-highlight;
 	background-color: $clr-dark;
 	overflow: auto;
