@@ -54,6 +54,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 						className='avatar'
 					/>
 				),
+				enableSorting: false,
 			},
 			{
 				header: 'First Name',
@@ -102,6 +103,7 @@ const CardholdersTable = ({ isNavbarOpen }) => {
 						</div>
 					);
 				},
+				enableSorting: false,
 			},
 		],
 		[]
