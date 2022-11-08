@@ -70,7 +70,6 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 				<Table
 					query={query}
 					columns={tableColumns}
-					searchbarValue={searchbarValue}
 					sorting={sorting}
 					setSorting={setSorting}
 					handleRowClick={handleRowClick}
