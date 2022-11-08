@@ -22,11 +22,13 @@ $desktop-width: 1024px;
 //     COLORS
 // ==============
 
+$clr-lightest: hsl(0, 0%, 29%);
+$clr-lighter: hsl(0, 0%, 26%);
+$clr-light: hsl(0, 0%, 23%);
 $clr-base: hsl(0, 0%, 20%);
 $clr-dark: hsl(0, 0%, 17%);
 $clr-darker: hsl(0, 0%, 15%);
 $clr-darkest: hsl(0, 0%, 14%);
-$clr-highlight: hsl(0, 0%, 27%);
 
 $clr-text: hsl(100, 13%, 91%);
 $clr-text-dark: hsl(0, 0%, 73%);

@@ -47,6 +47,7 @@ const CardholdersTable = () => {
 				header: 'Picture',
 				accessorKey: 'avatar',
 				size: 75,
+				enableSorting: false,
 				cell: (info) => (
 					<img
 						src={info ? info.getValue() : 'https://robohash.org/hicveldicta.png?size=50x50&set=set1'}
@@ -54,7 +55,6 @@ const CardholdersTable = () => {
 						className='avatar'
 					/>
 				),
-				enableSorting: false,
 			},
 			{
 				header: 'First Name',
@@ -88,22 +88,16 @@ const CardholdersTable = () => {
 				header: '',
 				id: 'editBtn',
 				accessorKey: '_id',
-				size: 50,
+				size: 60,
+				enableResizing: false,
+				enableSorting: false,
 				cell: (info) => {
 					return (
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'center',
-							}}
-						>
-							<button className='btn-edit-user' onClick={() => editCardholder(info.getValue())}>
-								<FontAwesomeIcon icon={faPenToSquare} />
-							</button>
-						</div>
+						<button className='btn-edit-user' onClick={() => editCardholder(info.getValue())}>
+							<FontAwesomeIcon icon={faPenToSquare} />
+						</button>
 					);
 				},
-				enableSorting: false,
 			},
 		],
 		[]

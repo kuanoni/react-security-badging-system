@@ -40,8 +40,10 @@
 
 	.btn-edit-user {
 		border: none;
-		background-color: transparent;
-		border-collapse: initial;
+		width: 100%;
+		height: 80%;
+		border-radius: 6px;
+		background-color: $clr-lighter;
 		color: $clr-text-dark;
 		font-size: 1.45em;
 		cursor: pointer;
