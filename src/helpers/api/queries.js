@@ -12,7 +12,7 @@ const queryFunctionBuilder =
 
 const defaultQueryOptions = {
 	getNextPageParam: (lastPage, pages) => pages.length < lastPage.totalPages && pages.length,
-	keepPreviousData: false,
+	keepPreviousData: true,
 	refetchOnWindowFocus: false,
 };
 
@@ -40,6 +40,6 @@ export const useAccessGroups = (searchValue) =>
 export const useAvailableCredentials = (searchValue) =>
 	useInfiniteQuery(
 		['availableCredentials-data', searchValue],
-		queryFunctionBuilder(null, fetchGetAvailableCredentials, '_id', searchValue),
+		queryFunctionBuilder(null, fetchGetAvailableCredentials, { filter: '_id', value: searchValue }),
 		defaultQueryOptions
 	);
