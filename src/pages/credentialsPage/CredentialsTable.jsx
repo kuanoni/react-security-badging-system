@@ -61,6 +61,7 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 				<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} />
 				<select name='search' onChange={(e) => setSearchFilter(e.target.value)}>
 					<option value='_id'>Credential Number</option>
+					<option value='badgeType'>Badge Type</option>
 					<option value='badgeOwnerName'>Badge Owner</option>
 					<option value='badgeOwnerId'>Badge Owner ID</option>
 				</select>
