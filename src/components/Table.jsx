@@ -35,7 +35,7 @@ const Table = ({ query, columns, handleRowClick, sorting, setSorting }) => {
 		columns,
 		state: { sorting },
 		onSortingChange: (sort) => {
-			rowVirtualizer.scrollToIndex(0, { smoothScroll: false });
+			rowVirtualizer.scrollToIndex(0);
 			setSorting(sort);
 		},
 		manualSorting: true,
@@ -67,77 +67,87 @@ const Table = ({ query, columns, handleRowClick, sorting, setSorting }) => {
 	if (query.isError) return <div className='table-container'></div>;
 
 	return (
-		<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)} ref={tableContainerRef}>
+		<>
 			{loadingOverlay}
-			<table>
-				<thead>
-					{table.getHeaderGroups().map((headerGroup) => (
-						<tr key={headerGroup.id}>
-							{headerGroup.headers.map((header) => {
-								return (
-									<th key={header.id} colSpan={header.colSpan} style={{ width: header.getSize() }}>
-										{header.isPlaceholder ? null : (
+			<div
+				className='table-container'
+				onScroll={(e) => fetchMoreOnBottomReached(e.target)}
+				ref={tableContainerRef}
+			>
+				<table>
+					<thead>
+						{table.getHeaderGroups().map((headerGroup) => (
+							<tr key={headerGroup.id}>
+								{headerGroup.headers.map((header) => {
+									return (
+										<th
+											key={header.id}
+											colSpan={header.colSpan}
+											style={{ width: header.getSize() }}
+										>
+											{header.isPlaceholder ? null : (
+												<div
+													{...{
+														className: header.column.getCanSort() ? 'inner-header' : '',
+														onClick: header.column.getToggleSortingHandler(),
+													}}
+												>
+													{flexRender(header.column.columnDef.header, header.getContext())}
+													{header.column.getCanSort() ? (
+														header.column.getIsSorted() === 'asc' ? (
+															<FontAwesomeIcon icon={faSortUp} />
+														) : header.column.getIsSorted() === 'desc' ? (
+															<FontAwesomeIcon icon={faSortDown} />
+														) : (
+															<FontAwesomeIcon icon={faSort} />
+														)
+													) : null}
+												</div>
+											)}
 											<div
 												{...{
-													className: header.column.getCanSort() ? 'inner-header' : '',
-													onClick: header.column.getToggleSortingHandler(),
+													onMouseDown: header.getResizeHandler(),
+													onTouchStart: header.getResizeHandler(),
+													className: `resizer ${
+														header.column.getIsResizing() ? 'isResizing' : ''
+													}`,
 												}}
-											>
-												{flexRender(header.column.columnDef.header, header.getContext())}
-												{header.column.getCanSort() ? (
-													header.column.getIsSorted() === 'asc' ? (
-														<FontAwesomeIcon icon={faSortUp} />
-													) : header.column.getIsSorted() === 'desc' ? (
-														<FontAwesomeIcon icon={faSortDown} />
-													) : (
-														<FontAwesomeIcon icon={faSort} />
-													)
-												) : null}
-											</div>
-										)}
-										<div
-											{...{
-												onMouseDown: header.getResizeHandler(),
-												onTouchStart: header.getResizeHandler(),
-												className: `resizer ${
-													header.column.getIsResizing() ? 'isResizing' : ''
-												}`,
-											}}
-										/>
-									</th>
-								);
-							})}
-						</tr>
-					))}
-				</thead>
-				<tbody>
-					{paddingTop > 0 && (
-						<tr>
-							<td style={{ height: `${paddingTop}px`, backgroundColor: 'transparent' }}></td>
-						</tr>
-					)}
-					{virtualRows.map((virtualRow) => {
-						const row = rows[virtualRow.index];
-						return (
-							<tr key={row.id} onClick={(e) => handleRowClick(e, row.original._id)}>
-								{row.getVisibleCells().map((cell) => {
-									return (
-										<td key={cell.id} style={{ height: rowHeight }}>
-											{flexRender(cell.column.columnDef.cell, cell.getContext())}
-										</td>
+											/>
+										</th>
 									);
 								})}
 							</tr>
-						);
-					})}
-					{paddingBottom > 0 && (
-						<tr>
-							<td style={{ height: `${paddingBottom}px`, backgroundColor: 'transparent' }}></td>
-						</tr>
-					)}
-				</tbody>
-			</table>
-		</div>
+						))}
+					</thead>
+					<tbody>
+						{paddingTop > 0 && (
+							<tr>
+								<td style={{ height: `${paddingTop}px`, backgroundColor: 'transparent' }}></td>
+							</tr>
+						)}
+						{virtualRows.map((virtualRow) => {
+							const row = rows[virtualRow.index];
+							return (
+								<tr key={row.id} onClick={(e) => handleRowClick(e, row.original._id)}>
+									{row.getVisibleCells().map((cell) => {
+										return (
+											<td key={cell.id} style={{ height: rowHeight }}>
+												{flexRender(cell.column.columnDef.cell, cell.getContext())}
+											</td>
+										);
+									})}
+								</tr>
+							);
+						})}
+						{paddingBottom > 0 && (
+							<tr>
+								<td style={{ height: `${paddingBottom}px`, backgroundColor: 'transparent' }}></td>
+							</tr>
+						)}
+					</tbody>
+				</table>
+			</div>
+		</>
 	);
 };
 
