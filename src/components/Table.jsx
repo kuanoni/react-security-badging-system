@@ -146,6 +146,13 @@ const Table = ({ query, columns, handleRowClick, sorting, setSorting }) => {
 						)}
 					</tbody>
 				</table>
+				{query.isFetchingNextPage ? (
+					<div className='container' style={{ height: rowHeight }}>
+						<div className='container loader-row'>
+							<div className='loader'></div>
+						</div>
+					</div>
+				) : null}
 			</div>
 		</>
 	);

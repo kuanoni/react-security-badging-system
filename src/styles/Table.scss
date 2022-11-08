@@ -248,4 +248,20 @@
 			background-color: $clr-highlight;
 		}
 	}
+
+	.loader-row {
+		background-color: $clr-accent-dark;
+		border-radius: 6px;
+		margin: 0.5rem;
+		padding: 0.5rem;
+		height: auto;
+
+		.loader {
+			width: 1.5rem;
+			height: 1.5rem;
+
+			border-color: $clr-text;
+			border-top-color: $clr-accent;
+		}
+	}
 }
