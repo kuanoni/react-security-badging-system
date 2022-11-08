@@ -62,10 +62,10 @@
 		padding: 0 0.5rem;
 		padding-right: 1rem;
 		border: 1px solid $clr-highlight;
+		border-radius: 0px;
 		outline: none;
 		background-color: $clr-darkest;
 		color: $clr-text-dark;
-		border-radius: 0px;
 
 		&:focus {
 			border-color: $clr-text-dark;
@@ -86,9 +86,9 @@
 		padding: 0;
 		border: 1px solid transparent;
 		border-bottom: none;
+		border-radius: 3px;
 		background-color: $clr-accent-secondary-dark;
 		color: $clr-text;
-		border-radius: 3px;
 
 		@include mobile {
 			gap: 0;
@@ -157,8 +157,8 @@
 
 		&-thumb {
 			border: 3px solid $clr-dark;
-			background-color: $clr-text-dark;
 			border-radius: 5px;
+			background-color: $clr-text-dark;
 
 			&:hover {
 				background-color: $clr-text;
@@ -195,6 +195,12 @@
 			color: $clr-text-dark;
 			font-weight: 300;
 			z-index: 10;
+
+			.inner-header {
+				display: flex;
+				justify-content: space-between;
+				cursor: pointer;
+			}
 
 			.resizer {
 				position: absolute;

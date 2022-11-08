@@ -1,8 +1,10 @@
 import '../styles/Table.scss';
 
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { faChevronDown, faChevronUp, faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 const rowHeight = 48;
@@ -54,45 +56,52 @@ const Table = ({ query, columns, handleRowClick, searchbarValue, sorting, setSor
 
 	return (
 		<div className='table-container' onScroll={(e) => fetchMoreOnBottomReached(e.target)} ref={tableContainerRef}>
-			<table>
-				<thead>
-					{table.getHeaderGroups().map((headerGroup) => (
-						<tr key={headerGroup.id}>
-							{headerGroup.headers.map((header) => {
-								return (
-									<th key={header.id} colSpan={header.colSpan} style={{ width: header.getSize() }}>
-										{header.isPlaceholder ? null : (
+			{rows.length ? (
+				<table>
+					<thead>
+						{table.getHeaderGroups().map((headerGroup) => (
+							<tr key={headerGroup.id}>
+								{headerGroup.headers.map((header) => {
+									return (
+										<th
+											key={header.id}
+											colSpan={header.colSpan}
+											style={{ width: header.getSize() }}
+										>
+											{header.isPlaceholder ? null : (
+												<div
+													{...{
+														className: header.column.getCanSort() ? 'inner-header' : '',
+														onClick: header.column.getToggleSortingHandler(),
+													}}
+												>
+													{flexRender(header.column.columnDef.header, header.getContext())}
+													{header.column.getCanSort() ? (
+														header.column.getIsSorted() === 'asc' ? (
+															<FontAwesomeIcon icon={faSortUp} />
+														) : header.column.getIsSorted() === 'desc' ? (
+															<FontAwesomeIcon icon={faSortDown} />
+														) : (
+															<FontAwesomeIcon icon={faSort} />
+														)
+													) : null}
+												</div>
+											)}
 											<div
 												{...{
-													className: header.column.getCanSort()
-														? 'cursor-pointer select-none'
-														: '',
-													onClick: header.column.getToggleSortingHandler(),
+													onMouseDown: header.getResizeHandler(),
+													onTouchStart: header.getResizeHandler(),
+													className: `resizer ${
+														header.column.getIsResizing() ? 'isResizing' : ''
+													}`,
 												}}
-											>
-												{flexRender(header.column.columnDef.header, header.getContext())}
-												{{
-													asc: ' 🔼',
-													desc: ' 🔽',
-												}[header.column.getIsSorted()] ?? null}
-											</div>
-										)}
-										<div
-											{...{
-												onMouseDown: header.getResizeHandler(),
-												onTouchStart: header.getResizeHandler(),
-												className: `resizer ${
-													header.column.getIsResizing() ? 'isResizing' : ''
-												}`,
-											}}
-										/>
-									</th>
-								);
-							})}
-						</tr>
-					))}
-				</thead>
-				{rows.length ? (
+											/>
+										</th>
+									);
+								})}
+							</tr>
+						))}
+					</thead>
 					<tbody>
 						{paddingTop > 0 && (
 							<tr>
@@ -119,16 +128,12 @@ const Table = ({ query, columns, handleRowClick, searchbarValue, sorting, setSor
 							</tr>
 						)}
 					</tbody>
-				) : (
-					<tbody>
-						<tr className='loader-container' style={{ width: '100%', height: '100%' }}>
-							<td>
-								<div className='loader'></div>
-							</td>
-						</tr>
-					</tbody>
-				)}
-			</table>
+				</table>
+			) : (
+				<div className='loader-container' style={{ width: '100%', height: '100%' }}>
+					<div className='loader'></div>
+				</div>
+			)}
 		</div>
 	);
 };
