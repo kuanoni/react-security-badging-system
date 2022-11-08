@@ -22,23 +22,26 @@ $desktop-width: 1024px;
 //     COLORS
 // ==============
 
-$clr-lightest: hsl(0, 0%, 29%);
-$clr-lighter: hsl(0, 0%, 26%);
-$clr-light: hsl(0, 0%, 23%);
-$clr-base: hsl(0, 0%, 20%);
-$clr-dark: hsl(0, 0%, 17%);
-$clr-darker: hsl(0, 0%, 15%);
-$clr-darkest: hsl(0, 0%, 14%);
+// $clr-base: hsl(211, 53%, 17%);
+$clr-base: hsl(211, 53%, 17%);
+$clr-lightest: adjust-color($clr-base, $lightness: 9%);
+$clr-lighter: adjust-color($clr-base, $lightness: 6%);
+$clr-light: adjust-color($clr-base, $lightness: 3%);
+$clr-darkest: adjust-color($clr-base, $lightness: -6%);
+$clr-darker: adjust-color($clr-base, $lightness: -5%);
+$clr-dark: adjust-color($clr-base, $lightness: -3%);
 
-$clr-text: hsl(100, 13%, 91%);
-$clr-text-dark: hsl(0, 0%, 73%);
-$clr-text-darker: hsl(0, 0%, 60%);
-$clr-text-darkest: hsl(0, 0%, 47%);
+$clr-text: hsl(60, 5%, 96%);
+$clr-text-dark: adjust-color($clr-text, $lightness: -17%);
+$clr-text-darker: adjust-color($clr-text-dark, $lightness: -13%);
+$clr-text-darkest: adjust-color($clr-text-dark, $lightness: -13%);
 
-$clr-accent: rgb(100, 198, 255);
-$clr-accent-dark: rgb(0, 134, 197);
-$clr-accent-darker: rgb(0, 118, 172);
-$clr-accent-darkest: rgb(0, 100, 146);
+// $clr-accent: hsl(214, 55%, 53%);
+$clr-accent: hsl(214, 55%, 53%);
+$clr-accent-dark: adjust-color($clr-accent, $lightness: -5%);
+$clr-accent-darker: adjust-color($clr-accent-dark, $lightness: -5%);
+$clr-accent-darkest: adjust-color($clr-accent-dark, $lightness: -10%);
+
 $clr-accent-secondary-dark: rgb(0, 144, 61);
 $clr-green: rgb(65, 224, 65);
 $clr-red: rgb(255, 65, 65);

@@ -36,7 +36,7 @@
 		margin: 0.5rem 1rem;
 		padding: 0;
 
-		border: 1px solid $clr-highlight;
+		border: 1px solid $clr-lighter;
 		overflow-y: auto;
 
 		.searchbar-container {
@@ -75,11 +75,11 @@
 				align-items: center;
 				gap: 0.5rem;
 				padding: 0.75rem 1rem;
-				border-bottom: 1px solid $clr-highlight;
+				border-bottom: 1px solid $clr-lighter;
 				user-select: none;
 
 				&:hover {
-					background-color: $clr-highlight;
+					background-color: $clr-lighter;
 				}
 
 				svg {
