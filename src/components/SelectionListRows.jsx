@@ -56,27 +56,6 @@ const SelectionListRows = ({ query, dataKey, searchbarValue, onlyShowSelected, s
 	const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
 	const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
-	/*  This is a horrible hack to manually update the rowVirtualizer count after a search.
-        rowVirtualizer.measure() is supposed to do this, but it doesn't.
-        
-        https://github.com/TanStack/virtual/issues/363 */
-	useEffect(() => {
-		if (searchbarValue !== '') return;
-
-		for (let i = virtualRows.length; i < flatData.length; i++) {
-			virtualRows.push({
-				index: i,
-				size: rowHeight,
-				start: i * rowHeight,
-				end: i * rowHeight + rowHeight,
-				key: i,
-				measureElement: (element, instance) => {
-					return element.getBoundingClientRect()[instance.options.horizontal ? 'width' : 'height'];
-				},
-			});
-		} // eslint-disable-next-line
-	}, [searchbarValue]);
-
 	return (
 		<div className='list' ref={containerRef} onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 			{paddingTop > 0 && <div style={{ height: `${paddingTop}px` }} />}
