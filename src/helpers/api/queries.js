@@ -3,18 +3,9 @@ import { fetchGet, fetchGetAvailableCredentials } from './fetch';
 import { useInfiniteQuery } from 'react-query';
 
 const queryFunctionBuilder =
-	(collection, fetchFn = fetchGet, searchFilter, searchValue) =>
+	(collection, fetchFn = fetchGet, search, sort) =>
 	async ({ pageParam = 0 }) => {
-		const search = {
-			filter: searchFilter,
-			value: searchValue,
-		};
-
-		const data = await fetchFn({ collection, page: pageParam, search });
-
-		if (searchValue) {
-			data.documents = data.documents.sort((a, b) => (a[searchFilter] < b[searchFilter] ? -1 : 1));
-		}
+		const data = await fetchFn({ collection, page: pageParam, search, sort });
 
 		return data;
 	};
@@ -25,17 +16,17 @@ const defaultQueryOptions = {
 	refetchOnWindowFocus: false,
 };
 
-export const useCardholders = (searchValue, searchFilter) =>
+export const useCardholders = (search, sort) =>
 	useInfiniteQuery(
-		['cardholders-data', searchValue, searchValue && searchFilter],
-		queryFunctionBuilder('cardholders', fetchGet, searchFilter, searchValue),
+		['cardholders-data', search.value, search.value && search.filter, sort.by, sort.by && sort.order],
+		queryFunctionBuilder('cardholders', fetchGet, search, sort),
 		defaultQueryOptions
 	);
 
-export const useCredentials = (searchValue, searchFilter) =>
+export const useCredentials = (search, sort) =>
 	useInfiniteQuery(
-		['credentials-data', searchValue, searchValue && searchFilter],
-		queryFunctionBuilder('credentials', fetchGet, searchFilter, searchValue),
+		['credentials-data', search.value, search.value && search.filter, sort.by, sort.by && sort.order],
+		queryFunctionBuilder('credentials', fetchGet, search, sort),
 		defaultQueryOptions
 	);
 

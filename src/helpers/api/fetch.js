@@ -2,13 +2,13 @@ export const fetchSize = 30;
 // const apiUrl = 'https://security-system-api.herokuapp.com/';
 const apiUrl = 'http://localhost:5000/';
 
-export const fetchGet = async ({ collection, page, search, props }) => {
+export const fetchGet = async ({ collection, page, search, props, sort }) => {
 	let fetchUrl = apiUrl + collection + '/get';
 
 	fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
 
 	if (search.value) fetchUrl += `&filter=${search.filter}&value=${search.value}`;
-
+	if (sort) fetchUrl += `&sortBy=${sort.by}&order=${sort.order}`;
 	if (props) fetchUrl += '&props=' + props;
 
 	// console.log(fetchUrl);
