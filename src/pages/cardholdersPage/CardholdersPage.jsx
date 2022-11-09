@@ -1,11 +1,12 @@
-import toast, { Toaster } from 'react-hot-toast';
-
 import CardholdersTable from './CardholdersTable';
 import Navbar from '../../components/Navbar';
+import { Toaster } from 'react-hot-toast';
+import { useColorTheme } from '../../hooks/useColorTheme';
 import { useState } from 'react';
 
 function CardholdersPage() {
-	const [isNavbarOpen, setIsNavbarOpen] = useState(true);
+	const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+	const { themes, themeIndex } = useColorTheme();
 
 	return (
 		<div className='app'>
@@ -14,7 +15,7 @@ function CardholdersPage() {
 					className: 'toast',
 					success: {
 						iconTheme: {
-							primary: '#0086c5',
+							primary: themes[themeIndex].accent.join(', '),
 							secondary: '#ffffff',
 						},
 					},
