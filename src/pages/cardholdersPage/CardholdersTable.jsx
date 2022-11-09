@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../../components/Modal';
 import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
-import { Toaster } from 'react-hot-toast';
 import { fetchGetById } from '../../helpers/api/fetch';
 import { useCardholders } from '../../helpers/api/queries';
 import { useEffect } from 'react';
@@ -39,6 +38,7 @@ const CardholdersTable = () => {
 		{ value: searchbarValue, filter: searchFilter },
 		sorting.length ? { by: sorting[0].id, order: sorting[0].desc ? 'desc' : 'asc' } : { by: '', order: '' }
 	);
+
 	const { refetch } = query;
 
 	const tableColumns = useMemo(
