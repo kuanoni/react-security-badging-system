@@ -26,7 +26,10 @@ const LabeledInput = ({ label, defaultValue, handleChange, checkErrors, isDisabl
 				placeholder={'Enter ' + label.toLowerCase() + '...'}
 				disabled={isDisabled}
 			/>
-			<div className='errors' style={{ height: (2 * errors.length).toString() + 'em' }}>
+			<div
+				className='errors'
+				style={{ height: (2 * errors.length).toString() + 'em', padding: errors.length ? '.25rem' : 0 }}
+			>
 				{errors.map((error, i) => (
 					<div key={i}>{error}</div>
 				))}
