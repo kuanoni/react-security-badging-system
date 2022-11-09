@@ -65,7 +65,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onUpdateCar
 		},
 	});
 
-	const saveCardholder = async () => {
+	const saveCardholder = () => {
 		setIsSaving(true);
 		setIsEditing(false);
 		toast.loading(<b>Waiting...</b>, { id: 'loadingToast' });
@@ -80,7 +80,7 @@ const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onUpdateCar
 		}
 	};
 
-	const deleteCardholder = async () => {
+	const deleteCardholder = () => {
 		if (isSaving) return;
 		setIsEditing(false);
 		toast.loading(<b>Waiting...</b>, { id: 'loadingToast' });
