@@ -8,9 +8,9 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-const colors = [
+const themes = [
 	{ base: ['0', '0%', '17%'], accent: ['202', '100%', '70%'] },
-	{ base: ['211', '57%', '17%'] },
+	{ base: ['211', '17%', '17%'], accent: ['191', '57%', '50%'] },
 	{ base: ['160', '57%', '17%'] },
 	{ base: ['0', '57%', '17%'] },
 	{ base: ['270', '57%', '17%'] },
@@ -18,28 +18,32 @@ const colors = [
 ];
 
 const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
-	const [baseTheme, setBaseTheme] = useState(colors[0].base);
+	const [themeIndex, setThemeIndex] = useState(() => {
+		const initThemeIdx = JSON.parse(localStorage.getItem('themeIdx')) || 0;
+		return initThemeIdx;
+	});
 
-	const setTheme = (color) => {
-		setBaseTheme(color.base);
-		document.querySelector(':root').style.setProperty('--clr-base-h', color.base[0]);
-		document.querySelector(':root').style.setProperty('--clr-base-s', color.base[1]);
-		document.querySelector(':root').style.setProperty('--clr-base-l', color.base[2]);
+	const applyTheme = (idx) => {
+		const cssRoot = document.querySelector(':root');
+		cssRoot.style.setProperty('--clr-base-h', themes[idx].base[0]);
+		cssRoot.style.setProperty('--clr-base-s', themes[idx].base[1]);
+		cssRoot.style.setProperty('--clr-base-l', themes[idx].base[2]);
 
-		if (color.accent) {
-			document.querySelector(':root').style.setProperty('--clr-accent-h', color.accent[0]);
-			document.querySelector(':root').style.setProperty('--clr-accent-s', color.accent[1]);
-			document.querySelector(':root').style.setProperty('--clr-accent-l', color.accent[2]);
+		if (themes[idx].accent) {
+			cssRoot.style.setProperty('--clr-accent-h', themes[idx].accent[0]);
+			cssRoot.style.setProperty('--clr-accent-s', themes[idx].accent[1]);
+			cssRoot.style.setProperty('--clr-accent-l', themes[idx].accent[2]);
 		} else {
-			document.querySelector(':root').style.setProperty('--clr-accent-h', parseInt(color.base[0]) - 20);
-			document.querySelector(':root').style.setProperty('--clr-accent-s', color.base[1]);
-			document.querySelector(':root').style.setProperty('--clr-accent-l', color.base[1]);
+			cssRoot.style.setProperty('--clr-accent-h', parseInt(themes[idx].base[0]) - 20);
+			cssRoot.style.setProperty('--clr-accent-s', themes[idx].base[1]);
+			cssRoot.style.setProperty('--clr-accent-l', themes[idx].base[1]);
 		}
 	};
 
 	useEffect(() => {
-		setTheme(colors[0]);
-	}, []);
+		applyTheme(themeIndex);
+		localStorage.setItem('themeIdx', JSON.stringify(themeIndex));
+	}, [themeIndex]);
 
 	return (
 		<nav className={isNavbarOpen ? 'open' : 'closed'}>
@@ -79,11 +83,11 @@ const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
 					<div className='theme-picker'>
 						<div className='title'>THEMES</div>
 						<div className='theme-colors'>
-							{colors.map((color, i) => (
+							{themes.map((color, i) => (
 								<button
 									key={i}
-									className={'color-btn' + (color.base === baseTheme ? ' active' : '')}
-									onClick={() => setTheme(color)}
+									className={'color-btn' + (i === themeIndex ? ' active' : '')}
+									onClick={() => setThemeIndex(i)}
 									style={{ backgroundColor: 'hsl(' + color.base.join(', ') + ')' }}
 								/>
 							))}

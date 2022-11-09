@@ -24,6 +24,8 @@
 	--clr-accent-darker: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 10%));
 	--clr-accent-dark: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 5%));
 
+	--clr-accent-secondary: hsl(calc(var(--clr-accent-h) + 60), var(--clr-accent-s), var(--clr-accent-l));
+
 	--clr-text-h: 60;
 	--clr-text-s: 5%;
 	--clr-text-l: 96%;
