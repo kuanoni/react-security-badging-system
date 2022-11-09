@@ -171,7 +171,7 @@
 			margin-top: 4px;
 			padding: 0.5rem;
 			border: 1px solid $clr-darkest;
-			border-bottom: 1px solid $clr-accent;
+			border-bottom-color: $clr-accent;
 			background-color: $clr-darkest;
 			color: $clr-text;
 			transition: 0.2s ease;
@@ -181,9 +181,9 @@
 			}
 
 			&:disabled {
-				border-bottom-color: transparent;
+				border-bottom-color: $clr-darkest;
 				background-color: adjust-color($color: $clr-darkest, $lightness: -5%);
-				color: adjust-color($color: $clr-text, $blackness: 20%);
+				color: adjust-color($color: $clr-text, $lightness: -5%);
 			}
 
 			&.blank {
@@ -214,15 +214,19 @@
 		}
 
 		.errors {
-			max-height: 4rem;
+			height: 0;
 			margin-top: 4px;
 			margin-left: 1px;
 			color: $clr-red;
+			background-color: $clr-darker;
+			padding: 0.25rem;
 			font-size: 0.8rem;
-			transition: max-height 0.26s ease;
+			border-bottom-left-radius: 3px;
+			border-bottom-right-radius: 3px;
+			transition: height 0.26s ease;
 
-			&.empty {
-				max-height: 0;
+			div {
+				height: 2em;
 			}
 		}
 	}
