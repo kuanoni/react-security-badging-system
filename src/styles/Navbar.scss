@@ -53,6 +53,7 @@ nav {
 	width: $navbar-width;
 	padding-bottom: 0.5rem;
 	background-color: var(--clr-darkest);
+	overflow: hidden;
 	z-index: 99;
 	inset: 0 0 0 0;
 	transition: all 0.2s ease;
@@ -91,8 +92,16 @@ nav {
 			}
 		}
 
-		.theme-colors {
-			transform: scaleX(0);
+		.theme-picker {
+			opacity: 0;
+
+			.title {
+				opacity: 0;
+			}
+
+			.theme-colors {
+				opacity: 0;
+			}
 		}
 	}
 
@@ -114,20 +123,33 @@ nav {
 		margin-top: auto;
 		justify-self: flex-end;
 
-		.theme-colors {
-			display: flex;
-			justify-content: space-around;
-			transition: 0.3s ease;
+		.theme-picker {
+			opacity: 1;
+			transition: all 0.2s ease;
 
-			.color-btn {
-				width: 1.5rem;
-				height: 1.5rem;
-				border: 1px solid var(--clr-lighter);
-				border-radius: 3px;
-				cursor: pointer;
+			.title {
+				margin-bottom: 0.35rem;
+				text-align: center;
+				color: var(--clr-text);
+				font-weight: 600;
+				transition: inherit;
+			}
 
-				&.active {
-					border-color: var(--clr-accent-light);
+			.theme-colors {
+				display: flex;
+				justify-content: space-around;
+				transition: inherit;
+
+				.color-btn {
+					width: 1.5rem;
+					height: 1.5rem;
+					border: 1px solid var(--clr-lighter);
+					border-radius: 3px;
+					cursor: pointer;
+
+					&.active {
+						border-color: var(--clr-accent-light);
+					}
 				}
 			}
 		}
@@ -147,6 +169,7 @@ nav {
 
 		&.active {
 			background-color: var(--clr-base);
+
 			svg {
 				color: var(--clr-accent);
 			}

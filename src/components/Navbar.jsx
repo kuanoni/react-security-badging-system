@@ -5,12 +5,41 @@ import { faAddressCard, faAnglesLeft, faUser, faUsers } from '@fortawesome/free-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { useEffect } from 'react';
 import { useState } from 'react';
 
-const hues = [211, 160, 0, 270, 300];
+const colors = [
+	{ base: ['0', '0%', '17%'], accent: ['202', '100%', '70%'] },
+	{ base: ['211', '57%', '17%'] },
+	{ base: ['160', '57%', '17%'] },
+	{ base: ['0', '57%', '17%'] },
+	{ base: ['270', '57%', '17%'] },
+	{ base: ['300', '57%', '17%'] },
+];
 
 const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
-	const [theme, setTheme] = useState(211);
+	const [baseTheme, setBaseTheme] = useState(colors[0].base);
+
+	const setTheme = (color) => {
+		setBaseTheme(color.base);
+		document.querySelector(':root').style.setProperty('--clr-base-h', color.base[0]);
+		document.querySelector(':root').style.setProperty('--clr-base-s', color.base[1]);
+		document.querySelector(':root').style.setProperty('--clr-base-l', color.base[2]);
+
+		if (color.accent) {
+			document.querySelector(':root').style.setProperty('--clr-accent-h', color.accent[0]);
+			document.querySelector(':root').style.setProperty('--clr-accent-s', color.accent[1]);
+			document.querySelector(':root').style.setProperty('--clr-accent-l', color.accent[2]);
+		} else {
+			document.querySelector(':root').style.setProperty('--clr-accent-h', parseInt(color.base[0]) - 20);
+			document.querySelector(':root').style.setProperty('--clr-accent-s', color.base[1]);
+			document.querySelector(':root').style.setProperty('--clr-accent-l', color.base[1]);
+		}
+	};
+
+	useEffect(() => {
+		setTheme(colors[0]);
+	}, []);
 
 	return (
 		<nav className={isNavbarOpen ? 'open' : 'closed'}>
@@ -47,17 +76,18 @@ const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
 					<label>Access Groups</label>
 				</a>
 				<div className='nav-footer'>
-					<div className='theme-colors'>
-						{hues.map((hue) => (
-							<button
-								className={'color-btn' + (hue === theme ? ' active' : '')}
-								onClick={() => {
-									document.querySelector(':root').style.setProperty('--clr-base-h', hue);
-									setTheme(hue);
-								}}
-								style={{ backgroundColor: 'hsl(' + hue + ', 53%, 17%)' }}
-							/>
-						))}
+					<div className='theme-picker'>
+						<div className='title'>THEMES</div>
+						<div className='theme-colors'>
+							{colors.map((color, i) => (
+								<button
+									key={i}
+									className={'color-btn' + (color.base === baseTheme ? ' active' : '')}
+									onClick={() => setTheme(color)}
+									style={{ backgroundColor: 'hsl(' + color.base.join(', ') + ')' }}
+								/>
+							))}
+						</div>
 					</div>
 					<div className='separator' />
 					<a href='https://github.com/kuanoni/react-table-security-system' className='nav-btn'>
