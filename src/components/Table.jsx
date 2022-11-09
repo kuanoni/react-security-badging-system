@@ -57,13 +57,6 @@ const Table = ({ query, columns, handleRowClick, sorting, setSorting }) => {
 	const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
 	const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
-	const loadingOverlay =
-		query.isFetching && !query.isFetchingNextPage ? (
-			<div className='container-overlay'>
-				<div className='loader'></div>
-			</div>
-		) : null;
-
 	if (query.isError)
 		return (
 			<div className='table-container'>

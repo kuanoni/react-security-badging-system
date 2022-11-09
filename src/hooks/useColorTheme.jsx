@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export const useColorTheme = () => {
 	const [themeIndex, setThemeIndex] = useState(() => {

@@ -4,9 +4,7 @@ import CustomDatePicker from '../../components/forms/CustomDatePicker';
 import DropdownList from '../../components/forms/DropdownList';
 import LabeledInput from '../../components/forms/LabeledInput';
 import ListAddRemove from '../../components/forms/ListAddRemove';
-import { useEffect } from 'react';
 import { useMemo } from 'react';
-import { useState } from 'react';
 
 const lettersField = (val) => {
 	const errors = [];
@@ -143,8 +141,6 @@ export const cardholderEditorForm = {
 };
 
 const BuildForm = ({ formTemplate, defaultData, updateData, isDataNew, isEditing, isSaving }) => {
-	const [formData, setNewData] = useState(defaultData);
-
 	const formTypeComponents = useMemo(() => {
 		const onChangeHandler = (key, value) => {
 			if (!isSaving)
