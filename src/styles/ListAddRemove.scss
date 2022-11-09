@@ -9,7 +9,6 @@
 		aspect-ratio: 1 / 1;
 
 		&:hover:not(:disabled) {
-			transform: scale(1.25);
 			@include interactive-hover;
 		}
 
@@ -21,11 +20,12 @@
 	.list-header {
 		display: flex;
 		justify-content: space-between;
-		align-items: flex-end;
+		align-content: center;
+		max-height: 2rem;
 		padding-bottom: 0.25rem;
 
 		button {
-			border: none;
+			border-color: transparent;
 			color: $clr-green;
 			font-size: 1.15em;
 		}
@@ -45,11 +45,13 @@
 			justify-content: space-between;
 			align-items: center;
 			margin: 0.25em 0;
-			padding: 0.35rem 0.5rem;
+			padding: 0.25rem 0.5rem;
 			padding-right: 0;
+			line-height: 1;
 		}
 
 		.list-item {
+			border-left: 5px solid var(--clr-accent);
 			&:hover {
 				background-color: var(--clr-lighter);
 			}

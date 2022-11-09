@@ -113,7 +113,7 @@
 			}
 
 			input:checked + label {
-				background: var(--clr-accent-dark);
+				background: var(--clr-accent);
 			}
 
 			input:checked + label:after {
@@ -172,6 +172,7 @@
 			padding: 0.5rem;
 			border: 1px solid var(--clr-darkest);
 			border-bottom-color: var(--clr-accent);
+			border-radius: 0px;
 			background-color: var(--clr-darkest);
 			color: $clr-text;
 			transition: 0.2s ease;
@@ -182,8 +183,12 @@
 
 			&:disabled {
 				border-bottom-color: var(--clr-darkest);
+				background: hsl(var(--clr-base-h), var(--clr-base-s), calc(var(--clr-base-l) - 11%));
 				background-color: hsl(var(--clr-base-h), var(--clr-base-s), calc(var(--clr-base-l) - 11%));
-				color: adjust-color($color: $clr-text, $lightness: -5%);
+				color: $clr-text-dark;
+				-webkit-opacity: 1;
+				opacity: 1;
+				-webkit-text-fill-color: $clr-text-dark;
 			}
 
 			&.blank {
