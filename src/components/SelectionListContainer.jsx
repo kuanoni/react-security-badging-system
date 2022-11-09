@@ -38,22 +38,16 @@ const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, close
 					<FontAwesomeIcon icon={faXmark} />
 				</button>
 			</div>
+			<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} autoFocus={true} />
 			<div className='body'>
-				<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} autoFocus={true} />
-				{query.isFetched ? (
-					<SelectionListRows
-						query={query}
-						dataKey={dataKey}
-						searchbarValue={searchbarValue}
-						onlyShowSelected={onlyShowSelected}
-						selectedList={selectedList}
-						setSelectedList={setSelectedList}
-					/>
-				) : (
-					<div className='container'>
-						<div className='loader' />
-					</div>
-				)}
+				<SelectionListRows
+					query={query}
+					dataKey={dataKey}
+					searchbarValue={searchbarValue}
+					onlyShowSelected={onlyShowSelected}
+					selectedList={selectedList}
+					setSelectedList={setSelectedList}
+				/>
 			</div>
 
 			<div className='footer'>

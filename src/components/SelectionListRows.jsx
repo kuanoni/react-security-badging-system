@@ -6,10 +6,10 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 
 const rowHeight = 45;
 
-const SelectionListRows = ({ query, dataKey, searchbarValue, onlyShowSelected, selectedList, setSelectedList }) => {
+const SelectionListRows = ({ query, dataKey, onlyShowSelected, selectedList, setSelectedList }) => {
 	const containerRef = useRef(null);
 
-	const { data, fetchNextPage, hasNextPage, isFetching } = query;
+	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isError } = query;
 
 	const flatData = useMemo(() => {
 		return data?.pages?.flatMap((page) => page.documents) ?? [];
@@ -51,28 +51,25 @@ const SelectionListRows = ({ query, dataKey, searchbarValue, onlyShowSelected, s
 		overscan: 5,
 	});
 
-	const { totalSize } = rowVirtualizer;
 	const virtualRows = rowVirtualizer.getVirtualItems();
-	const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
-	const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
+
+	if (isError)
+		return (
+			<div className='list'>
+				<div style={{ fontSize: '1.5em', padding: '1rem' }}>No results...</div>
+			</div>
+		);
 
 	return (
-		<div className='list' ref={containerRef} onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-			{paddingTop > 0 && <div style={{ height: `${paddingTop}px` }} />}
-			{onlyShowSelected
-				? selectedList.map((item) => (
-						<SelectableListItem
-							key={item._id}
-							item={item}
-							label={item[dataKey]}
-							defaultChecked={checkIfSelected(item)}
-							toggleSelected={toggleSelected}
-						/>
-				  ))
-				: virtualRows.map((virtualRow) => {
-						const isLoaderRow = virtualRow.index > flatData.length - 1;
-						const item = flatData[virtualRow.index];
-						const row = (
+		<>
+			{isFetching && !isFetchingNextPage ? (
+				<div className='container-overlay'>
+					<div className='loader'></div>
+				</div>
+			) : null}
+			<div className='list' ref={containerRef} onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
+				{onlyShowSelected
+					? selectedList.map((item) => (
 							<SelectableListItem
 								key={item._id}
 								item={item}
@@ -80,26 +77,55 @@ const SelectionListRows = ({ query, dataKey, searchbarValue, onlyShowSelected, s
 								defaultChecked={checkIfSelected(item)}
 								toggleSelected={toggleSelected}
 							/>
-						);
+					  ))
+					: virtualRows.map((virtualRow) => {
+							const isLoaderRow = virtualRow.index > flatData.length - 1;
+							const item = flatData[virtualRow.index];
+							const row = (
+								<SelectableListItem
+									key={item._id}
+									item={item}
+									label={item[dataKey]}
+									defaultChecked={checkIfSelected(item)}
+									toggleSelected={toggleSelected}
+								/>
+							);
 
-						return (
-							<div
-								key={virtualRow.index}
-								style={{
-									position: 'absolute',
-									top: 0,
-									left: 0,
-									width: '100%',
-									height: `${virtualRow.size}px`,
-									transform: `translateY(${virtualRow.start}px)`,
-								}}
-							>
-								{isLoaderRow ? (hasNextPage ? 'Loading more...' : 'Nothing more to load') : row}
-							</div>
-						);
-				  })}
-			{paddingBottom > 0 && <div style={{ height: `${paddingBottom}px` }} />}
-		</div>
+							return (
+								<div
+									key={virtualRow.index}
+									style={{
+										position: 'absolute',
+										top: 0,
+										left: 0,
+										width: '100%',
+										height: `${virtualRow.size}px`,
+										transform: `translateY(${virtualRow.start}px)`,
+									}}
+								>
+									{isLoaderRow ? (hasNextPage ? 'Loading more...' : 'Nothing more to load') : row}
+								</div>
+							);
+					  })}
+				{isFetchingNextPage ? (
+					<div
+						className='container'
+						style={{
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							width: '100%',
+							height: `${virtualRows[virtualRows.length - 1].size}px`,
+							transform: `translateY(${virtualRows[virtualRows.length - 1].start + rowHeight}px)`,
+						}}
+					>
+						<div className='loader-row'>
+							<div className='loader'></div>
+						</div>
+					</div>
+				) : null}
+			</div>
+		</>
 	);
 };
 

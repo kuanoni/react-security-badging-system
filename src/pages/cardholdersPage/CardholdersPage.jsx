@@ -1,6 +1,7 @@
+import toast, { Toaster } from 'react-hot-toast';
+
 import CardholdersTable from './CardholdersTable';
 import Navbar from '../../components/Navbar';
-import { Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 
 function CardholdersPage() {

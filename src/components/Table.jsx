@@ -64,11 +64,20 @@ const Table = ({ query, columns, handleRowClick, sorting, setSorting }) => {
 			</div>
 		) : null;
 
-	if (query.isError) return <div className='table-container'></div>;
+	if (query.isError)
+		return (
+			<div className='table-container'>
+				<div style={{ fontSize: '1.75em', padding: '1rem' }}>No results...</div>
+			</div>
+		);
 
 	return (
 		<>
-			{loadingOverlay}
+			{query.isFetching && !query.isFetchingNextPage ? (
+				<div className='container-overlay'>
+					<div className='loader'></div>
+				</div>
+			) : null}
 			<div
 				className='table-container'
 				onScroll={(e) => fetchMoreOnBottomReached(e.target)}
