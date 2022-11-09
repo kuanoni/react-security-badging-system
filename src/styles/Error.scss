@@ -5,7 +5,7 @@
 	top: 0;
 	right: 0;
 	bottom: 0;
-	background-color: $clr-dark;
+	background-color: var(--clr-dark);
 	color: $clr-text;
 	overflow: hidden;
 	transition: all 0.2s ease;
@@ -34,7 +34,7 @@
 		height: fit-content;
 		margin: 1rem;
 		padding: 1rem;
-		border: 1px solid $clr-lighter;
+		border: 1px solid var(--clr-lighter);
 
 		h1 {
 			margin-top: 0;

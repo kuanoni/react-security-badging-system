@@ -17,7 +17,7 @@
 	top: 0;
 	height: $searchbar-height;
 	padding: 1rem 1rem;
-	background-color: $clr-dark;
+	background-color: var(--clr-dark);
 	z-index: 1;
 
 	@include mobile {
@@ -45,7 +45,7 @@
 
 		input {
 			padding-left: 0.5rem;
-			border: 1px solid $clr-lighter;
+			border: 1px solid var(--clr-lighter);
 			border-radius: 0;
 			caret-color: $clr-text;
 
@@ -63,10 +63,10 @@
 		height: 100%;
 		padding: 0 0.5rem;
 		padding-right: 1rem;
-		border: 1px solid $clr-lighter;
+		border: 1px solid var(--clr-lighter);
 		border-radius: 0px;
 		outline: none;
-		background-color: $clr-darkest;
+		background-color: var(--clr-darkest);
 		color: $clr-text-dark;
 
 		&:focus {
@@ -89,7 +89,7 @@
 		border: 1px solid transparent;
 		border-bottom: none;
 		border-radius: 3px;
-		background-color: $clr-accent-darkest;
+		background-color: var(--clr-accent-darkest);
 		color: $clr-text;
 
 		@include mobile {
@@ -146,8 +146,8 @@
 	$padding: 1rem;
 	position: absolute;
 	inset: 0 0 0 0;
-	border: 1px solid $clr-lighter;
-	background-color: $clr-dark;
+	border: 1px solid var(--clr-lighter);
+	background-color: var(--clr-dark);
 	overflow: auto;
 
 	&::-webkit-scrollbar {
@@ -155,7 +155,7 @@
 		height: 1rem;
 
 		&-thumb {
-			border: 3px solid $clr-dark;
+			border: 3px solid var(--clr-dark);
 			border-radius: 5px;
 			background-color: $clr-text-dark;
 
@@ -165,7 +165,7 @@
 		}
 
 		&-corner {
-			background-color: $clr-darkest;
+			background-color: var(--clr-darkest);
 		}
 	}
 
@@ -187,10 +187,10 @@
 			top: 0;
 			margin-bottom: 0.5rem;
 			padding: 0.5rem;
-			border: 1px solid $clr-lighter;
+			border: 1px solid var(--clr-lighter);
 			border-top: none;
 			border-left: none;
-			background-color: $clr-dark;
+			background-color: var(--clr-dark);
 			color: $clr-text-dark;
 			font-weight: 300;
 			z-index: 10;
@@ -214,7 +214,7 @@
 				touch-action: none;
 
 				&.isResizing {
-					background: $clr-lighter;
+					background: var(--clr-lighter);
 					opacity: 1;
 				}
 
@@ -227,7 +227,7 @@
 		td {
 			height: 3rem;
 			padding: 0.25rem 0.5rem;
-			border-right: 1px solid $clr-lighter;
+			border-right: 1px solid var(--clr-lighter);
 
 			.avatar {
 				display: block;
@@ -242,7 +242,7 @@
 				width: 100%;
 				height: 80%;
 				border-radius: 6px;
-				background-color: $clr-lighter;
+				background-color: var(--clr-lighter);
 				color: $clr-text-dark;
 				font-size: 1.45em;
 				cursor: pointer;
@@ -255,17 +255,17 @@
 		}
 
 		tr {
-			background-color: $clr-base;
+			background-color: var(--clr-base);
 			color: $clr-text;
 		}
 
 		tr:hover {
-			background-color: $clr-lighter;
+			background-color: var(--clr-lighter);
 		}
 	}
 
 	.loader-row {
-		background-color: $clr-accent-dark;
+		background-color: var(--clr-accent-dark);
 		border-radius: 6px;
 		margin: 0.5rem;
 		padding: 0.5rem;
@@ -276,7 +276,7 @@
 			height: 1.5rem;
 
 			border-color: $clr-text;
-			border-top-color: $clr-accent;
+			border-top-color: var(--clr-accent);
 		}
 	}
 }

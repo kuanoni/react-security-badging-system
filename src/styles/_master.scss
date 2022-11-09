@@ -23,29 +23,27 @@ $desktop-width: 1024px;
 // ==============
 
 // $clr-base: hsl(211, 53%, 17%);
-$clr-base: hsl(211, 53%, 17%);
-$clr-lightest: adjust-color($clr-base, $lightness: 9%);
-$clr-lighter: adjust-color($clr-base, $lightness: 6%);
-$clr-light: adjust-color($clr-base, $lightness: 3%);
-$clr-darkest: adjust-color($clr-base, $lightness: -6%);
-$clr-darker: adjust-color($clr-base, $lightness: -5%);
-$clr-dark: adjust-color($clr-base, $lightness: -3%);
+// $clr-base: hsl(357, 53%, 17%);
+// $clr-lightest: adjust-color($clr-base, $lightness: 9%);
+// $clr-lighter: adjust-color($clr-base, $lightness: 6%);
+// $clr-light: adjust-color($clr-base, $lightness: 3%);
+// $clr-darkest: adjust-color($clr-base, $lightness: -6%);
+// $clr-darker: adjust-color($clr-base, $lightness: -5%);
+// $clr-dark: adjust-color($clr-base, $lightness: -3%);
 
 $clr-text: hsl(60, 5%, 96%);
 $clr-text-dark: adjust-color($clr-text, $lightness: -17%);
 $clr-text-darker: adjust-color($clr-text-dark, $lightness: -13%);
 $clr-text-darkest: adjust-color($clr-text-dark, $lightness: -13%);
 
-// $clr-accent: hsl(214, 55%, 53%);
-$clr-accent: hsl(214, 55%, 53%);
-$clr-accent-dark: adjust-color($clr-accent, $lightness: -5%);
-$clr-accent-darker: adjust-color($clr-accent-dark, $lightness: -5%);
-$clr-accent-darkest: adjust-color($clr-accent-dark, $lightness: -10%);
+// $clr-accent: adjust-color($clr-base, $hue: -20deg, $lightness: 36%);
+// $clr-accent-dark: adjust-color($clr-accent, $lightness: -5%);
+// $clr-accent-darker: adjust-color($clr-accent-dark, $lightness: -5%);
+// $clr-accent-darkest: adjust-color($clr-accent-dark, $lightness: -10%);
 
-$clr-accent-secondary-dark: rgb(0, 144, 61);
-$clr-green: rgb(65, 224, 65);
-$clr-red: rgb(255, 65, 65);
-$clr-red-dark: rgb(221 9 9);
+$clr-green: hsl(120, 53%, 57%);
+$clr-red: hsl(0, 53%, 60%);
+$clr-red-dark: hsl(0, 53%, 45%);
 $clr-blue: rgb(100, 198, 255);
 $clr-purple: rgb(196, 95, 255);
 

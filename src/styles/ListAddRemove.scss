@@ -36,7 +36,7 @@
 		margin-bottom: 1.5rem;
 		padding-top: 0.5rem;
 		padding-left: 0;
-		border-top: 1px solid $clr-lighter;
+		border-top: 1px solid var(--clr-lighter);
 		list-style: none;
 		user-select: none;
 
@@ -51,7 +51,7 @@
 
 		.list-item {
 			&:hover {
-				background-color: $clr-lighter;
+				background-color: var(--clr-lighter);
 			}
 
 			button {

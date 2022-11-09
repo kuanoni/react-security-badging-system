@@ -24,7 +24,7 @@
 			max-width: 128px;
 			height: 100%;
 			max-height: 128px;
-			border: 2px solid $clr-darker;
+			border: 2px solid var(--clr-darker);
 			aspect-ratio: 1 / 1;
 
 			img {
@@ -95,7 +95,7 @@
 				width: 40px;
 				height: 20px;
 				border-radius: 100px;
-				background: $clr-lighter;
+				background: var(--clr-lighter);
 				text-indent: -9999px;
 				cursor: pointer;
 			}
@@ -113,7 +113,7 @@
 			}
 
 			input:checked + label {
-				background: $clr-accent-dark;
+				background: var(--clr-accent-dark);
 			}
 
 			input:checked + label:after {
@@ -149,13 +149,13 @@
 			width: 1rem;
 
 			&-thumb {
-				border: 3px solid $clr-dark;
+				border: 3px solid var(--clr-dark);
 				border-radius: 5px;
 				background-color: $clr-text-dark;
 			}
 
 			&-track {
-				background: $clr-darkest;
+				background: var(--clr-darkest);
 			}
 		}
 
@@ -170,9 +170,9 @@
 			height: 2.25rem;
 			margin-top: 4px;
 			padding: 0.5rem;
-			border: 1px solid $clr-darkest;
-			border-bottom-color: $clr-accent;
-			background-color: $clr-darkest;
+			border: 1px solid var(--clr-darkest);
+			border-bottom-color: var(--clr-accent);
+			background-color: var(--clr-darkest);
 			color: $clr-text;
 			transition: 0.2s ease;
 
@@ -181,8 +181,8 @@
 			}
 
 			&:disabled {
-				border-bottom-color: $clr-darkest;
-				background-color: adjust-color($color: $clr-darkest, $lightness: -5%);
+				border-bottom-color: var(--clr-darkest);
+				background-color: hsl(var(--clr-base-h), var(--clr-base-s), calc(var(--clr-base-l) - 11%));
 				color: adjust-color($color: $clr-text, $lightness: -5%);
 			}
 
@@ -210,19 +210,19 @@
 		}
 
 		.checkbox {
-			background-color: $clr-darkest;
+			background-color: var(--clr-darkest);
 		}
 
 		.errors {
 			height: 0;
 			margin-top: 4px;
 			margin-left: 1px;
-			color: $clr-red;
-			background-color: $clr-darker;
 			padding: 0.25rem;
-			font-size: 0.8rem;
 			border-bottom-left-radius: 3px;
 			border-bottom-right-radius: 3px;
+			background-color: var(--clr-darker);
+			color: $clr-red;
+			font-size: 0.8rem;
 			transition: height 0.26s ease;
 
 			div {

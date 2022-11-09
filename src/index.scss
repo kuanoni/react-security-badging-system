@@ -1,5 +1,27 @@
 @import './styles/master';
 
+:root {
+	--clr-base-h: 211;
+	--clr-base-s: 53%;
+	--clr-base-l: 17%;
+	--clr-base: hsl(var(--clr-base-h), var(--clr-base-s), var(--clr-base-l));
+	--clr-lightest: hsl(var(--clr-base-h), var(--clr-base-s), calc(var(--clr-base-l) + 9%));
+	--clr-lighter: hsl(var(--clr-base-h), var(--clr-base-s), calc(var(--clr-base-l) + 6%));
+	--clr-light: hsl(var(--clr-base-h), var(--clr-base-s), calc(var(--clr-base-l) + 3%));
+	--clr-darkest: hsl(var(--clr-base-h), var(--clr-base-s), calc(var(--clr-base-l) - 6%));
+	--clr-darker: hsl(var(--clr-base-h), var(--clr-base-s), calc(var(--clr-base-l) - 5%));
+	--clr-dark: hsl(var(--clr-base-h), var(--clr-base-s), calc(var(--clr-base-l) - 3%));
+
+	--clr-accent-h: calc(var(--clr-base-h) - 20);
+	--clr-accent-s: var(--clr-base-s);
+	--clr-accent-l: calc(var(--clr-base-l) + 36%);
+
+	--clr-accent: hsl(var(--clr-accent-h), var(--clr-accent-s), var(--clr-accent-l));
+	--clr-accent-dark: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 5%));
+	--clr-accent-darker: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 10%));
+	--clr-accent-darkest: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 15%));
+}
+
 *,
 *::after,
 *::before {
@@ -23,7 +45,7 @@ body {
 	min-height: -webkit-fill-available;
 	margin: 0;
 	padding: 0;
-	background-color: $clr-dark;
+	background-color: var(--clr-dark);
 	font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -33,8 +55,8 @@ body {
 	display: flex;
 	position: absolute;
 	top: 0;
-	bottom: 0;
 	right: 0;
+	bottom: 0;
 	left: 0;
 }
 
@@ -43,5 +65,5 @@ body {
 	flex-direction: row;
 	width: 100%;
 	min-height: -webkit-fill-available;
-	background-color: $clr-darker;
+	background-color: var(--clr-darker);
 }

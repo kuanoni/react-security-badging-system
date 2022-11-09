@@ -15,7 +15,7 @@
 		min-width: 250px;
 		max-width: 750px;
 		margin: 3rem 1.5rem;
-		background-color: $clr-dark;
+		background-color: var(--clr-dark);
 		color: $clr-text;
 		box-shadow: 0 0 20px 1px #000000;
 
@@ -28,10 +28,10 @@
 			display: flex;
 			position: relative;
 			padding: 1rem;
-			background-color: $clr-base;
+			background-color: var(--clr-base);
 			font-size: 0.9em;
 			font-weight: 600;
-			box-shadow: 0 1px 2px $clr-darkest;
+			box-shadow: 0 1px 2px var(--clr-darkest);
 		}
 
 		.body {
@@ -46,8 +46,8 @@
 			justify-content: flex-end;
 			gap: 1rem;
 			padding: 1rem;
-			background-color: $clr-darker;
-			box-shadow: 0 -1px 2px $clr-darkest;
+			background-color: var(--clr-darker);
+			box-shadow: 0 -1px 2px var(--clr-darkest);
 
 			.btn {
 				padding: 0.75em;
@@ -57,16 +57,16 @@
 				font-size: 0.9em;
 				font-weight: 600;
 				cursor: pointer;
-				box-shadow: 1px 1px 2px $clr-base;
+				box-shadow: 1px 1px 2px var(--clr-base);
 				transition: 0.15s ease-in-out;
 
 				&.save {
-					background-color: $clr-accent-dark;
+					background-color: var(--clr-accent-dark);
 					padding-inline: 3em;
 				}
 
 				&.cancel {
-					background-color: $clr-lighter;
+					background-color: var(--clr-lighter);
 					padding-inline: 1em;
 				}
 

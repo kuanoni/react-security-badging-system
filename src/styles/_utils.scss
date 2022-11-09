@@ -18,8 +18,8 @@
 }
 
 .toast {
-	border: 1px solid $clr-lighter !important;
-	background-color: $clr-darkest !important;
+	border: 1px solid var(--clr-lighter) !important;
+	background-color: var(--clr-darkest) !important;
 	color: $clr-text !important;
 	user-select: none !important;
 }
@@ -55,8 +55,8 @@
 	$size: 3rem;
 	width: $size;
 	height: $size;
-	border: calc($size / 7.5) solid $clr-lighter;
-	border-top: calc($size / 7.5) solid $clr-accent;
+	border: calc($size / 7.5) solid var(--clr-lighter);
+	border-top: calc($size / 7.5) solid var(--clr-accent);
 	border-radius: 50%;
 	animation: spin 1.5s linear infinite;
 }

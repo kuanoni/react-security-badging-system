@@ -5,13 +5,13 @@
 		width: 100%;
 		border-top: none;
 		border-color: transparent;
-		background-color: $clr-base;
+		background-color: var(--clr-base);
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
 
 		&__header {
-			border-color: $clr-lighter;
-			background-color: $clr-darkest;
+			border-color: var(--clr-lighter);
+			background-color: var(--clr-darkest);
 
 			&-custom-container {
 				display: flex;
@@ -34,7 +34,7 @@
 					border-radius: 3px;
 
 					&:hover {
-						background-color: $clr-lighter;
+						background-color: var(--clr-lighter);
 					}
 				}
 			}
@@ -42,13 +42,13 @@
 
 		&__triangle {
 			&::before {
-				border-top-color: $clr-base !important;
-				border-bottom-color: $clr-base !important;
+				border-top-color: var(--clr-base) !important;
+				border-bottom-color: var(--clr-base) !important;
 			}
 
 			&::after {
-				border-top-color: $clr-base !important;
-				border-bottom-color: $clr-base !important;
+				border-top-color: var(--clr-base) !important;
+				border-bottom-color: var(--clr-base) !important;
 			}
 		}
 
@@ -62,15 +62,15 @@
 			color: $clr-text;
 
 			&:hover {
-				background-color: $clr-darkest;
+				background-color: var(--clr-darkest);
 			}
 
 			&-names {
-				border-top: 1px solid $clr-lighter;
+				border-top: 1px solid var(--clr-lighter);
 			}
 
 			&--keyboard-selected {
-				background-color: $clr-darker;
+				background-color: var(--clr-darker);
 			}
 
 			&--outside-month {

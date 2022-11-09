@@ -5,13 +5,13 @@
 
 	.modal {
 		width: 100%;
-		background-color: $clr-base;
+		background-color: var(--clr-base);
 	}
 
 	.header {
 		justify-content: space-between;
 		align-items: center;
-		background-color: $clr-darker;
+		background-color: var(--clr-darker);
 
 		h2 {
 			margin: 0;
@@ -36,7 +36,7 @@
 		margin: 0.5rem 1rem;
 		padding: 0;
 
-		border: 1px solid $clr-lighter;
+		border: 1px solid var(--clr-lighter);
 		overflow-y: auto;
 
 		.searchbar-container {
@@ -49,7 +49,7 @@
 				transition: 0.2s ease;
 
 				&:focus {
-					border-bottom: 1px solid $clr-accent;
+					border-bottom: 1px solid var(--clr-accent);
 				}
 			}
 
@@ -75,15 +75,15 @@
 				align-items: center;
 				gap: 0.5rem;
 				padding: 0.75rem 1rem;
-				border-bottom: 1px solid $clr-lighter;
+				border-bottom: 1px solid var(--clr-lighter);
 				user-select: none;
 
 				&:hover {
-					background-color: $clr-lighter;
+					background-color: var(--clr-lighter);
 				}
 
 				svg {
-					color: $clr-accent;
+					color: var(--clr-accent);
 					font-size: 1.25em;
 				}
 
@@ -96,13 +96,13 @@
 				width: 1rem;
 
 				&-thumb {
-					border: 3px solid $clr-dark;
+					border: 3px solid var(--clr-dark);
 					background-color: $clr-text-dark;
 					border-radius: 5px;
 				}
 
 				&-track {
-					background: $clr-darkest;
+					background: var(--clr-darkest);
 				}
 			}
 		}
@@ -115,13 +115,13 @@
 			gap: 0.5rem;
 			margin-right: auto;
 			margin-left: 1rem;
-			color: $clr-accent;
+			color: var(--clr-accent);
 			cursor: pointer;
 			user-select: none;
 		}
 
 		svg {
-			color: $clr-accent;
+			color: var(--clr-accent);
 			font-size: 1.25em;
 		}
 	}
