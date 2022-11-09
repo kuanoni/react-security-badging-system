@@ -5,8 +5,13 @@ import { faAddressCard, faAnglesLeft, faUser, faUsers } from '@fortawesome/free-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { useState } from 'react';
+
+const hues = [211, 160, 0, 270, 300];
 
 const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
+	const [theme, setTheme] = useState(211);
+
 	return (
 		<nav className={isNavbarOpen ? 'open' : 'closed'}>
 			<div className='nav-btns-container'>
@@ -42,6 +47,18 @@ const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
 					<label>Access Groups</label>
 				</a>
 				<div className='nav-footer'>
+					<div className='theme-colors'>
+						{hues.map((hue) => (
+							<button
+								className={'color-btn' + (hue === theme ? ' active' : '')}
+								onClick={() => {
+									document.querySelector(':root').style.setProperty('--clr-base-h', hue);
+									setTheme(hue);
+								}}
+								style={{ backgroundColor: 'hsl(' + hue + ', 53%, 17%)' }}
+							/>
+						))}
+					</div>
 					<div className='separator' />
 					<a href='https://github.com/kuanoni/react-table-security-system' className='nav-btn'>
 						<span className='icon-wrapper'>
