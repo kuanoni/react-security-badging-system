@@ -8,10 +8,10 @@
 		height: 100%;
 		outline: none;
 		background-color: var(--clr-darker);
-		color: $clr-text;
+		color: var(--clr-text);
 
 		&::placeholder {
-			color: $clr-text-dark;
+			color: var(--clr-text-dark);
 		}
 	}
 
@@ -19,7 +19,7 @@
 		position: absolute;
 		border-color: transparent;
 		background-color: transparent;
-		color: $clr-text-dark;
+		color: var(--clr-text-dark);
 		font-size: 1.25em;
 		opacity: 0;
 		cursor: pointer;

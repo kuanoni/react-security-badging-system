@@ -17,9 +17,20 @@
 	--clr-accent-l: calc(var(--clr-base-l) + 36%);
 
 	--clr-accent: hsl(var(--clr-accent-h), var(--clr-accent-s), var(--clr-accent-l));
-	--clr-accent-dark: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 5%));
-	--clr-accent-darker: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 10%));
+	--clr-accent-lightest: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) + 15%));
+	--clr-accent-lighter: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) + 10%));
+	--clr-accent-light: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) + 5%));
 	--clr-accent-darkest: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 15%));
+	--clr-accent-darker: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 10%));
+	--clr-accent-dark: hsl(var(--clr-accent-h), var(--clr-accent-s), calc(var(--clr-accent-l) - 5%));
+
+	--clr-text-h: 60;
+	--clr-text-s: 5%;
+	--clr-text-l: 96%;
+	--clr-text: hsl(var(--clr-text-h), var(--clr-text-s), var(--clr-text-l));
+	--clr-text-dark: hsl(var(--clr-text-h), var(--clr-text-s), calc(var(--clr-text-l) - 17%));
+	--clr-text-darker: hsl(var(--clr-text-h), var(--clr-text-s), calc(var(--clr-text-l) - 30%));
+	--clr-text-darkest: hsl(var(--clr-text-h), var(--clr-text-s), calc(var(--clr-text-l) - 45%));
 }
 
 *,

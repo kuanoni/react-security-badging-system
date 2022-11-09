@@ -21,7 +21,7 @@
 		.btn-exit {
 			border: none;
 			background-color: transparent;
-			color: $clr-text-dark;
+			color: var(--clr-text-dark);
 			font-size: 1.35em;
 			cursor: pointer;
 
@@ -99,7 +99,7 @@
 				&-thumb {
 					border: 3px solid var(--clr-dark);
 					border-radius: 5px;
-					background-color: $clr-text-dark;
+					background-color: var(--clr-text-dark);
 				}
 
 				&-track {
@@ -123,7 +123,7 @@
 					width: 1.5rem;
 					height: 1.5rem;
 
-					border-color: $clr-text;
+					border-color: var(--clr-text);
 					border-top-color: var(--clr-accent);
 				}
 			}

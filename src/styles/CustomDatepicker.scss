@@ -28,7 +28,7 @@
 				button {
 					border: none;
 					background-color: transparent;
-					color: $clr-text;
+					color: var(--clr-text);
 					font-weight: 900;
 					cursor: pointer;
 					border-radius: 3px;
@@ -55,11 +55,11 @@
 		&__current-month,
 		&__day-name,
 		&__day {
-			color: $clr-text;
+			color: var(--clr-text);
 		}
 
 		&__day {
-			color: $clr-text;
+			color: var(--clr-text);
 
 			&:hover {
 				background-color: var(--clr-darkest);
@@ -78,7 +78,7 @@
 			}
 
 			&--disabled {
-				color: $clr-text-darkest;
+				color: var(--clr-text-darkest);
 				cursor: not-allowed;
 
 				&:hover {

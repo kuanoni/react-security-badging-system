@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import { useState } from 'react';
 
 function CardholdersPage() {
-	const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+	const [isNavbarOpen, setIsNavbarOpen] = useState(true);
 
 	return (
 		<div className='app'>

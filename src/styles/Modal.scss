@@ -16,7 +16,7 @@
 		max-width: 750px;
 		margin: 3rem 1.5rem;
 		background-color: var(--clr-dark);
-		color: $clr-text;
+		color: var(--clr-text);
 		box-shadow: 0 0 20px 1px #000000;
 
 		@include mobile {
@@ -53,7 +53,7 @@
 				padding: 0.75em;
 				border: none;
 				border-radius: 3px;
-				color: $clr-text;
+				color: var(--clr-text);
 				font-size: 0.9em;
 				font-weight: 600;
 				cursor: pointer;

@@ -47,10 +47,10 @@
 			padding-left: 0.5rem;
 			border: 1px solid var(--clr-lighter);
 			border-radius: 0;
-			caret-color: $clr-text;
+			caret-color: var(--clr-text);
 
 			&:focus {
-				border-color: $clr-text-dark;
+				border-color: var(--clr-text-dark);
 			}
 		}
 
@@ -67,14 +67,14 @@
 		border-radius: 0px;
 		outline: none;
 		background-color: var(--clr-darkest);
-		color: $clr-text-dark;
+		color: var(--clr-text-dark);
 
 		&:focus {
-			border-color: $clr-text-dark;
+			border-color: var(--clr-text-dark);
 		}
 
 		option {
-			color: $clr-text;
+			color: var(--clr-text);
 		}
 	}
 
@@ -90,7 +90,7 @@
 		border-bottom: none;
 		border-radius: 3px;
 		background-color: var(--clr-accent-darkest);
-		color: $clr-text;
+		color: var(--clr-text);
 
 		@include mobile {
 			gap: 0;
@@ -157,10 +157,10 @@
 		&-thumb {
 			border: 3px solid var(--clr-dark);
 			border-radius: 5px;
-			background-color: $clr-text-dark;
+			background-color: var(--clr-text-dark);
 
 			&:hover {
-				background-color: $clr-text;
+				background-color: var(--clr-text);
 			}
 		}
 
@@ -191,7 +191,7 @@
 			border-top: none;
 			border-left: none;
 			background-color: var(--clr-dark);
-			color: $clr-text-dark;
+			color: var(--clr-text-dark);
 			font-weight: 300;
 			z-index: 10;
 
@@ -243,7 +243,7 @@
 				border: none;
 				border-radius: 6px;
 				background-color: var(--clr-lighter);
-				color: $clr-text-dark;
+				color: var(--clr-text-dark);
 				font-size: 1.45em;
 				cursor: pointer;
 				transition: 0.2s ease;
@@ -256,7 +256,7 @@
 
 		tr {
 			background-color: var(--clr-base);
-			color: $clr-text;
+			color: var(--clr-text);
 		}
 
 		tr:hover {
@@ -275,7 +275,7 @@
 			width: 1.5rem;
 			height: 1.5rem;
 
-			border-color: $clr-text;
+			border-color: var(--clr-text);
 			border-top-color: var(--clr-accent);
 		}
 	}

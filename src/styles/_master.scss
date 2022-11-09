@@ -22,25 +22,6 @@ $desktop-width: 1024px;
 //     COLORS
 // ==============
 
-// $clr-base: hsl(211, 53%, 17%);
-// $clr-base: hsl(357, 53%, 17%);
-// $clr-lightest: adjust-color($clr-base, $lightness: 9%);
-// $clr-lighter: adjust-color($clr-base, $lightness: 6%);
-// $clr-light: adjust-color($clr-base, $lightness: 3%);
-// $clr-darkest: adjust-color($clr-base, $lightness: -6%);
-// $clr-darker: adjust-color($clr-base, $lightness: -5%);
-// $clr-dark: adjust-color($clr-base, $lightness: -3%);
-
-$clr-text: hsl(60, 5%, 96%);
-$clr-text-dark: adjust-color($clr-text, $lightness: -17%);
-$clr-text-darker: adjust-color($clr-text-dark, $lightness: -13%);
-$clr-text-darkest: adjust-color($clr-text-dark, $lightness: -13%);
-
-// $clr-accent: adjust-color($clr-base, $hue: -20deg, $lightness: 36%);
-// $clr-accent-dark: adjust-color($clr-accent, $lightness: -5%);
-// $clr-accent-darker: adjust-color($clr-accent-dark, $lightness: -5%);
-// $clr-accent-darkest: adjust-color($clr-accent-dark, $lightness: -10%);
-
 $clr-green: hsl(120, 53%, 57%);
 $clr-red: hsl(0, 53%, 60%);
 $clr-red-dark: hsl(0, 53%, 45%);
