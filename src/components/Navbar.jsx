@@ -1,6 +1,6 @@
 import '../styles/Navbar.scss';
 
-import { faAddressCard, faAnglesLeft, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesLeft, faIdCard, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
@@ -26,19 +26,28 @@ const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
 					</div>
 				</div>
 				<div className='separator' />
-				<a href='/' className={'nav-btn' + (pageName === 'cardholders' ? ' active' : '')}>
+				<a href='/' title='Cardholders' className={'nav-btn' + (pageName === 'cardholders' ? ' active' : '')}>
 					<span className='icon-wrapper'>
 						<FontAwesomeIcon icon={faUser} />
 					</span>
 					<label>Cardholders</label>
 				</a>
-				<a href='credentials' className={'nav-btn' + (pageName === 'credentials' ? ' active' : '')}>
+				<a
+					href='credentials'
+					title='Credentials'
+					className={'nav-btn' + (pageName === 'credentials' ? ' active' : '')}
+				>
 					<span className='icon-wrapper'>
-						<FontAwesomeIcon icon={faAddressCard} />
+						<FontAwesomeIcon icon={faIdCard} />
 					</span>
 					<label>Credentials</label>
 				</a>
-				<a href='access-groups' className={'nav-btn' + (pageName === 'accessGroups' ? ' active' : '')}>
+				{/* eslint-disable-next-line */}
+				<a
+					style={{ cursor: 'not-allowed' }}
+					className={'nav-btn' + (pageName === 'accessGroups' ? ' active' : '')}
+					title='Access Groups'
+				>
 					<span className='icon-wrapper'>
 						<FontAwesomeIcon icon={faUsers} />
 					</span>
