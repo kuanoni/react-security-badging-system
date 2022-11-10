@@ -20,12 +20,12 @@ const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, 
 	const onRemove = (value) => {
 		const idx = list.indexOf(value);
 		const newList = [...list];
-		newList.splice(idx, 1);
 
 		if (idx > -1) {
+			newList.splice(idx, 1);
 			setList(newList);
 			handleChange(newList);
-		} else console.log(value, ' not found in list.');
+		}
 	};
 
 	return (
