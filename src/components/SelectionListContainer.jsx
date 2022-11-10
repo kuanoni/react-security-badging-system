@@ -9,7 +9,7 @@ import SelectionListRows from './SelectionListRows';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 
-const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, closeModal }) => {
+const SelectionList = ({ label, queryHook, dataKey, initialSelected, saveNewList, closeModal }) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [selectedList, setSelectedList] = useState(initialSelected.sort((a, b) => a._id - b._id));
 	const [onlyShowSelected, setOnlyShowSelected] = useState(false);
@@ -47,7 +47,7 @@ const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, close
 	return (
 		<>
 			<div className='header'>
-				<h2>Access Groups</h2>
+				<h2>{label}</h2>
 				<button className='btn-exit' onClick={() => closeModal()}>
 					<FontAwesomeIcon icon={faXmark} />
 				</button>

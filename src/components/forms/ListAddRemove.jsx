@@ -56,6 +56,7 @@ const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, 
 				modalClassName={'modal'}
 			>
 				<SelectionList
+					label={label}
 					queryHook={modalProps.queryHook}
 					dataKey={listKey}
 					initialSelected={list}
