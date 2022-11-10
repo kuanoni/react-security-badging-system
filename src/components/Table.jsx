@@ -94,8 +94,8 @@ const Table = ({ query, columns, onRowClick, sorting, setSorting }) => {
 					);
 				})}
 			</tr>
-		));
-	}, [table]);
+		)); // eslint-disable-next-line
+	}, [table, sorting]);
 
 	const tableRows = useMemo(() => {
 		const handleRowClick = (e, id) => {
