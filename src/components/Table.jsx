@@ -59,7 +59,6 @@ const Table = ({ query, columns, onRowClick, sorting, setSorting }) => {
 	const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
 	const tableHeaders = useMemo(() => {
-		console.log('headers');
 		return table.getHeaderGroups().map((headerGroup) => (
 			<tr key={headerGroup.id}>
 				{headerGroup.headers.map((header) => {
@@ -107,6 +106,7 @@ const Table = ({ query, columns, onRowClick, sorting, setSorting }) => {
 			const row = rows[virtualRow.index];
 			return (
 				<TableRow
+					key={virtualRow.index}
 					originalId={row.original._id}
 					visibleCells={row.getVisibleCells()}
 					height={rowHeight}
