@@ -5,11 +5,12 @@ import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons'
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import TableRow from './TableRow';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 const rowHeight = 48;
 
-const Table = ({ query, columns, handleRowClick, sorting, setSorting }) => {
+const Table = ({ query, columns, onRowClick, sorting, setSorting }) => {
 	const tableContainerRef = useRef(null);
 
 	const { data, hasNextPage, fetchNextPage, isFetching } = query;
@@ -57,6 +58,64 @@ const Table = ({ query, columns, handleRowClick, sorting, setSorting }) => {
 	const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
 	const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
+	const tableHeaders = useMemo(() => {
+		console.log('headers');
+		return table.getHeaderGroups().map((headerGroup) => (
+			<tr key={headerGroup.id}>
+				{headerGroup.headers.map((header) => {
+					return (
+						<th key={header.id} colSpan={header.colSpan} style={{ width: header.getSize() }}>
+							{header.isPlaceholder ? null : (
+								<div
+									{...{
+										className: header.column.getCanSort() ? 'inner-header' : '',
+										onClick: header.column.getToggleSortingHandler(),
+									}}
+								>
+									{flexRender(header.column.columnDef.header, header.getContext())}
+									{header.column.getCanSort() ? (
+										header.column.getIsSorted() === 'asc' ? (
+											<FontAwesomeIcon icon={faSortUp} />
+										) : header.column.getIsSorted() === 'desc' ? (
+											<FontAwesomeIcon icon={faSortDown} />
+										) : (
+											<FontAwesomeIcon icon={faSort} />
+										)
+									) : null}
+								</div>
+							)}
+							<div
+								{...{
+									onMouseDown: header.getResizeHandler(),
+									onTouchStart: header.getResizeHandler(),
+									className: `resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`,
+								}}
+							/>
+						</th>
+					);
+				})}
+			</tr>
+		));
+	}, [table]);
+
+	const tableRows = useMemo(() => {
+		const handleRowClick = (e, id) => {
+			if (e.detail === 2) onRowClick && onRowClick(id);
+		};
+
+		return virtualRows.map((virtualRow) => {
+			const row = rows[virtualRow.index];
+			return (
+				<TableRow
+					originalId={row.original._id}
+					visibleCells={row.getVisibleCells()}
+					height={rowHeight}
+					handleRowClick={handleRowClick}
+				/>
+			);
+		});
+	}, [virtualRows, rows, onRowClick]);
+
 	if (query.isError)
 		return (
 			<div className='table-container'>
@@ -77,73 +136,17 @@ const Table = ({ query, columns, handleRowClick, sorting, setSorting }) => {
 				ref={tableContainerRef}
 			>
 				<table>
-					<thead>
-						{table.getHeaderGroups().map((headerGroup) => (
-							<tr key={headerGroup.id}>
-								{headerGroup.headers.map((header) => {
-									return (
-										<th
-											key={header.id}
-											colSpan={header.colSpan}
-											style={{ width: header.getSize() }}
-										>
-											{header.isPlaceholder ? null : (
-												<div
-													{...{
-														className: header.column.getCanSort() ? 'inner-header' : '',
-														onClick: header.column.getToggleSortingHandler(),
-													}}
-												>
-													{flexRender(header.column.columnDef.header, header.getContext())}
-													{header.column.getCanSort() ? (
-														header.column.getIsSorted() === 'asc' ? (
-															<FontAwesomeIcon icon={faSortUp} />
-														) : header.column.getIsSorted() === 'desc' ? (
-															<FontAwesomeIcon icon={faSortDown} />
-														) : (
-															<FontAwesomeIcon icon={faSort} />
-														)
-													) : null}
-												</div>
-											)}
-											<div
-												{...{
-													onMouseDown: header.getResizeHandler(),
-													onTouchStart: header.getResizeHandler(),
-													className: `resizer ${
-														header.column.getIsResizing() ? 'isResizing' : ''
-													}`,
-												}}
-											/>
-										</th>
-									);
-								})}
-							</tr>
-						))}
-					</thead>
+					<thead>{tableHeaders}</thead>
 					<tbody>
 						{paddingTop > 0 && (
 							<tr>
 								<td style={{ height: `${paddingTop}px`, backgroundColor: 'transparent' }}></td>
 							</tr>
 						)}
-						{virtualRows.map((virtualRow) => {
-							const row = rows[virtualRow.index];
-							return (
-								<tr key={row.id} onClick={(e) => handleRowClick(e, row.original._id)}>
-									{row.getVisibleCells().map((cell) => {
-										return (
-											<td key={cell.id} style={{ height: rowHeight }}>
-												{flexRender(cell.column.columnDef.cell, cell.getContext())}
-											</td>
-										);
-									})}
-								</tr>
-							);
-						})}
+						{tableRows}
 						{paddingBottom > 0 && (
 							<tr>
-								<td style={{ height: `${paddingBottom}px`, backgroundColor: 'transparent' }}></td>
+								<td style={{ height: `${0}px`, backgroundColor: 'transparent' }}></td>
 							</tr>
 						)}
 					</tbody>
