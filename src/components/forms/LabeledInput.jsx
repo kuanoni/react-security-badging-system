@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 
+import { useCallback } from 'react';
+
 const LabeledInput = ({ label, defaultValue, handleChange, checkErrors, isDisabled }) => {
 	const [errors, setErrors] = useState(checkErrors(defaultValue));
 
-	const onChange = (value) => {
-		const newErrors = checkErrors(value);
-		setErrors(newErrors);
+	const onChange = useCallback(
+		(value) => {
+			const newErrors = checkErrors(value);
+			setErrors(newErrors);
 
-		handleChange(newErrors.length ? { label, errors: newErrors } : value);
-	};
+			handleChange(newErrors.length ? { label, errors: newErrors } : value);
+		},
+		[setErrors, checkErrors, handleChange, label]
+	);
 
 	useEffect(() => {
 		onChange(defaultValue);
-		// eslint-disable-next-line
-	}, []);
+	}, [onChange, defaultValue]);
 
 	return (
 		<div className='labeled-input'>
