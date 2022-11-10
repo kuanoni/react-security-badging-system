@@ -16,7 +16,7 @@ const SelectionListRow = React.memo(({ item, labels, getClassName, defaultChecke
 			{checked ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}
 
 			{labels.map((key) => (
-				<span>{item[key]}</span>
+				<span>{item[key] || ''}</span>
 			))}
 		</div>
 	);
