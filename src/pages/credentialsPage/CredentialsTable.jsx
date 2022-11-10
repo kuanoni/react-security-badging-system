@@ -45,15 +45,6 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 		[]
 	);
 
-	/* =======================
-              HANDLERS
-       ======================= */
-
-	const handleRowClick = (e, id) => {
-		// if double clicked, open editor
-		if (e.detail === 2) console.log(id);
-	};
-
 	return (
 		<>
 			<div className='table-header'>
@@ -67,13 +58,7 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 				</select>
 			</div>
 			<div className='table-body'>
-				<Table
-					query={query}
-					columns={tableColumns}
-					sorting={sorting}
-					setSorting={setSorting}
-					handleRowClick={handleRowClick}
-				/>
+				<Table query={query} columns={tableColumns} sorting={sorting} setSorting={setSorting} />
 			</div>
 		</>
 	);

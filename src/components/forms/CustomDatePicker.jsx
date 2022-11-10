@@ -16,7 +16,6 @@ const customHeader = ({
 	prevMonthButtonDisabled,
 	nextMonthButtonDisabled,
 }) => {
-	// const years = range(1990, new Date().getFullYear() + 1, 1);
 	const today = new Date();
 	const years = Array(50)
 		.fill('')

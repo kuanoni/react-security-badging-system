@@ -6,6 +6,10 @@ import LabeledInput from '../../components/forms/LabeledInput';
 import ListAddRemove from '../../components/forms/ListAddRemove';
 import { useMemo } from 'react';
 
+/* =======================
+          VALIDATORS
+    ======================= */
+
 const lettersField = (val) => {
 	const errors = [];
 	if (val.length === 0) errors.push('This field must not be empty.');

@@ -58,7 +58,7 @@ const Table = ({ query, columns, onRowClick, sorting, setSorting }) => {
 	const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
 	const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
-	const tableHeaders = useMemo(() => {
+	const headerComponents = useMemo(() => {
 		return table.getHeaderGroups().map((headerGroup) => (
 			<tr key={headerGroup.id}>
 				{headerGroup.headers.map((header) => {
@@ -97,7 +97,7 @@ const Table = ({ query, columns, onRowClick, sorting, setSorting }) => {
 		)); // eslint-disable-next-line
 	}, [table, sorting]);
 
-	const tableRows = useMemo(() => {
+	const rowComponents = useMemo(() => {
 		const handleRowClick = (e, id) => {
 			if (e.detail === 2) onRowClick && onRowClick(id);
 		};
@@ -136,14 +136,14 @@ const Table = ({ query, columns, onRowClick, sorting, setSorting }) => {
 				ref={tableContainerRef}
 			>
 				<table>
-					<thead>{tableHeaders}</thead>
+					<thead>{headerComponents}</thead>
 					<tbody>
 						{paddingTop > 0 && (
 							<tr>
 								<td style={{ height: `${paddingTop}px`, backgroundColor: 'transparent' }}></td>
 							</tr>
 						)}
-						{tableRows}
+						{rowComponents}
 						{paddingBottom > 0 && (
 							<tr>
 								<td style={{ height: `${0}px`, backgroundColor: 'transparent' }}></td>
