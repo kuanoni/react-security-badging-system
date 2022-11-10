@@ -18,7 +18,7 @@ function CardholdersPage() {
 					className: 'toast',
 					success: {
 						iconTheme: {
-							primary: themes[themeIndex].accent.join(', '),
+							primary: 'hsl(' + themes[themeIndex].accent.join(', ') + ')',
 							secondary: '#ffffff',
 						},
 					},
