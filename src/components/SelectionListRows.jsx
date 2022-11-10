@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import SelectableListItem from './forms/SelectableListItem';
 import { useRef } from 'react';
@@ -53,6 +53,38 @@ const SelectionListRows = ({ query, dataKey, onlyShowSelected, selectedList, set
 
 	const virtualRows = rowVirtualizer.getVirtualItems();
 
+	const listItemComponents = useMemo(() => {
+		return virtualRows.map((virtualRow) => {
+			const isLoaderRow = virtualRow.index > flatData.length - 1;
+			const item = flatData[virtualRow.index];
+			const row = (
+				<SelectableListItem
+					key={item._id}
+					item={item}
+					label={item[dataKey]}
+					defaultChecked={checkIfSelected(item)}
+					toggleSelected={toggleSelected}
+				/>
+			);
+
+			return (
+				<div
+					key={virtualRow.index}
+					style={{
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						width: '100%',
+						height: `${virtualRow.size}px`,
+						transform: `translateY(${virtualRow.start}px)`,
+					}}
+				>
+					{isLoaderRow ? (hasNextPage ? 'Loading more...' : 'Nothing more to load') : row}
+				</div>
+			);
+		});
+	}, [virtualRows, flatData, checkIfSelected, dataKey, hasNextPage, toggleSelected]);
+
 	if (isError)
 		return (
 			<div className='list'>
@@ -78,35 +110,7 @@ const SelectionListRows = ({ query, dataKey, onlyShowSelected, selectedList, set
 								toggleSelected={toggleSelected}
 							/>
 					  ))
-					: virtualRows.map((virtualRow) => {
-							const isLoaderRow = virtualRow.index > flatData.length - 1;
-							const item = flatData[virtualRow.index];
-							const row = (
-								<SelectableListItem
-									key={item._id}
-									item={item}
-									label={item[dataKey]}
-									defaultChecked={checkIfSelected(item)}
-									toggleSelected={toggleSelected}
-								/>
-							);
-
-							return (
-								<div
-									key={virtualRow.index}
-									style={{
-										position: 'absolute',
-										top: 0,
-										left: 0,
-										width: '100%',
-										height: `${virtualRow.size}px`,
-										transform: `translateY(${virtualRow.start}px)`,
-									}}
-								>
-									{isLoaderRow ? (hasNextPage ? 'Loading more...' : 'Nothing more to load') : row}
-								</div>
-							);
-					  })}
+					: listItemComponents}
 				{isFetchingNextPage ? (
 					<div
 						className='container'

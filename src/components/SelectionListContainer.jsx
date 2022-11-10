@@ -1,6 +1,6 @@
 import '../styles/SelectionList.scss';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,6 +30,20 @@ const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, close
 		closeModal();
 	};
 
+	const selectableListRowsComponent = useMemo(
+		() => (
+			<SelectionListRows
+				query={query}
+				dataKey={dataKey}
+				searchbarValue={searchbarValue}
+				onlyShowSelected={onlyShowSelected}
+				selectedList={selectedList}
+				setSelectedList={setSelectedList}
+			/>
+		),
+		[query, dataKey, searchbarValue, onlyShowSelected, selectedList, setSelectedList]
+	);
+
 	return (
 		<>
 			<div className='header'>
@@ -39,16 +53,7 @@ const SelectionList = ({ queryHook, dataKey, initialSelected, saveNewList, close
 				</button>
 			</div>
 			<Searchbar containerClass={'searchbar-container'} setSearchValue={setSearchbarValue} autoFocus={true} />
-			<div className='body'>
-				<SelectionListRows
-					query={query}
-					dataKey={dataKey}
-					searchbarValue={searchbarValue}
-					onlyShowSelected={onlyShowSelected}
-					selectedList={selectedList}
-					setSelectedList={setSelectedList}
-				/>
-			</div>
+			<div className='body'>{selectableListRowsComponent}</div>
 
 			<div className='footer'>
 				<div className='show-selected' onClick={() => setOnlyShowSelected(!onlyShowSelected)}>

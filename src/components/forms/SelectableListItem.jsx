@@ -1,8 +1,9 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import React, { useState } from 'react';
+import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 
-const SelectableListItem = ({ item, label, defaultChecked, toggleSelected }) => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const SelectableListItem = React.memo(({ item, label, defaultChecked, toggleSelected }) => {
 	const [checked, setChecked] = useState(defaultChecked);
 
 	const handleClick = () => {
@@ -16,6 +17,6 @@ const SelectableListItem = ({ item, label, defaultChecked, toggleSelected }) => 
 			<span>{label}</span>
 		</div>
 	);
-};
+});
 
 export default SelectableListItem;
