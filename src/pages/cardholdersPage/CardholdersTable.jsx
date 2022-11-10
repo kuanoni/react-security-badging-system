@@ -9,6 +9,7 @@ import Modal from '../../components/Modal';
 import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
 import { fetchGetById } from '../../helpers/api/fetch';
+import { useCallback } from 'react';
 import { useCardholders } from '../../helpers/api/queries';
 import { useEffect } from 'react';
 
@@ -40,6 +41,43 @@ const CardholdersTable = () => {
 	);
 
 	const { refetch } = query;
+
+	/* =======================
+              HANDLERS
+       ======================= */
+
+	const newCardholder = () => {
+		if (!isModalOpen) {
+			setCardholderToEdit({ ...blankCardholder });
+			setIsNewCardholder(true);
+			setIsModalOpen(true);
+		}
+	};
+
+	const editCardholder = useCallback(
+		async (id) => {
+			setIsModalOpen(true);
+			await fetchGetById('cardholders', id).then((cardholder) => {
+				setCardholderToEdit(cardholder);
+			});
+		},
+		[setIsModalOpen, setCardholderToEdit]
+	);
+
+	const closeCardholderEditor = () => {
+		setCardholderToEdit({});
+		setIsNewCardholder(false);
+		setIsModalOpen(false);
+	};
+
+	const onUpdateCardholder = (newCardholder) => {
+		if (newCardholder) setCardholderToEdit(newCardholder);
+		refetch(); // reloads infiniteQuery data cache
+	};
+
+	useEffect(() => {
+		!isModalOpen && setIsNewCardholder(false);
+	}, [isModalOpen, setIsNewCardholder]);
 
 	const tableColumns = useMemo(
 		() => [
@@ -100,47 +138,21 @@ const CardholdersTable = () => {
 				},
 			},
 		],
-		[]
+		[editCardholder]
 	);
 
-	/* =======================
-              HANDLERS
-       ======================= */
-
-	const newCardholder = () => {
-		if (!isModalOpen) {
-			setCardholderToEdit({ ...blankCardholder });
-			setIsNewCardholder(true);
-			setIsModalOpen(true);
-		}
-	};
-
-	const editCardholder = async (id) => {
-		setIsModalOpen(true);
-		await fetchGetById('cardholders', id).then((cardholder) => {
-			setCardholderToEdit(cardholder);
-		});
-	};
-
-	const closeCardholderEditor = () => {
-		setCardholderToEdit({});
-		setIsNewCardholder(false);
-		setIsModalOpen(false);
-	};
-
-	const onUpdateCardholder = (newCardholder) => {
-		if (newCardholder) setCardholderToEdit(newCardholder);
-		refetch(); // reloads infiniteQuery data cache
-	};
-
-	const handleRowClick = (e, id) => {
-		// if double clicked, open editor
-		if (e.detail === 2) editCardholder(id);
-	};
-
-	useEffect(() => {
-		!isModalOpen && setIsNewCardholder(false);
-	}, [isModalOpen, setIsNewCardholder]);
+	const tableComponent = useMemo(
+		() => (
+			<Table
+				query={query}
+				columns={tableColumns}
+				sorting={sorting}
+				setSorting={setSorting}
+				onRowClick={editCardholder}
+			/>
+		),
+		[query, tableColumns, sorting, setSorting, editCardholder]
+	);
 
 	return (
 		<>
@@ -175,15 +187,7 @@ const CardholdersTable = () => {
 					</div>
 				</button>
 			</div>
-			<div className='table-body'>
-				<Table
-					query={query}
-					columns={tableColumns}
-					sorting={sorting}
-					setSorting={setSorting}
-					handleRowClick={handleRowClick}
-				/>
-			</div>
+			<div className='table-body'>{tableComponent}</div>
 		</>
 	);
 };
