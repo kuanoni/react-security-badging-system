@@ -9,7 +9,15 @@ import SelectionListRows from './SelectionListRows';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 
-const SelectionList = ({ label, queryHook, dataKey, initialSelected, saveNewList, closeModal }) => {
+const SelectionList = ({
+	label,
+	queryHook,
+	selectionListLabels,
+	dataKey,
+	initialSelected,
+	saveNewList,
+	closeModal,
+}) => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [selectedList, setSelectedList] = useState(initialSelected.sort((a, b) => a._id - b._id));
 	const [onlyShowSelected, setOnlyShowSelected] = useState(false);
@@ -35,13 +43,14 @@ const SelectionList = ({ label, queryHook, dataKey, initialSelected, saveNewList
 			<SelectionListRows
 				query={query}
 				dataKey={dataKey}
+				selectionListLabels={selectionListLabels}
 				searchbarValue={searchbarValue}
 				onlyShowSelected={onlyShowSelected}
 				selectedList={selectedList}
 				setSelectedList={setSelectedList}
 			/>
 		),
-		[query, dataKey, searchbarValue, onlyShowSelected, selectedList, setSelectedList]
+		[query, dataKey, selectionListLabels, searchbarValue, onlyShowSelected, selectedList, setSelectedList]
 	);
 
 	return (

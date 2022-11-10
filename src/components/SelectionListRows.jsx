@@ -1,12 +1,19 @@
 import React, { useCallback, useMemo } from 'react';
 
-import SelectableListItem from './forms/SelectableListItem';
+import SelectionListRow from './SelectionListRow';
 import { useRef } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 const rowHeight = 45;
 
-const SelectionListRows = ({ query, dataKey, onlyShowSelected, selectedList, setSelectedList }) => {
+const SelectionListRows = ({
+	query,
+	dataKey,
+	selectionListLabels,
+	onlyShowSelected,
+	selectedList,
+	setSelectedList,
+}) => {
 	const containerRef = useRef(null);
 
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isError } = query;
@@ -58,10 +65,10 @@ const SelectionListRows = ({ query, dataKey, onlyShowSelected, selectedList, set
 			const isLoaderRow = virtualRow.index > flatData.length - 1;
 			const item = flatData[virtualRow.index];
 			const row = (
-				<SelectableListItem
+				<SelectionListRow
 					key={item._id}
 					item={item}
-					label={item[dataKey]}
+					labels={selectionListLabels}
 					defaultChecked={checkIfSelected(item)}
 					toggleSelected={toggleSelected}
 				/>
@@ -83,7 +90,7 @@ const SelectionListRows = ({ query, dataKey, onlyShowSelected, selectedList, set
 				</div>
 			);
 		});
-	}, [virtualRows, flatData, checkIfSelected, dataKey, hasNextPage, toggleSelected]);
+	}, [virtualRows, flatData, selectionListLabels, checkIfSelected, hasNextPage, toggleSelected]);
 
 	if (isError)
 		return (
@@ -102,7 +109,7 @@ const SelectionListRows = ({ query, dataKey, onlyShowSelected, selectedList, set
 			<div className='list' ref={containerRef} onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
 				{onlyShowSelected
 					? selectedList.map((item) => (
-							<SelectableListItem
+							<SelectionListRow
 								key={item._id}
 								item={item}
 								label={item[dataKey]}

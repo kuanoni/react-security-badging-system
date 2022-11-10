@@ -8,7 +8,7 @@ import Table from '../../components/Table';
 import { faIdCard } from '@fortawesome/free-regular-svg-icons';
 import { useCredentials } from '../../helpers/api/queries';
 
-const CredentialsTable = ({ isNavbarOpen }) => {
+const CredentialsTable = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('_id');
 	const [sorting, setSorting] = useState([]);
