@@ -8,7 +8,7 @@ import React from 'react';
 import SelectionList from '../SelectionListContainer';
 import { useState } from 'react';
 
-const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, modalProps }) => {
+const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, selectionListProps }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [list, setList] = useState(defaultList);
 
@@ -56,7 +56,8 @@ const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, 
 				modalClassName={'modal'}
 			>
 				<SelectionList
-					queryHook={modalProps.queryHook}
+					{...selectionListProps}
+					label={label}
 					dataKey={listKey}
 					initialSelected={list}
 					saveNewList={onAdd}

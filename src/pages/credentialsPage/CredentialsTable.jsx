@@ -2,11 +2,13 @@ import '../../styles/TablePage.scss';
 
 import React, { useMemo, useState } from 'react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
+import { faIdCard } from '@fortawesome/free-regular-svg-icons';
 import { useCredentials } from '../../helpers/api/queries';
 
-const CredentialsTable = ({ isNavbarOpen }) => {
+const CredentialsTable = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('_id');
 	const [sorting, setSorting] = useState([]);
@@ -21,6 +23,12 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 			{
 				header: 'Credential Number',
 				accessorKey: '_id',
+				cell: (info) => (
+					<>
+						<FontAwesomeIcon icon={faIdCard} />
+						<span style={{ marginLeft: '.5rem' }}>{info.getValue()}</span>
+					</>
+				),
 			},
 			{
 				header: 'Badge Type',
@@ -34,12 +42,27 @@ const CredentialsTable = ({ isNavbarOpen }) => {
 				},
 			},
 			{
+				header: 'Status',
+				accessorKey: 'status',
+				cell: (info) => {
+					return info.getValue() ? (
+						<div className='badge green-txt'>Active</div>
+					) : (
+						<div className='badge red-txt'>Inactive</div>
+					);
+				},
+			},
+			{
 				header: 'Badge Owner',
 				accessorKey: 'badgeOwnerName',
 			},
 			{
 				header: 'Badge Owner ID',
 				accessorKey: 'badgeOwnerId',
+			},
+			{
+				header: 'Partition',
+				accessorKey: 'partition',
 			},
 		],
 		[]

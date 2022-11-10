@@ -96,6 +96,7 @@ export const cardholderEditorForm = {
 					label: 'Access Groups',
 					type: 'list',
 					listKey: 'groupName',
+					selectionListLabels: ['groupName'],
 					queryHook: useAccessGroups,
 					error: () => {},
 				},
@@ -104,6 +105,7 @@ export const cardholderEditorForm = {
 					label: 'Badges',
 					type: 'list',
 					listKey: '_id',
+					selectionListLabels: ['_id', 'badgeType'],
 					queryHook: useAvailableCredentials,
 					error: () => {},
 				},
@@ -184,8 +186,9 @@ const BuildForm = ({ formTemplate, defaultData, updateData, isDataNew, isEditing
 					listKey={formItem.listKey}
 					handleChange={(newList) => onChangeHandler(formItem.key, newList)}
 					isDisabled={formItem.disabledUnlessNew ? !isDataNew : !isEditing}
-					modalProps={{
+					selectionListProps={{
 						queryHook: formItem.queryHook,
+						selectionListLabels: formItem.selectionListLabels,
 					}}
 				/>
 			),
