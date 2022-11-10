@@ -14,10 +14,11 @@ const SelectionListRow = React.memo(({ item, labels, getClassName, defaultChecke
 	return (
 		<div className='list-item' onClick={handleClick} key={item._id}>
 			{checked ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}
-
-			{labels.map((key) => (
-				<span>{item[key] || ''}</span>
-			))}
+			<span className='labels'>
+				{labels.map((key) => (
+					<span>{item[key] || ''}</span>
+				))}
+			</span>
 		</div>
 	);
 });
