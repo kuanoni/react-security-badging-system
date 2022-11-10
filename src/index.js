@@ -8,16 +8,24 @@ import CredentialsPage from './pages/credentialsPage/CredentialsPage';
 import ErrorPage from './pages/ErrorPage';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import RootPage from './pages/RootPage';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <CardholdersPage />,
+		element: <RootPage />,
 		errorElement: <ErrorPage />,
-	},
-	{
-		path: 'credentials/',
-		element: <CredentialsPage />,
+		children: [
+			{
+				index: true,
+				path: 'cardholders/',
+				element: <CardholdersPage />,
+			},
+			{
+				path: 'credentials/',
+				element: <CredentialsPage />,
+			},
+		],
 	},
 ]);
 
