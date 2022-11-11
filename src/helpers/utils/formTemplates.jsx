@@ -221,19 +221,20 @@ export const credentialsEditorForm = {
 		},
 		{
 			label: 'Owner',
+			hideIfNew: true,
 			form: [
 				{
 					key: 'badgeOwnerName',
 					label: 'Badge Owner',
 					type: 'text',
-					disabledUnlessNew: true,
+					hideIfNew: true,
 					error: lettersField,
 				},
 				{
 					key: 'badgeOwnerId',
 					label: 'Badge Owner ID',
 					type: 'text',
-					disabledUnlessNew: true,
+					hideIfNew: true,
 					error: numbersField,
 				},
 			],
