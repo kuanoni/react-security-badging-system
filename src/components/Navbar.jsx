@@ -47,7 +47,6 @@ const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
 					</span>
 					<label>Credentials</label>
 				</NavLink>
-				{/* eslint-disable-next-line */}
 				<NavLink
 					to={'/accessGroups'}
 					style={{ cursor: 'not-allowed' }}

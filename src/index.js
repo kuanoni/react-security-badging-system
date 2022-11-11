@@ -1,7 +1,7 @@
 import './index.scss';
 
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import CardholdersPage from './pages/cardholdersPage/CardholdersPage';
 import CredentialsPage from './pages/credentialsPage/CredentialsPage';
@@ -18,11 +18,14 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				path: 'cardholders/',
+				element: <Navigate to={'cardholders'} />,
+			},
+			{
+				path: 'cardholders',
 				element: <CardholdersPage />,
 			},
 			{
-				path: 'credentials/',
+				path: 'credentials',
 				element: <CredentialsPage />,
 			},
 		],
