@@ -66,6 +66,7 @@ const CardholderEditor = () => {
 		},
 		onSuccess: () => {
 			toast.success(<b>Cardholder saved!</b>);
+			queryClient.invalidateQueries(['cardholders-data']);
 			closeEditor();
 		},
 		onSettled: () => {
@@ -82,6 +83,7 @@ const CardholderEditor = () => {
 		},
 		onSuccess: (data, variables) => {
 			toast.success(<b>Cardholder updated!</b>);
+			queryClient.invalidateQueries(['cardholders-data']);
 			setIsEditing(false);
 		},
 		onSettled: () => {
@@ -98,7 +100,9 @@ const CardholderEditor = () => {
 		},
 		onSuccess: () => {
 			toast.success(<b>Cardholder deleted!</b>);
+			queryClient.invalidateQueries(['cardholders-data']);
 			setIsEditing(false);
+			closeEditor();
 		},
 		onSettled: () => {
 			toast.remove('loadingToast');
