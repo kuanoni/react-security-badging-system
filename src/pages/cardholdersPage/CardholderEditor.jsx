@@ -6,6 +6,7 @@ import { fetchDelete, fetchGetById, fetchPost, fetchUpdate } from '../../helpers
 import { useMutation, useQuery } from 'react-query';
 import { useOutletContext, useParams } from 'react-router-dom';
 
+import Modal from '../../components/Modal';
 import Popup from '../../components/ConfirmationPopup';
 import toast from 'react-hot-toast';
 
@@ -27,10 +28,10 @@ export const cardholderEditorLoader =
 	};
 
 const CardholderEditor = () => {
-	const [isCardholderNew, closeModal, onUpdateCardholder] = useOutletContext();
-
 	const params = useParams();
 	const { data: cardholder } = useQuery(cardholderByIdQuery(params.id));
+
+	const [isCardholderNew, isModalOpen, closeModal, onUpdateCardholder] = useOutletContext();
 
 	const [newCardholder, setNewCardholder] = useState({ ...cardholder });
 	const [isEditing, setIsEditing] = useState(isCardholderNew);
@@ -120,73 +121,80 @@ const CardholderEditor = () => {
 
 	return (
 		<>
-			<Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={deleteCardholder} />
-			{!isCardholderNew ? (
-				<div className='header'>
-					<div className='avatar'>
-						<img src={cardholder?.avatar} alt='' />
+			<Modal
+				isOpen={isModalOpen}
+				closeModal={closeModal}
+				overlayClassName={'overlay cardholder-editor'}
+				modalClassName={'modal'}
+			>
+				<Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={deleteCardholder} />
+				{!isCardholderNew ? (
+					<div className='header'>
+						<div className='avatar'>
+							<img src={cardholder?.avatar} alt='' />
+						</div>
+						<div className='cardholder-info'>
+							<h1 className='title'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
+							<div className='label'>Email</div>
+							<div>{cardholder?.email}</div>
+							<div className='label'>Status</div>
+							{cardholder?.profileStatus ? (
+								<div className='green-txt'>Active</div>
+							) : (
+								<div className='red-txt'>Inactive</div>
+							)}
+						</div>
+						<label className='edit-toggle'>
+							<span>
+								EDIT
+								<input
+									type='checkbox'
+									id='switch'
+									checked={isEditing}
+									disabled={isSaving}
+									onChange={(e) => {
+										if (!isSaving) setIsEditing(!isEditing);
+									}}
+								/>
+								<label htmlFor='switch'>Toggle</label>
+							</span>
+						</label>
 					</div>
-					<div className='cardholder-info'>
-						<h1 className='title'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
-						<div className='label'>Email</div>
-						<div>{cardholder?.email}</div>
-						<div className='label'>Status</div>
-						{cardholder?.profileStatus ? (
-							<div className='green-txt'>Active</div>
-						) : (
-							<div className='red-txt'>Inactive</div>
-						)}
-					</div>
-					<label className='edit-toggle'>
-						<span>
-							EDIT
-							<input
-								type='checkbox'
-								id='switch'
-								checked={isEditing}
-								disabled={isSaving}
-								onChange={(e) => {
-									if (!isSaving) setIsEditing(!isEditing);
-								}}
-							/>
-							<label htmlFor='switch'>Toggle</label>
-						</span>
-					</label>
-				</div>
-			) : (
-				<div className='header'>
-					<h1 className='title'>New cardholder</h1>
-				</div>
-			)}
-			<div className='body'>
-				<BuildForm
-					formTemplate={cardholderEditorForm}
-					defaultData={cardholder}
-					updateData={setNewCardholder}
-					isDataNew={isCardholderNew}
-					isEditing={isEditing}
-					isSaving={isSaving}
-				/>
-			</div>
-			<div className='footer'>
-				{isCardholderNew ? (
-					''
 				) : (
-					<button
-						className='btn delete'
-						onClick={() => !isSaving && setIsPopupOpen(true)}
-						disabled={!isEditing}
-					>
-						Delete
-					</button>
+					<div className='header'>
+						<h1 className='title'>New cardholder</h1>
+					</div>
 				)}
-				<button className='btn cancel' onClick={() => !isSaving && closeModal()} disabled={isSaving}>
-					Cancel
-				</button>
-				<button className='btn save' onClick={() => saveCardholder()} disabled={!isEditing}>
-					Save
-				</button>
-			</div>
+				<div className='body'>
+					<BuildForm
+						formTemplate={cardholderEditorForm}
+						defaultData={cardholder}
+						updateData={setNewCardholder}
+						isDataNew={isCardholderNew}
+						isEditing={isEditing}
+						isSaving={isSaving}
+					/>
+				</div>
+				<div className='footer'>
+					{isCardholderNew ? (
+						''
+					) : (
+						<button
+							className='btn delete'
+							onClick={() => !isSaving && setIsPopupOpen(true)}
+							disabled={!isEditing}
+						>
+							Delete
+						</button>
+					)}
+					<button className='btn cancel' onClick={() => !isSaving && closeModal()} disabled={isSaving}>
+						Cancel
+					</button>
+					<button className='btn save' onClick={() => saveCardholder()} disabled={!isEditing}>
+						Save
+					</button>
+				</div>
+			</Modal>
 		</>
 	);
 };

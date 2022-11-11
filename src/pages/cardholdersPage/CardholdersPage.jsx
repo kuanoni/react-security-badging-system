@@ -52,25 +52,22 @@ const CardholdersPage = () => {
 	};
 
 	const editCardholder = useCallback(
-		async (id) => {
+		(id) => {
 			setIsModalOpen(true);
 			navigate('./' + id);
 		},
-		[setIsModalOpen]
+		[setIsModalOpen, navigate]
 	);
 
 	const closeCardholderEditor = () => {
 		setIsCardholderNew(false);
 		setIsModalOpen(false);
+		navigate('./');
 	};
 
 	const onUpdateCardholder = (newCardholder) => {
 		refetch(); // reloads infiniteQuery data cache
 	};
-
-	// useEffect(() => {
-	// 	!isModalOpen && setIsNewCardholder(false);
-	// }, [isModalOpen, setIsNewCardholder]);
 
 	const tableColumns = useMemo(
 		() => [
@@ -149,19 +146,7 @@ const CardholdersPage = () => {
 
 	return (
 		<>
-			<Modal
-				isOpen={isModalOpen}
-				closeModal={closeCardholderEditor}
-				overlayClassName={'overlay cardholder-editor'}
-				modalClassName={'modal'}
-			>
-				<Outlet context={[isCardholderNew, closeCardholderEditor, onUpdateCardholder]} />
-				{/* <CardholderEditor
-					isCardholderNew={isNewCardholder}
-					closeModal={closeCardholderEditor}
-					onUpdateCardholder={onUpdateCardholder}
-				/> */}
-			</Modal>
+			<Outlet context={[isCardholderNew, isModalOpen, closeCardholderEditor, onUpdateCardholder]} />
 
 			<div className={'table-page'}>
 				<div className='table-page-container'>
