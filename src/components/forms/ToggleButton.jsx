@@ -1,27 +1,15 @@
 import React from 'react';
-import { useState } from 'react';
 
-const ToggleButton = ({ label, onToggle, defaultToggled, isDisabled }) => {
-	const [toggled, setToggled] = useState(defaultToggled);
-
+const ToggleButton = ({ label, onToggle, toggled, isDisabled }) => {
 	const handleToggle = (e) => {
-		setToggled((current) => {
-			onToggle(!current);
-			return !current;
-		});
+		onToggle(e.target.checked);
 	};
 
 	return (
 		<div className='edit-toggle'>
 			<span>
 				<span>{label}</span>
-				<input
-					type='checkbox'
-					id='switch'
-					defaultChecked={toggled}
-					disabled={isDisabled}
-					onChange={handleToggle}
-				/>
+				<input type='checkbox' id='switch' checked={toggled} disabled={isDisabled} onChange={handleToggle} />
 				<label htmlFor='switch'></label>
 			</span>
 		</div>
