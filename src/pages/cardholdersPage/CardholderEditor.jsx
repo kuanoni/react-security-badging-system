@@ -3,8 +3,8 @@ import '../../styles/CardholderEditor.scss';
 import BuildForm, { cardholderEditorForm } from '../../helpers/utils/formBuilder';
 import React, { useState } from 'react';
 import { fetchDelete, fetchGetById, fetchPost, fetchUpdate } from '../../helpers/api/fetch';
-import { useMutation, useQuery } from 'react-query';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import Modal from '../../components/Modal';
 import Popup from '../../components/ConfirmationPopup';
@@ -43,13 +43,16 @@ export const cardholderEditorLoader =
 
 const CardholderEditor = () => {
 	const params = useParams();
+	const navigate = useNavigate();
+	const { state } = useLocation();
+	const queryClient = useQueryClient();
+
 	const query = useQuery(cardholderByIdQuery(params.id));
 
-	const cardholder = query.data || blankCardholder;
+	const isCardholderNew = state?.isCardholderNew;
+	const initialCardholder = isCardholderNew ? blankCardholder : query.data;
 
-	const { isCardholderNew, closeCardholderEditor, onUpdateCardholder } = useOutletContext();
-
-	const [newCardholder, setNewCardholder] = useState({ ...blankCardholder });
+	const [newCardholder, setNewCardholder] = useState({ ...initialCardholder });
 	const [isEditing, setIsEditing] = useState(isCardholderNew);
 	const [isSaving, setIsSaving] = useState(false);
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -63,7 +66,7 @@ const CardholderEditor = () => {
 		},
 		onSuccess: () => {
 			toast.success(<b>Cardholder saved!</b>);
-			closeCardholderEditor();
+			closeEditor();
 		},
 		onSettled: () => {
 			toast.remove('loadingToast');
@@ -80,7 +83,6 @@ const CardholderEditor = () => {
 		onSuccess: (data, variables) => {
 			toast.success(<b>Cardholder updated!</b>);
 			setIsEditing(false);
-			onUpdateCardholder(variables.cardholder);
 		},
 		onSettled: () => {
 			toast.remove('loadingToast');
@@ -97,8 +99,6 @@ const CardholderEditor = () => {
 		onSuccess: () => {
 			toast.success(<b>Cardholder deleted!</b>);
 			setIsEditing(false);
-			onUpdateCardholder();
-			closeCardholderEditor();
 		},
 		onSettled: () => {
 			toast.remove('loadingToast');
@@ -116,7 +116,7 @@ const CardholderEditor = () => {
 
 			postMutation.mutate({ ...newCardholder, avatar: 'https://xsgames.co/randomusers/avatar.php?g=male' });
 		} else {
-			updateMutation.mutate({ id: cardholder._id, cardholder: { ...newCardholder } });
+			updateMutation.mutate({ id: initialCardholder._id, cardholder: { ...newCardholder } });
 		}
 	};
 
@@ -125,10 +125,14 @@ const CardholderEditor = () => {
 		setIsEditing(false);
 		toast.loading(<b>Waiting...</b>, { id: 'loadingToast' });
 
-		deleteMutation.mutate({ id: cardholder._id });
+		deleteMutation.mutate({ id: initialCardholder._id });
 	};
 
-	if (!Object.keys(cardholder).length)
+	const closeEditor = () => {
+		navigate('../');
+	};
+
+	if (!Object.keys(initialCardholder).length)
 		return (
 			<div className='container'>
 				<div className='loader'></div>
@@ -139,7 +143,7 @@ const CardholderEditor = () => {
 		<>
 			<Modal
 				isOpen={true}
-				closeModal={closeCardholderEditor}
+				closeModal={closeEditor}
 				overlayClassName={'overlay cardholder-editor'}
 				modalClassName={'modal'}
 			>
@@ -147,14 +151,16 @@ const CardholderEditor = () => {
 				{!isCardholderNew ? (
 					<div className='header'>
 						<div className='avatar'>
-							<img src={cardholder?.avatar} alt='' />
+							<img src={initialCardholder?.avatar} alt='' />
 						</div>
 						<div className='cardholder-info'>
-							<h1 className='title'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
+							<h1 className='title'>
+								{initialCardholder?.firstName + ' ' + initialCardholder?.lastName}
+							</h1>
 							<div className='label'>Email</div>
-							<div>{cardholder?.email}</div>
+							<div>{initialCardholder?.email}</div>
 							<div className='label'>Status</div>
-							{cardholder?.profileStatus ? (
+							{initialCardholder?.profileStatus ? (
 								<div className='green-txt'>Active</div>
 							) : (
 								<div className='red-txt'>Inactive</div>
@@ -184,7 +190,7 @@ const CardholderEditor = () => {
 				<div className='body'>
 					<BuildForm
 						formTemplate={cardholderEditorForm}
-						defaultData={cardholder}
+						defaultData={initialCardholder}
 						updateData={setNewCardholder}
 						isDataNew={isCardholderNew}
 						isEditing={isEditing}
@@ -203,11 +209,7 @@ const CardholderEditor = () => {
 							Delete
 						</button>
 					)}
-					<button
-						className='btn cancel'
-						onClick={() => !isSaving && closeCardholderEditor()}
-						disabled={isSaving}
-					>
+					<button className='btn cancel' onClick={() => !isSaving && closeEditor()} disabled={isSaving}>
 						Cancel
 					</button>
 					<button className='btn save' onClick={() => saveCardholder()} disabled={!isEditing}>

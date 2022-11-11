@@ -11,8 +11,6 @@ import { useCallback } from 'react';
 import { useCardholders } from '../../helpers/api/queries';
 
 const CardholdersPage = () => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [isCardholderNew, setIsCardholderNew] = useState(false);
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('firstName');
 	const [sorting, setSorting] = useState([]);
@@ -23,37 +21,21 @@ const CardholdersPage = () => {
 	);
 
 	const navigate = useNavigate();
-	const { refetch } = query;
 
 	/* =======================
               HANDLERS
        ======================= */
 
-	const newCardholder = () => {
-		if (!isModalOpen) {
-			setIsCardholderNew(true);
-			setIsModalOpen(true);
-			navigate('./newCardholder');
-		}
+	const openCardholderEditorNew = () => {
+		navigate('./newCardholder', { state: { isCardholderNew: true } });
 	};
 
-	const editCardholder = useCallback(
+	const openCardholderEditor = useCallback(
 		(id) => {
-			setIsModalOpen(true);
 			navigate('./' + id);
 		},
-		[setIsModalOpen, navigate]
+		[navigate]
 	);
-
-	const closeCardholderEditor = () => {
-		setIsCardholderNew(false);
-		setIsModalOpen(false);
-		navigate('./');
-	};
-
-	const onUpdateCardholder = (newCardholder) => {
-		refetch(); // reloads infiniteQuery data cache
-	};
 
 	const tableColumns = useMemo(
 		() => [
@@ -107,14 +89,14 @@ const CardholdersPage = () => {
 				enableSorting: false,
 				cell: (info) => {
 					return (
-						<button className='btn-edit-user' onClick={() => editCardholder(info.getValue())}>
+						<button className='btn-edit-user' onClick={() => openCardholderEditor(info.getValue())}>
 							<FontAwesomeIcon icon={faPenToSquare} />
 						</button>
 					);
 				},
 			},
 		],
-		[editCardholder]
+		[openCardholderEditor]
 	);
 
 	const tableComponent = useMemo(
@@ -124,15 +106,15 @@ const CardholdersPage = () => {
 				columns={tableColumns}
 				sorting={sorting}
 				setSorting={setSorting}
-				onRowClick={editCardholder}
+				onRowClick={openCardholderEditor}
 			/>
 		),
-		[query, tableColumns, sorting, setSorting, editCardholder]
+		[query, tableColumns, sorting, setSorting, openCardholderEditor]
 	);
 
 	return (
 		<>
-			<Outlet context={{ isCardholderNew, closeCardholderEditor, onUpdateCardholder }} />
+			<Outlet />
 
 			<div className={'table-page'}>
 				<div className='table-page-container'>
@@ -145,7 +127,7 @@ const CardholdersPage = () => {
 							<option value='profileType'>Type</option>
 							<option value='_id'>Employee ID</option>
 						</select>
-						<button className='add-btn' onClick={newCardholder}>
+						<button className='add-btn' onClick={openCardholderEditorNew}>
 							<span>Create Cardholder</span>
 							<div className='icon'>
 								<FontAwesomeIcon icon={faSquarePlus} />
