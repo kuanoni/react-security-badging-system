@@ -29,9 +29,13 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: '/cardholders/:id',
-						index: true,
 						element: <CardholderEditor />,
 						loader: cardholderEditorLoader(queryClient),
+					},
+					{
+						path: '/cardholders/newCardholder',
+						element: <CardholderEditor />,
+						// loader: cardholderEditorLoader(queryClient),
 					},
 				],
 			},

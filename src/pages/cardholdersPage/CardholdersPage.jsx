@@ -5,25 +5,10 @@ import React, { useMemo, useState } from 'react';
 import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Modal from '../../components/Modal';
 import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
 import { useCallback } from 'react';
 import { useCardholders } from '../../helpers/api/queries';
-
-const blankCardholder = {
-	_id: '',
-	firstName: '',
-	lastName: '',
-	email: '',
-	jobTitle: '',
-	profileStatus: true,
-	activationDate: new Date(),
-	expirationDate: new Date(),
-	profileType: 'Employee',
-	accessGroups: [],
-	credentials: [],
-};
 
 const CardholdersPage = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,6 +33,7 @@ const CardholdersPage = () => {
 		if (!isModalOpen) {
 			setIsCardholderNew(true);
 			setIsModalOpen(true);
+			navigate('./newCardholder');
 		}
 	};
 
@@ -146,7 +132,7 @@ const CardholdersPage = () => {
 
 	return (
 		<>
-			<Outlet context={[isCardholderNew, isModalOpen, closeCardholderEditor, onUpdateCardholder]} />
+			<Outlet context={{ isCardholderNew, closeCardholderEditor, onUpdateCardholder }} />
 
 			<div className={'table-page'}>
 				<div className='table-page-container'>

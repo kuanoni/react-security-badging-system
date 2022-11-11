@@ -10,6 +10,20 @@ import Modal from '../../components/Modal';
 import Popup from '../../components/ConfirmationPopup';
 import toast from 'react-hot-toast';
 
+const blankCardholder = {
+	_id: '',
+	firstName: '',
+	lastName: '',
+	email: '',
+	jobTitle: '',
+	profileStatus: true,
+	activationDate: new Date(),
+	expirationDate: new Date(),
+	profileType: 'Employee',
+	accessGroups: [],
+	credentials: [],
+};
+
 const cardholderByIdQuery = (id) => ({
 	queryKey: ['cardholders-id-data', id],
 	queryFn: async () => fetchGetById('cardholders', id),
@@ -29,11 +43,13 @@ export const cardholderEditorLoader =
 
 const CardholderEditor = () => {
 	const params = useParams();
-	const { data: cardholder } = useQuery(cardholderByIdQuery(params.id));
+	const query = useQuery(cardholderByIdQuery(params.id));
 
-	const [isCardholderNew, isModalOpen, closeModal, onUpdateCardholder] = useOutletContext();
+	const cardholder = query.data || blankCardholder;
 
-	const [newCardholder, setNewCardholder] = useState({ ...cardholder });
+	const { isCardholderNew, closeCardholderEditor, onUpdateCardholder } = useOutletContext();
+
+	const [newCardholder, setNewCardholder] = useState({ ...blankCardholder });
 	const [isEditing, setIsEditing] = useState(isCardholderNew);
 	const [isSaving, setIsSaving] = useState(false);
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -47,7 +63,7 @@ const CardholderEditor = () => {
 		},
 		onSuccess: () => {
 			toast.success(<b>Cardholder saved!</b>);
-			closeModal();
+			closeCardholderEditor();
 		},
 		onSettled: () => {
 			toast.remove('loadingToast');
@@ -82,7 +98,7 @@ const CardholderEditor = () => {
 			toast.success(<b>Cardholder deleted!</b>);
 			setIsEditing(false);
 			onUpdateCardholder();
-			closeModal();
+			closeCardholderEditor();
 		},
 		onSettled: () => {
 			toast.remove('loadingToast');
@@ -122,8 +138,8 @@ const CardholderEditor = () => {
 	return (
 		<>
 			<Modal
-				isOpen={isModalOpen}
-				closeModal={closeModal}
+				isOpen={true}
+				closeModal={closeCardholderEditor}
 				overlayClassName={'overlay cardholder-editor'}
 				modalClassName={'modal'}
 			>
@@ -187,7 +203,11 @@ const CardholderEditor = () => {
 							Delete
 						</button>
 					)}
-					<button className='btn cancel' onClick={() => !isSaving && closeModal()} disabled={isSaving}>
+					<button
+						className='btn cancel'
+						onClick={() => !isSaving && closeCardholderEditor()}
+						disabled={isSaving}
+					>
 						Cancel
 					</button>
 					<button className='btn save' onClick={() => saveCardholder()} disabled={!isEditing}>
