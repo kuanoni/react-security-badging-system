@@ -1,9 +1,9 @@
 import '../styles/Navbar.scss';
 
-import { Link, NavLink } from 'react-router-dom';
 import { faAnglesLeft, faIdCard, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavLink } from 'react-router-dom';
 import React from 'react';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { useColorTheme } from '../hooks/useColorTheme';

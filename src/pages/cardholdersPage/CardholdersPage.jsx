@@ -1,36 +1,16 @@
 import '../../styles/TablePage.scss';
 
+import { Outlet, useNavigate } from 'react-router-dom';
 import React, { useMemo, useState } from 'react';
 import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
-import CardholderEditor from './CardholderEditor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Modal from '../../components/Modal';
 import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
-import { fetchGetById } from '../../helpers/api/fetch';
 import { useCallback } from 'react';
 import { useCardholders } from '../../helpers/api/queries';
-import { useEffect } from 'react';
-
-const blankCardholder = {
-	_id: '',
-	firstName: '',
-	lastName: '',
-	email: '',
-	jobTitle: '',
-	profileStatus: true,
-	activationDate: new Date(),
-	expirationDate: new Date(),
-	profileType: 'Employee',
-	accessGroups: [],
-	credentials: [],
-};
 
 const CardholdersPage = () => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [cardholderToEdit, setCardholderToEdit] = useState({});
-	const [isNewCardholder, setIsNewCardholder] = useState(false);
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('firstName');
 	const [sorting, setSorting] = useState([]);
@@ -40,44 +20,22 @@ const CardholdersPage = () => {
 		sorting.length ? { by: sorting[0].id, order: sorting[0].desc ? 'desc' : 'asc' } : { by: '', order: '' }
 	);
 
-	const { refetch } = query;
+	const navigate = useNavigate();
 
 	/* =======================
               HANDLERS
        ======================= */
 
-	const newCardholder = () => {
-		if (!isModalOpen) {
-			setCardholderToEdit({ ...blankCardholder });
-			setIsNewCardholder(true);
-			setIsModalOpen(true);
-		}
+	const openCardholderEditorNew = () => {
+		navigate('./newCardholder');
 	};
 
-	const editCardholder = useCallback(
-		async (id) => {
-			setIsModalOpen(true);
-			await fetchGetById('cardholders', id).then((cardholder) => {
-				setCardholderToEdit(cardholder);
-			});
+	const openCardholderEditor = useCallback(
+		(id) => {
+			navigate('./' + id);
 		},
-		[setIsModalOpen, setCardholderToEdit]
+		[navigate]
 	);
-
-	const closeCardholderEditor = () => {
-		setCardholderToEdit({});
-		setIsNewCardholder(false);
-		setIsModalOpen(false);
-	};
-
-	const onUpdateCardholder = (newCardholder) => {
-		if (newCardholder) setCardholderToEdit(newCardholder);
-		refetch(); // reloads infiniteQuery data cache
-	};
-
-	useEffect(() => {
-		!isModalOpen && setIsNewCardholder(false);
-	}, [isModalOpen, setIsNewCardholder]);
 
 	const tableColumns = useMemo(
 		() => [
@@ -131,14 +89,14 @@ const CardholdersPage = () => {
 				enableSorting: false,
 				cell: (info) => {
 					return (
-						<button className='btn-edit-user' onClick={() => editCardholder(info.getValue())}>
+						<button className='btn-edit-user' onClick={() => openCardholderEditor(info.getValue())}>
 							<FontAwesomeIcon icon={faPenToSquare} />
 						</button>
 					);
 				},
 			},
 		],
-		[editCardholder]
+		[openCardholderEditor]
 	);
 
 	const tableComponent = useMemo(
@@ -148,28 +106,15 @@ const CardholdersPage = () => {
 				columns={tableColumns}
 				sorting={sorting}
 				setSorting={setSorting}
-				onRowClick={editCardholder}
+				onRowClick={openCardholderEditor}
 			/>
 		),
-		[query, tableColumns, sorting, setSorting, editCardholder]
+		[query, tableColumns, sorting, setSorting, openCardholderEditor]
 	);
 
 	return (
 		<>
-			<Modal
-				isOpen={isModalOpen}
-				closeModal={closeCardholderEditor}
-				overlayClassName={'overlay cardholder-editor'}
-				modalClassName={'modal'}
-			>
-				<CardholderEditor
-					key={cardholderToEdit._id}
-					cardholder={cardholderToEdit}
-					isCardholderNew={isNewCardholder}
-					closeModal={closeCardholderEditor}
-					onUpdateCardholder={onUpdateCardholder}
-				/>
-			</Modal>
+			<Outlet />
 
 			<div className={'table-page'}>
 				<div className='table-page-container'>
@@ -182,7 +127,7 @@ const CardholdersPage = () => {
 							<option value='profileType'>Type</option>
 							<option value='_id'>Employee ID</option>
 						</select>
-						<button className='add-btn' onClick={newCardholder}>
+						<button className='add-btn' onClick={openCardholderEditorNew}>
 							<span>Create Cardholder</span>
 							<div className='icon'>
 								<FontAwesomeIcon icon={faSquarePlus} />
