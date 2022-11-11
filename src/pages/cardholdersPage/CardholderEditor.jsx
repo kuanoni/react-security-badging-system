@@ -1,14 +1,15 @@
 import '../../styles/CardholderEditor.scss';
 
-import BuildForm, { cardholderEditorForm } from '../../helpers/utils/formBuilder';
 import React, { useState } from 'react';
 import { fetchDelete, fetchGetById, fetchPost, fetchUpdate } from '../../helpers/api/fetch';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
+import BuildForm from '../../helpers/utils/formBuilder';
 import Modal from '../../components/Modal';
 import Popup from '../../components/ConfirmationPopup';
 import ToggleButton from '../../components/forms/ToggleButton';
+import { cardholderEditorForm } from '../../helpers/utils/formTemplates';
 import toast from 'react-hot-toast';
 
 const blankCardholder = {

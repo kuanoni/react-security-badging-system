@@ -4,6 +4,7 @@ import CardholderEditor, { cardholderEditorLoader } from './pages/cardholdersPag
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import CardholderEditor2 from './pages/cardholdersPage/CardholderEditor2';
 import CardholdersPage from './pages/cardholdersPage/CardholdersPage';
 import CredentialsPage from './pages/credentialsPage/CredentialsPage';
 import ErrorPage from './pages/ErrorPage';
@@ -29,14 +30,14 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: '/cardholders/:id',
-						element: <CardholderEditor />,
+						element: <CardholderEditor2 />,
 						loader: cardholderEditorLoader(queryClient),
 					},
 					{
 						path: '/cardholders/newCardholder',
 						element: <CardholderEditor />,
 						loader: () => ({
-							isCreatingCardholder: true,
+							isCreatingData: true,
 						}),
 					},
 				],

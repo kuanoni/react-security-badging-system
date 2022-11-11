@@ -1,23 +1,23 @@
-import '../../styles/CardholderEditor.scss';
+import '../styles/CardholderEditor.scss';
 
 import React, { useState } from 'react';
-import { fetchDelete, fetchPost, fetchUpdate } from '../../helpers/api/fetch';
+import { fetchDelete, fetchPost, fetchUpdate } from '../helpers/api/fetch';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import BuildForm from '../../helpers/utils/formBuilder';
-import Modal from '../../components/Modal';
-import Popup from '../../components/ConfirmationPopup';
+import BuildForm from '../helpers/utils/formBuilder';
+import Modal from './Modal';
+import Popup from './ConfirmationPopup';
 import toast from 'react-hot-toast';
 
-const Editor = ({ blankFormData, queryOptions, formTemplate }) => {
+const Editor = ({ blankFormData, queryOptions, formTemplate, getHeaderComponent }) => {
 	const params = useParams();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 
 	const query = useQuery(queryOptions(params.id));
 
-	const isCreatingData = useLoaderData().isCreatingData;
+	const isCreatingData = useLoaderData().isCreatingData === true;
 	const initialData = isCreatingData ? blankFormData : query.data;
 
 	const [newData, setNewData] = useState({ ...initialData });
@@ -123,7 +123,9 @@ const Editor = ({ blankFormData, queryOptions, formTemplate }) => {
 				modalClassName={'modal'}
 			>
 				<Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={deleteData} />
-				{children}
+				<div className='header'>
+					{getHeaderComponent(initialData, isCreatingData, isSaving, isEditing, setIsEditing)}
+				</div>
 				<div className='body'>
 					<BuildForm
 						formTemplate={formTemplate}
