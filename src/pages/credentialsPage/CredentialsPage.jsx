@@ -2,12 +2,12 @@ import '../../styles/TablePage.scss';
 
 import { Outlet, useNavigate } from 'react-router-dom';
 import React, { useCallback, useMemo, useState } from 'react';
+import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
 import { faIdCard } from '@fortawesome/free-regular-svg-icons';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { useCredentials } from '../../helpers/api/queries';
 
 const CredentialsPage = () => {
@@ -102,6 +102,19 @@ const CredentialsPage = () => {
 		[openCredentialEditor]
 	);
 
+	const tableComponent = useMemo(
+		() => (
+			<Table
+				query={query}
+				columns={tableColumns}
+				sorting={sorting}
+				setSorting={setSorting}
+				onRowClick={openCredentialEditor}
+			/>
+		),
+		[query, tableColumns, sorting, setSorting, openCredentialEditor]
+	);
+
 	return (
 		<>
 			<Outlet />
@@ -115,11 +128,16 @@ const CredentialsPage = () => {
 							<option value='badgeType'>Badge Type</option>
 							<option value='badgeOwnerName'>Badge Owner</option>
 							<option value='badgeOwnerId'>Badge Owner ID</option>
+							<option value='partition'>Partition</option>
 						</select>
+						<button className='add-btn' onClick={openCredentialsEditorNew}>
+							<span>Create Credential</span>
+							<div className='icon'>
+								<FontAwesomeIcon icon={faSquarePlus} />
+							</div>
+						</button>
 					</div>
-					<div className='table-body'>
-						<Table query={query} columns={tableColumns} sorting={sorting} setSorting={setSorting} />
-					</div>
+					<div className='table-body'>{tableComponent}</div>
 				</div>
 			</div>
 		</>
