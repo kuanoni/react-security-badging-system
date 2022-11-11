@@ -1,7 +1,7 @@
 import '../styles/CardholderEditor.scss';
 
 import React, { useState } from 'react';
-import { useLoaderData, useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 
 import BuildForm from '../helpers/utils/formBuilder';
@@ -9,15 +9,7 @@ import Modal from './Modal';
 import Popup from './ConfirmationPopup';
 import toast from 'react-hot-toast';
 
-const Editor = ({
-	blankFormData,
-	queryOptions,
-	formTemplate,
-	getHeaderComponent,
-	postMutationOptions,
-	patchMutationOptions,
-	deleteMutationOptions,
-}) => {
+const Editor = ({ blankFormData, queryOptions, formTemplate, getHeaderComponent, mutationOptions }) => {
 	const params = useParams();
 	const navigate = useNavigate();
 
@@ -31,9 +23,9 @@ const Editor = ({
 	const [isSaving, setIsSaving] = useState(false);
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-	const postMutation = useMutation(postMutationOptions(setIsEditing, setIsSaving));
-	const patchMutation = useMutation(patchMutationOptions(setIsEditing, setIsSaving));
-	const deleteMutation = useMutation(deleteMutationOptions(setIsEditing, setIsSaving));
+	const postMutation = useMutation(mutationOptions.post);
+	const patchMutation = useMutation(mutationOptions.patch);
+	const deleteMutation = useMutation(mutationOptions.delete);
 
 	const saveData = () => {
 		setIsSaving(true);
@@ -44,9 +36,27 @@ const Editor = ({
 			const hasErrors = !Object.keys(newData).every((key) => !newData[key]?.errors);
 			if (hasErrors) return toast.error(<b>Please fill out all fields correctly.</b>);
 
-			postMutation.mutate({ ...newData });
+			postMutation
+				.mutateAsync({ ...newData })
+				.then(() => {
+					setIsEditing(false);
+					setIsSaving(false);
+				})
+				.catch(() => {
+					setIsEditing(true);
+					setIsSaving(false);
+				});
 		} else {
-			patchMutation.mutate({ id: initialData._id, newData: { ...newData } });
+			patchMutation
+				.mutateAsync({ id: initialData._id, newData: { ...newData } })
+				.then(() => {
+					setIsEditing(false);
+					setIsSaving(false);
+				})
+				.catch(() => {
+					setIsEditing(true);
+					setIsSaving(false);
+				});
 		}
 	};
 
@@ -55,7 +65,16 @@ const Editor = ({
 		setIsEditing(false);
 		toast.loading(<b>Waiting...</b>, { id: 'loadingToast' });
 
-		deleteMutation.mutate({ id: initialData._id });
+		deleteMutation
+			.mutateAsync({ id: initialData._id })
+			.then(() => {
+				setIsEditing(false);
+				setIsSaving(false);
+			})
+			.catch(() => {
+				setIsEditing(true);
+				setIsSaving(false);
+			});
 	};
 
 	const closeEditor = () => {

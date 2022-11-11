@@ -1,11 +1,11 @@
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
-import { fetchDelete, fetchGetById, fetchPost, fetchUpdate } from '../../helpers/api/fetch';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Editor from '../../components/Editor';
 import React from 'react';
 import ToggleButton from '../../components/forms/ToggleButton';
 import { cardholderEditorForm } from '../../helpers/utils/formTemplates';
-import toast from 'react-hot-toast';
+import { editorMutationOptionsBuilder } from '../../helpers/api/mutations';
+import { fetchGetById } from '../../helpers/api/fetch';
 import { useQueryClient } from 'react-query';
 
 const blankCardholder = {
@@ -43,60 +43,6 @@ const CardholderEditor = () => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const queryClient = useQueryClient();
-
-	const postMutationOptions = (setIsEditing, setIsSaving) => ({
-		mutationFn: (newData) => fetchPost('cardholders', newData),
-		onError: (error) => {
-			if (error.message.includes('E11000')) toast.error(<b>Employee ID is already in use. Try another.</b>);
-			else toast.error(<b>Failed to save cardholder.</b>);
-			setIsEditing(true);
-		},
-		onSuccess: () => {
-			toast.success(<b>Cardholder saved!</b>);
-			queryClient.invalidateQueries(['cardholders-data']);
-			queryClient.invalidateQueries(['cardholders-id-data', params.id]);
-			navigate('../');
-		},
-		onSettled: () => {
-			toast.remove('loadingToast');
-			setIsSaving(false);
-		},
-	});
-
-	const patchMutationOptions = (setIsEditing, setIsSaving) => ({
-		mutationFn: ({ id, newData }) => fetchUpdate('cardholders', id, newData),
-		onError: (error) => {
-			toast.error(<b>Failed to update cardholder.</b>);
-			setIsEditing(true);
-		},
-		onSuccess: async (data, variables) => {
-			toast.success(<b>Cardholder updated!</b>);
-			queryClient.invalidateQueries(['cardholders-data']);
-			queryClient.invalidateQueries(['cardholders-id-data', params.id]);
-			setIsEditing(false);
-		},
-		onSettled: () => {
-			toast.remove('loadingToast');
-			setIsSaving(false);
-		},
-	});
-
-	const deleteMutationOptions = (setIsEditing, setIsSaving) => ({
-		mutationFn: ({ id }) => fetchDelete('cardholders', id),
-		onError: (error) => {
-			toast.error(<b>Failed to delete cardholder.</b>);
-			setIsEditing(true);
-		},
-		onSuccess: () => {
-			toast.success(<b>Cardholder deleted!</b>);
-			queryClient.invalidateQueries(['cardholders-data']);
-			queryClient.invalidateQueries(['cardholders-id-data', params.id]);
-			navigate('../');
-		},
-		onSettled: () => {
-			toast.remove('loadingToast');
-		},
-	});
 
 	const getHeaderComponent = (cardholder, isNew, isSaving, isEditing, setIsEditing) => {
 		if (isNew) return <h1 className='title'>New cardholder</h1>;
@@ -136,9 +82,13 @@ const CardholderEditor = () => {
 				queryOptions={cardholderByIdQuery}
 				formTemplate={cardholderEditorForm}
 				getHeaderComponent={getHeaderComponent}
-				postMutationOptions={postMutationOptions}
-				patchMutationOptions={patchMutationOptions}
-				deleteMutationOptions={deleteMutationOptions}
+				mutationOptions={editorMutationOptionsBuilder(
+					'cardholders',
+					'cardholder',
+					queryClient,
+					[['cardholders-data'], cardholderByIdQuery(params.id).queryKey],
+					navigate
+				)}
 			/>
 		</>
 	);
