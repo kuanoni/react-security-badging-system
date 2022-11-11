@@ -67,6 +67,7 @@ const CardholderEditor = () => {
 		onSuccess: () => {
 			toast.success(<b>Cardholder saved!</b>);
 			queryClient.invalidateQueries(['cardholders-data']);
+			queryClient.invalidateQueries(['cardholders-id-data', params.id]);
 			closeEditor();
 		},
 		onSettled: () => {
@@ -83,7 +84,9 @@ const CardholderEditor = () => {
 		},
 		onSuccess: (data, variables) => {
 			toast.success(<b>Cardholder updated!</b>);
+			data.json().then((d) => console.log(d));
 			queryClient.invalidateQueries(['cardholders-data']);
+			queryClient.invalidateQueries(['cardholders-id-data', params.id]);
 			setIsEditing(false);
 		},
 		onSettled: () => {
@@ -101,6 +104,7 @@ const CardholderEditor = () => {
 		onSuccess: () => {
 			toast.success(<b>Cardholder deleted!</b>);
 			queryClient.invalidateQueries(['cardholders-data']);
+			queryClient.invalidateQueries(['cardholders-id-data', params.id]);
 			setIsEditing(false);
 			closeEditor();
 		},
