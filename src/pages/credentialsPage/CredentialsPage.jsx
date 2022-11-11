@@ -1,11 +1,13 @@
 import '../../styles/TablePage.scss';
 
-import React, { useMemo, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
 import { faIdCard } from '@fortawesome/free-regular-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { useCredentials } from '../../helpers/api/queries';
 
 const CredentialsPage = () => {
@@ -16,6 +18,23 @@ const CredentialsPage = () => {
 	const query = useCredentials(
 		{ value: searchbarValue, filter: searchFilter },
 		sorting.length ? { by: sorting[0].id, order: sorting[0].desc ? 'desc' : 'asc' } : { by: '', order: '' }
+	);
+
+	const navigate = useNavigate();
+
+	/* =======================
+              HANDLERS
+       ======================= */
+
+	const openCredentialsEditorNew = () => {
+		navigate('./newCredential');
+	};
+
+	const openCredentialEditor = useCallback(
+		(id) => {
+			navigate('./' + id);
+		},
+		[navigate]
 	);
 
 	const tableColumns = useMemo(
@@ -64,12 +83,28 @@ const CredentialsPage = () => {
 				header: 'Partition',
 				accessorKey: 'partition',
 			},
+			{
+				header: '',
+				id: 'editBtn',
+				accessorKey: '_id',
+				size: 60,
+				enableResizing: false,
+				enableSorting: false,
+				cell: (info) => {
+					return (
+						<button className='btn-edit-user' onClick={() => openCredentialEditor(info.getValue())}>
+							<FontAwesomeIcon icon={faPenToSquare} />
+						</button>
+					);
+				},
+			},
 		],
-		[]
+		[openCredentialEditor]
 	);
 
 	return (
 		<>
+			<Outlet />
 			<div className={'table-page'}>
 				<div className='table-page-container'>
 					<div className='table-header'>

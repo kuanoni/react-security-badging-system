@@ -139,3 +139,21 @@ export const cardholderEditorForm = {
 		},
 	],
 };
+
+export const credentialsEditorForm = {
+	left: [
+		{
+			label: 'General',
+			form: [
+				{
+					key: '_id',
+					label: 'Credential Number',
+					type: 'text',
+					disabledUnlessNew: true,
+					error: numbersField,
+				},
+			],
+		},
+	],
+	right: [],
+};

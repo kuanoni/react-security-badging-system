@@ -1,6 +1,7 @@
 import './index.scss';
 
 import CardholderEditor, { cardholderEditorLoader } from './pages/cardholdersPage/CardholderEditor';
+import CredentialEditor, { credentialEditorLoader } from './pages/credentialsPage/CredentialEditor';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -42,8 +43,22 @@ const router = createBrowserRouter([
 				],
 			},
 			{
-				path: 'credentials',
+				path: '/credentials',
 				element: <CredentialsPage />,
+				children: [
+					{
+						path: '/credentials/:id',
+						element: <CredentialEditor />,
+						loader: credentialEditorLoader(queryClient),
+					},
+					{
+						path: '/credentials/newCredential',
+						element: <CredentialEditor />,
+						loader: () => ({
+							isCreatingData: true,
+						}),
+					},
+				],
 			},
 		],
 	},

@@ -1,6 +1,6 @@
 @import '../styles/master';
 
-.cardholder-editor {
+.editor {
 	.label {
 		margin-top: 0.5rem;
 		margin-bottom: 5px;
@@ -27,7 +27,13 @@
 			border: 2px solid var(--clr-darker);
 			aspect-ratio: 1 / 1;
 
-			img {
+			&:has(svg) {
+				border: none;
+				height: auto;
+			}
+
+			img,
+			svg {
 				width: 100%;
 				height: 100%;
 			}
