@@ -27,7 +27,7 @@ const CardholdersPage = () => {
        ======================= */
 
 	const openCardholderEditorNew = () => {
-		navigate('./newCardholder', { state: { isCardholderNew: true } });
+		navigate('./newCardholder');
 	};
 
 	const openCardholderEditor = useCallback(

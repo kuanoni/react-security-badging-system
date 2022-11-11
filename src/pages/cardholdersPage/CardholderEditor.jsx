@@ -3,7 +3,7 @@ import '../../styles/CardholderEditor.scss';
 import BuildForm, { cardholderEditorForm } from '../../helpers/utils/formBuilder';
 import React, { useState } from 'react';
 import { fetchDelete, fetchGetById, fetchPost, fetchUpdate } from '../../helpers/api/fetch';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import Modal from '../../components/Modal';
@@ -44,16 +44,15 @@ export const cardholderEditorLoader =
 const CardholderEditor = () => {
 	const params = useParams();
 	const navigate = useNavigate();
-	const { state } = useLocation();
 	const queryClient = useQueryClient();
 
 	const query = useQuery(cardholderByIdQuery(params.id));
 
-	const isCardholderNew = state?.isCardholderNew;
-	const initialCardholder = isCardholderNew ? blankCardholder : query.data;
+	const isCreatingCardholder = useLoaderData().isCreatingCardholder;
+	const initialCardholder = isCreatingCardholder ? blankCardholder : query.data;
 
 	const [newCardholder, setNewCardholder] = useState({ ...initialCardholder });
-	const [isEditing, setIsEditing] = useState(isCardholderNew);
+	const [isEditing, setIsEditing] = useState(isCreatingCardholder);
 	const [isSaving, setIsSaving] = useState(false);
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -118,7 +117,7 @@ const CardholderEditor = () => {
 		setIsEditing(false);
 		toast.loading(<b>Waiting...</b>, { id: 'loadingToast' });
 
-		if (isCardholderNew) {
+		if (isCreatingCardholder) {
 			const hasErrors = !Object.keys(newCardholder).every((key) => !newCardholder[key]?.errors);
 			if (hasErrors) return toast.error(<b>Please fill out all fields correctly.</b>);
 
@@ -156,7 +155,7 @@ const CardholderEditor = () => {
 				modalClassName={'modal'}
 			>
 				<Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={deleteCardholder} />
-				{!isCardholderNew ? (
+				{!isCreatingCardholder ? (
 					<div className='header'>
 						<div className='avatar'>
 							<img src={initialCardholder?.avatar} alt='' />
@@ -200,13 +199,13 @@ const CardholderEditor = () => {
 						formTemplate={cardholderEditorForm}
 						defaultData={initialCardholder}
 						updateData={setNewCardholder}
-						isDataNew={isCardholderNew}
+						isDataNew={isCreatingCardholder}
 						isEditing={isEditing}
 						isSaving={isSaving}
 					/>
 				</div>
 				<div className='footer'>
-					{isCardholderNew ? (
+					{isCreatingCardholder ? (
 						''
 					) : (
 						<button

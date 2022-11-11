@@ -35,7 +35,9 @@ const router = createBrowserRouter([
 					{
 						path: '/cardholders/newCardholder',
 						element: <CardholderEditor />,
-						loader: () => true,
+						loader: () => ({
+							isCreatingCardholder: true,
+						}),
 					},
 				],
 			},
