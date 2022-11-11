@@ -2,13 +2,36 @@ import '../../styles/CardholderEditor.scss';
 
 import BuildForm, { cardholderEditorForm } from '../../helpers/utils/formBuilder';
 import React, { useState } from 'react';
-import { fetchDelete, fetchPost, fetchUpdate } from '../../helpers/api/fetch';
+import { fetchDelete, fetchGetById, fetchPost, fetchUpdate } from '../../helpers/api/fetch';
+import { useMutation, useQuery } from 'react-query';
+import { useOutletContext, useParams } from 'react-router-dom';
 
 import Popup from '../../components/ConfirmationPopup';
 import toast from 'react-hot-toast';
-import { useMutation } from 'react-query';
 
-const CardholderEditor = ({ cardholder, isCardholderNew, closeModal, onUpdateCardholder }) => {
+const cardholderByIdQuery = (id) => ({
+	queryKey: ['cardholders-id-data', id],
+	queryFn: async () => fetchGetById('cardholders', id),
+	options: {
+		keepPreviousData: true,
+		refetchOnWindowFocus: false,
+	},
+});
+
+export const cardholderEditorLoader =
+	(queryClient) =>
+	async ({ params }) => {
+		const query = cardholderByIdQuery(params.id);
+
+		return queryClient.getQueryData(query.queryKey) ?? (await queryClient.fetchQuery(query));
+	};
+
+const CardholderEditor = () => {
+	const [isCardholderNew, closeModal, onUpdateCardholder] = useOutletContext();
+
+	const params = useParams();
+	const { data: cardholder } = useQuery(cardholderByIdQuery(params.id));
+
 	const [newCardholder, setNewCardholder] = useState({ ...cardholder });
 	const [isEditing, setIsEditing] = useState(isCardholderNew);
 	const [isSaving, setIsSaving] = useState(false);

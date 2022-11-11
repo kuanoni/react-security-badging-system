@@ -1,17 +1,15 @@
 import '../../styles/TablePage.scss';
 
+import { Outlet, useNavigate } from 'react-router-dom';
 import React, { useMemo, useState } from 'react';
 import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
-import CardholderEditor from './CardholderEditor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../../components/Modal';
 import Searchbar from '../../components/forms/Searchbar';
 import Table from '../../components/Table';
-import { fetchGetById } from '../../helpers/api/fetch';
 import { useCallback } from 'react';
 import { useCardholders } from '../../helpers/api/queries';
-import { useEffect } from 'react';
 
 const blankCardholder = {
 	_id: '',
@@ -29,8 +27,7 @@ const blankCardholder = {
 
 const CardholdersPage = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [cardholderToEdit, setCardholderToEdit] = useState({});
-	const [isNewCardholder, setIsNewCardholder] = useState(false);
+	const [isCardholderNew, setIsCardholderNew] = useState(false);
 	const [searchbarValue, setSearchbarValue] = useState('');
 	const [searchFilter, setSearchFilter] = useState('firstName');
 	const [sorting, setSorting] = useState([]);
@@ -40,6 +37,7 @@ const CardholdersPage = () => {
 		sorting.length ? { by: sorting[0].id, order: sorting[0].desc ? 'desc' : 'asc' } : { by: '', order: '' }
 	);
 
+	const navigate = useNavigate();
 	const { refetch } = query;
 
 	/* =======================
@@ -48,8 +46,7 @@ const CardholdersPage = () => {
 
 	const newCardholder = () => {
 		if (!isModalOpen) {
-			setCardholderToEdit({ ...blankCardholder });
-			setIsNewCardholder(true);
+			setIsCardholderNew(true);
 			setIsModalOpen(true);
 		}
 	};
@@ -57,27 +54,23 @@ const CardholdersPage = () => {
 	const editCardholder = useCallback(
 		async (id) => {
 			setIsModalOpen(true);
-			await fetchGetById('cardholders', id).then((cardholder) => {
-				setCardholderToEdit(cardholder);
-			});
+			navigate('./' + id);
 		},
-		[setIsModalOpen, setCardholderToEdit]
+		[setIsModalOpen]
 	);
 
 	const closeCardholderEditor = () => {
-		setCardholderToEdit({});
-		setIsNewCardholder(false);
+		setIsCardholderNew(false);
 		setIsModalOpen(false);
 	};
 
 	const onUpdateCardholder = (newCardholder) => {
-		if (newCardholder) setCardholderToEdit(newCardholder);
 		refetch(); // reloads infiniteQuery data cache
 	};
 
-	useEffect(() => {
-		!isModalOpen && setIsNewCardholder(false);
-	}, [isModalOpen, setIsNewCardholder]);
+	// useEffect(() => {
+	// 	!isModalOpen && setIsNewCardholder(false);
+	// }, [isModalOpen, setIsNewCardholder]);
 
 	const tableColumns = useMemo(
 		() => [
@@ -162,13 +155,12 @@ const CardholdersPage = () => {
 				overlayClassName={'overlay cardholder-editor'}
 				modalClassName={'modal'}
 			>
-				<CardholderEditor
-					key={cardholderToEdit._id}
-					cardholder={cardholderToEdit}
+				<Outlet context={[isCardholderNew, closeCardholderEditor, onUpdateCardholder]} />
+				{/* <CardholderEditor
 					isCardholderNew={isNewCardholder}
 					closeModal={closeCardholderEditor}
 					onUpdateCardholder={onUpdateCardholder}
-				/>
+				/> */}
 			</Modal>
 
 			<div className={'table-page'}>

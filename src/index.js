@@ -1,5 +1,6 @@
 import './index.scss';
 
+import CardholderEditor, { cardholderEditorLoader } from './pages/cardholdersPage/CardholderEditor';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -10,6 +11,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import RootPage from './pages/RootPage';
 
+const queryClient = new QueryClient();
+
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -18,11 +21,19 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <Navigate to={'cardholders'} />,
+				element: <Navigate to={'/cardholders'} />,
 			},
 			{
-				path: 'cardholders',
+				path: '/cardholders',
 				element: <CardholdersPage />,
+				children: [
+					{
+						path: '/cardholders/:id',
+						index: true,
+						element: <CardholderEditor />,
+						loader: cardholderEditorLoader(queryClient),
+					},
+				],
 			},
 			{
 				path: 'credentials',
@@ -31,8 +42,6 @@ const router = createBrowserRouter([
 		],
 	},
 ]);
-
-const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
