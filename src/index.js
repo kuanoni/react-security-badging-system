@@ -1,27 +1,53 @@
 import './index.scss';
 
+import CardholderEditor, { cardholderEditorLoader } from './pages/cardholdersPage/CardholderEditor';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import CardholdersPage from './pages/cardholdersPage/CardholdersPage';
 import CredentialsPage from './pages/credentialsPage/CredentialsPage';
 import ErrorPage from './pages/ErrorPage';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import RootPage from './pages/RootPage';
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <CardholdersPage />,
+		element: <RootPage />,
 		errorElement: <ErrorPage />,
-	},
-	{
-		path: 'credentials/',
-		element: <CredentialsPage />,
+		children: [
+			{
+				index: true,
+				element: <Navigate to={'/cardholders'} />,
+			},
+			{
+				path: '/cardholders',
+				element: <CardholdersPage />,
+				children: [
+					{
+						path: '/cardholders/:id',
+						element: <CardholderEditor />,
+						loader: cardholderEditorLoader(queryClient),
+					},
+					{
+						path: '/cardholders/newCardholder',
+						element: <CardholderEditor />,
+						loader: () => ({
+							isCreatingCardholder: true,
+						}),
+					},
+				],
+			},
+			{
+				path: 'credentials',
+				element: <CredentialsPage />,
+			},
+		],
 	},
 ]);
-
-const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

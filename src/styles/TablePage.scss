@@ -1,40 +1,54 @@
 @import '../styles/master';
 
-.table-page {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	background-color: var(--clr-dark);
-	color: var(--clr-text);
-	overflow: hidden;
-	transition: all 0.2s ease;
+.app {
+	&.navbar-closed {
+		.table-page {
+			@include tablet {
+				left: $navbar-collapsed-width;
+			}
 
-	@include mobile {
-		left: $navbar-collapsed-width-mobile;
-	}
-
-	@include tablet {
-		left: $navbar-width;
-
-		&.navbar-closed {
-			left: $navbar-collapsed-width;
+			@include desktop {
+				left: $navbar-collapsed-width;
+			}
 		}
 	}
 
-	@include desktop {
-		left: $navbar-width;
+	.table-page {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		background-color: var(--clr-dark);
+		color: var(--clr-text);
+		overflow: hidden;
+		transition: all 0.2s ease;
 
-		&.navbar-closed {
-			left: $navbar-collapsed-width;
+		@include mobile {
+			left: $navbar-collapsed-width-mobile;
 		}
-	}
 
-	&-container {
-		display: flex;
-		flex-direction: column;
-		position: relative;
-		width: 100%;
-		height: 100%;
+		@include tablet {
+			left: $navbar-width;
+
+			&.navbar-closed {
+				left: $navbar-collapsed-width;
+			}
+		}
+
+		@include desktop {
+			left: $navbar-width;
+
+			&.navbar-closed {
+				left: $navbar-collapsed-width;
+			}
+		}
+
+		&-container {
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
 	}
 }

@@ -3,6 +3,7 @@ import '../styles/Navbar.scss';
 import { faAnglesLeft, faIdCard, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavLink } from 'react-router-dom';
 import React from 'react';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { useColorTheme } from '../hooks/useColorTheme';
@@ -26,33 +27,38 @@ const Navbar = ({ isNavbarOpen, setIsNavbarOpen, pageName }) => {
 					</div>
 				</div>
 				<div className='separator' />
-				<a href='/' title='Cardholders' className={'nav-btn' + (pageName === 'cardholders' ? ' active' : '')}>
+				<NavLink
+					to='/cardholders'
+					title='Cardholders'
+					className={({ isActive }) => 'nav-btn' + (isActive ? ' active' : '')}
+				>
 					<span className='icon-wrapper'>
 						<FontAwesomeIcon icon={faUser} />
 					</span>
 					<label>Cardholders</label>
-				</a>
-				<a
-					href='credentials'
+				</NavLink>
+				<NavLink
+					to='/credentials'
 					title='Credentials'
-					className={'nav-btn' + (pageName === 'credentials' ? ' active' : '')}
+					className={({ isActive }) => 'nav-btn' + (isActive ? ' active' : '')}
 				>
 					<span className='icon-wrapper'>
 						<FontAwesomeIcon icon={faIdCard} />
 					</span>
 					<label>Credentials</label>
-				</a>
-				{/* eslint-disable-next-line */}
-				<a
+				</NavLink>
+				<NavLink
+					to={'/accessGroups'}
 					style={{ cursor: 'not-allowed' }}
-					className={'nav-btn' + (pageName === 'accessGroups' ? ' active' : '')}
 					title='Access Groups'
+					className={({ isActive }) => 'nav-btn' + (isActive ? ' active' : '')}
+					onClick={(e) => e.preventDefault()}
 				>
 					<span className='icon-wrapper'>
 						<FontAwesomeIcon icon={faUsers} />
 					</span>
 					<label>Access Groups</label>
-				</a>
+				</NavLink>
 				<div className='nav-footer'>
 					<div className='theme-picker'>
 						<div className='title'>THEMES</div>
