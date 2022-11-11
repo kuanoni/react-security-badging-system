@@ -30,24 +30,26 @@ const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, 
 
 	return (
 		<>
-			<div className='list-add-remove'>
-				<div className='list-header'>
-					<label className='label'>{label}</label>
-					<button onClick={() => setIsModalOpen(true)} disabled={isDisabled}>
-						<FontAwesomeIcon icon={faPlus} />
-					</button>
+			<div className='labeled-input'>
+				<div className='list-add-remove'>
+					<div className='list-header'>
+						<label className='label'>{label}</label>
+						<button onClick={() => setIsModalOpen(true)} disabled={isDisabled}>
+							<FontAwesomeIcon icon={faPlus} />
+						</button>
+					</div>
+					<ul className='list-body'>
+						{list.map((item, i) => (
+							<li className='list-item' key={i}>
+								<span>{item[listKey]}</span>
+								<button onClick={() => onRemove(item)} disabled={isDisabled}>
+									<FontAwesomeIcon icon={faMinus} />
+								</button>
+							</li>
+						))}
+						{list.length === 0 && <span>No items...</span>}
+					</ul>
 				</div>
-				<ul className='list-body'>
-					{list.map((item, i) => (
-						<li className='list-item' key={i}>
-							<span>{item[listKey]}</span>
-							<button onClick={() => onRemove(item)} disabled={isDisabled}>
-								<FontAwesomeIcon icon={faMinus} />
-							</button>
-						</li>
-					))}
-					{list.length === 0 && <span>No items...</span>}
-				</ul>
 			</div>
 			<Modal
 				isOpen={isModalOpen}
