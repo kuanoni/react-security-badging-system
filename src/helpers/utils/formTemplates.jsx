@@ -149,11 +149,94 @@ export const credentialsEditorForm = {
 					key: '_id',
 					label: 'Credential Number',
 					type: 'text',
+
+					disabledUnlessNew: true,
+					error: numbersField,
+				},
+				{
+					key: 'badgeFormat',
+					label: 'Badge Format',
+					type: 'select',
+					options: [
+						// ['HID 2000PGG', 'HID 1326LSS', 'HID 208X']
+						{ value: 'HID 2000PGG', label: 'HID 2000PGG' },
+						{ value: 'HID 1326LSS', label: 'HID 1326LSS' },
+						{ value: 'HID 208X', label: 'HID 208X' },
+					],
+					error: () => {},
+				},
+			],
+		},
+		{
+			label: 'Access Rights',
+			form: [
+				{
+					key: 'partition',
+					label: 'Credential Partition',
+					type: 'select',
+					options: [
+						// ['BLR01', 'KNS01', 'KNS02', 'LA01', 'LA02', 'NYC01']
+						{ value: 'BLR01', label: 'BLR01' },
+						{ value: 'KNS01', label: 'KNS01' },
+						{ value: 'KNS02', label: 'KNS02' },
+						{ value: 'LA01', label: 'LA01' },
+						{ value: 'LA02', label: 'LA02' },
+						{ value: 'NYC01', label: 'NYC01' },
+					],
+					error: () => {},
+				},
+			],
+		},
+	],
+	right: [
+		{
+			label: 'Status',
+			form: [
+				{
+					key: 'activationDate',
+					label: 'Credential Activation',
+					type: 'datepicker',
+					disabledUnlessNew: true,
+					maxDate: new Date(),
+					error: () => {},
+				},
+				{
+					key: 'expirationDate',
+					label: 'Credential Expiration',
+					type: 'datepicker',
+					minDate: new Date(),
+					error: () => {},
+				},
+				{
+					key: 'status',
+					label: 'Credential Status',
+					type: 'select',
+					options: [
+						{ value: true, label: 'Active' },
+						{ value: false, label: 'Inactive' },
+					],
+					error: () => {},
+				},
+			],
+		},
+		{
+			label: 'Owner',
+			form: [
+				{
+					key: 'badgeOwnerName',
+					label: 'Badge Owner',
+					type: 'text',
+					disabledUnlessNew: true,
+					error: lettersField,
+				},
+				{
+					key: 'badgeOwnerId',
+					label: 'Badge Owner ID',
+					type: 'text',
 					disabledUnlessNew: true,
 					error: numbersField,
 				},
 			],
 		},
 	],
-	right: [],
 };

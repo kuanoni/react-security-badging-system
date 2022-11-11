@@ -10,7 +10,7 @@
 	}
 
 	.title {
-		margin: 1rem 0;
+		margin: 0;
 		font-weight: 400;
 	}
 
@@ -28,6 +28,7 @@
 			aspect-ratio: 1 / 1;
 
 			&:has(svg) {
+				aspect-ratio: auto;
 				border: none;
 				height: auto;
 			}
@@ -146,8 +147,8 @@
 				max-width: 100%;
 			}
 
-			.container {
-				flex-direction: column;
+			section {
+				margin-bottom: 2rem;
 			}
 		}
 
@@ -200,10 +201,6 @@
 			&.blank {
 				border-bottom-color: $clr-red;
 			}
-		}
-
-		select {
-			margin-bottom: 1rem;
 		}
 
 		textarea.input {
