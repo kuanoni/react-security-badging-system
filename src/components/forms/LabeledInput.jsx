@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
 
 const LabeledInput = ({ label, defaultValue, handleChange, checkErrors, isDisabled }) => {
+	const [value, setValue] = useState(checkErrors(defaultValue));
 	const [errors, setErrors] = useState(checkErrors(defaultValue));
 
 	const onChange = useCallback(
@@ -16,6 +17,10 @@ const LabeledInput = ({ label, defaultValue, handleChange, checkErrors, isDisabl
 	);
 
 	useEffect(() => {
+		onChange(value);
+	}, [onChange, value]);
+
+	useEffect(() => {
 		onChange(defaultValue);
 	}, [onChange, defaultValue]);
 
@@ -26,7 +31,7 @@ const LabeledInput = ({ label, defaultValue, handleChange, checkErrors, isDisabl
 				className={'input' + (errors.length ? ' blank' : '')}
 				type='text'
 				defaultValue={defaultValue}
-				onChange={(e) => onChange(e.target.value)}
+				onChange={(e) => setValue(e.target.value)}
 				placeholder={'Enter ' + label.toLowerCase() + '...'}
 				disabled={isDisabled}
 			/>
