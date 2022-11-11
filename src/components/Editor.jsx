@@ -1,23 +1,29 @@
 import '../styles/CardholderEditor.scss';
 
 import React, { useState } from 'react';
-import { fetchDelete, fetchPost, fetchUpdate } from '../helpers/api/fetch';
-import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useLoaderData, useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useMutation, useQuery } from 'react-query';
 
 import BuildForm from '../helpers/utils/formBuilder';
 import Modal from './Modal';
 import Popup from './ConfirmationPopup';
 import toast from 'react-hot-toast';
 
-const Editor = ({ blankFormData, queryOptions, formTemplate, getHeaderComponent }) => {
+const Editor = ({
+	blankFormData,
+	queryOptions,
+	formTemplate,
+	getHeaderComponent,
+	postMutationOptions,
+	patchMutationOptions,
+	deleteMutationOptions,
+}) => {
 	const params = useParams();
 	const navigate = useNavigate();
-	const queryClient = useQueryClient();
 
 	const query = useQuery(queryOptions(params.id));
 
-	const isCreatingData = useLoaderData().isCreatingData === true;
+	const isCreatingData = useLoaderData()?.isCreatingData === true;
 	const initialData = isCreatingData ? blankFormData : query.data;
 
 	const [newData, setNewData] = useState({ ...initialData });
@@ -25,60 +31,9 @@ const Editor = ({ blankFormData, queryOptions, formTemplate, getHeaderComponent 
 	const [isSaving, setIsSaving] = useState(false);
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-	const postMutation = useMutation({
-		mutationFn: (cardholder) => fetchPost('cardholders', cardholder),
-		onError: (error) => {
-			if (error.message.includes('E11000')) toast.error(<b>Employee ID is already in use. Try another.</b>);
-			else toast.error(<b>Failed to save cardholder.</b>);
-			setIsEditing(true);
-		},
-		onSuccess: () => {
-			toast.success(<b>Cardholder saved!</b>);
-			queryClient.invalidateQueries(['cardholders-data']);
-			queryClient.invalidateQueries(['cardholders-id-data', params.id]);
-			closeEditor();
-		},
-		onSettled: () => {
-			toast.remove('loadingToast');
-			setIsSaving(false);
-		},
-	});
-
-	const updateMutation = useMutation({
-		mutationFn: ({ id, cardholder }) => fetchUpdate('cardholders', id, cardholder),
-		onError: (error) => {
-			toast.error(<b>Failed to update cardholder.</b>);
-			setIsEditing(true);
-		},
-		onSuccess: async (data, variables) => {
-			toast.success(<b>Cardholder updated!</b>);
-			queryClient.invalidateQueries(['cardholders-data']);
-			await queryClient.invalidateQueries(['cardholders-id-data', params.id]);
-			setIsEditing(false);
-		},
-		onSettled: () => {
-			toast.remove('loadingToast');
-			setIsSaving(false);
-		},
-	});
-
-	const deleteMutation = useMutation({
-		mutationFn: ({ id }) => fetchDelete('cardholders', id),
-		onError: (error) => {
-			toast.error(<b>Failed to delete cardholder.</b>);
-			setIsEditing(true);
-		},
-		onSuccess: () => {
-			toast.success(<b>Cardholder deleted!</b>);
-			queryClient.invalidateQueries(['cardholders-data']);
-			queryClient.invalidateQueries(['cardholders-id-data', params.id]);
-			setIsEditing(false);
-			closeEditor();
-		},
-		onSettled: () => {
-			toast.remove('loadingToast');
-		},
-	});
+	const postMutation = useMutation(postMutationOptions(setIsEditing, setIsSaving));
+	const patchMutation = useMutation(patchMutationOptions(setIsEditing, setIsSaving));
+	const deleteMutation = useMutation(deleteMutationOptions(setIsEditing, setIsSaving));
 
 	const saveData = () => {
 		setIsSaving(true);
@@ -91,7 +46,7 @@ const Editor = ({ blankFormData, queryOptions, formTemplate, getHeaderComponent 
 
 			postMutation.mutate({ ...newData });
 		} else {
-			updateMutation.mutate({ id: initialData._id, cardholder: { ...newData } });
+			patchMutation.mutate({ id: initialData._id, newData: { ...newData } });
 		}
 	};
 
@@ -116,12 +71,7 @@ const Editor = ({ blankFormData, queryOptions, formTemplate, getHeaderComponent 
 
 	return (
 		<>
-			<Modal
-				isOpen={true}
-				closeModal={closeEditor}
-				overlayClassName={'overlay cardholder-editor'}
-				modalClassName={'modal'}
-			>
+			<Modal isOpen={true} closeModal={closeEditor} overlayClassName={'overlay editor'} modalClassName={'modal'}>
 				<Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={deleteData} />
 				<div className='header'>
 					{getHeaderComponent(initialData, isCreatingData, isSaving, isEditing, setIsEditing)}
@@ -151,7 +101,7 @@ const Editor = ({ blankFormData, queryOptions, formTemplate, getHeaderComponent 
 					<button className='btn cancel' onClick={() => !isSaving && closeEditor()} disabled={isSaving}>
 						Cancel
 					</button>
-					<button className='btn save' onClick={() => saveData()} disabled={!isEditing}>
+					<button type='submit' className='btn save' onClick={() => saveData()} disabled={!isEditing}>
 						Save
 					</button>
 				</div>
