@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import Modal from '../../components/Modal';
 import Popup from '../../components/ConfirmationPopup';
+import ToggleButton from '../../components/forms/ToggleButton';
 import toast from 'react-hot-toast';
 
 const blankCardholder = {
@@ -172,21 +173,14 @@ const CardholderEditor = () => {
 								<div className='red-txt'>Inactive</div>
 							)}
 						</div>
-						<label className='edit-toggle'>
-							<span>
-								EDIT
-								<input
-									type='checkbox'
-									id='switch'
-									checked={isEditing}
-									disabled={isSaving}
-									onChange={(e) => {
-										if (!isSaving) setIsEditing(!isEditing);
-									}}
-								/>
-								<label htmlFor='switch'>Toggle</label>
-							</span>
-						</label>
+						<ToggleButton
+							label={'EDIT'}
+							onToggle={(toggled) => {
+								if (!isSaving) setIsEditing(toggled);
+							}}
+							defaultToggled={isEditing}
+							isDisabled={isSaving}
+						/>
 					</div>
 				) : (
 					<div className='header'>
