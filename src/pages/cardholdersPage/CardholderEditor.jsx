@@ -81,11 +81,10 @@ const CardholderEditor = () => {
 			toast.error(<b>Failed to update cardholder.</b>);
 			setIsEditing(true);
 		},
-		onSuccess: (data, variables) => {
+		onSuccess: async (data, variables) => {
 			toast.success(<b>Cardholder updated!</b>);
-			data.json().then((d) => console.log(d));
 			queryClient.invalidateQueries(['cardholders-data']);
-			queryClient.invalidateQueries(['cardholders-id-data', params.id]);
+			await queryClient.invalidateQueries(['cardholders-id-data', params.id]);
 			setIsEditing(false);
 		},
 		onSettled: () => {
