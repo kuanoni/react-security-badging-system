@@ -6,14 +6,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 
 const rowHeight = 45;
 
-const SelectionListRows = ({
-	query,
-	dataKey,
-	selectionListLabels,
-	onlyShowSelected,
-	selectedList,
-	setSelectedList,
-}) => {
+const SelectionListRows = ({ query, selectionListLabelKeys, onlyShowSelected, selectedList, setSelectedList }) => {
 	const containerRef = useRef(null);
 
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, isError } = query;
@@ -68,7 +61,7 @@ const SelectionListRows = ({
 				<SelectionListRow
 					key={item._id}
 					item={item}
-					labels={selectionListLabels}
+					labelKeys={selectionListLabelKeys}
 					defaultChecked={checkIfSelected(item)}
 					toggleSelected={toggleSelected}
 				/>
@@ -90,7 +83,7 @@ const SelectionListRows = ({
 				</div>
 			);
 		});
-	}, [virtualRows, flatData, selectionListLabels, checkIfSelected, hasNextPage, toggleSelected]);
+	}, [virtualRows, flatData, selectionListLabelKeys, checkIfSelected, hasNextPage, toggleSelected]);
 
 	if (isError)
 		return (
@@ -112,7 +105,7 @@ const SelectionListRows = ({
 							<SelectionListRow
 								key={item._id}
 								item={item}
-								label={item[dataKey]}
+								labelKeys={selectionListLabelKeys}
 								defaultChecked={checkIfSelected(item)}
 								toggleSelected={toggleSelected}
 							/>

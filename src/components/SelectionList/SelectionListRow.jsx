@@ -3,7 +3,7 @@ import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const SelectionListRow = React.memo(({ item, labels, getClassName, defaultChecked, toggleSelected }) => {
+const SelectionListRow = React.memo(({ item, labelKeys, defaultChecked, toggleSelected }) => {
 	const [checked, setChecked] = useState(defaultChecked);
 
 	const handleClick = () => {
@@ -15,7 +15,7 @@ const SelectionListRow = React.memo(({ item, labels, getClassName, defaultChecke
 		<div className='list-item' onClick={handleClick} key={item._id}>
 			{checked ? <FontAwesomeIcon icon={faSquareCheck} /> : <FontAwesomeIcon icon={faSquare} />}
 			<span className='labels'>
-				{labels.map((key) => (
+				{labelKeys.map((key) => (
 					<span key={key}>{item[key] || ''}</span>
 				))}
 			</span>

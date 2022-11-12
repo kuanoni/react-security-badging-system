@@ -46,7 +46,7 @@ const BuildForm = ({ formTemplate, defaultData, updateData, isDataNew, isEditing
 					isDisabled={formItem.disabledUnlessNew ? !isDataNew : !isEditing}
 					selectionListProps={{
 						queryHook: formItem.queryHook,
-						selectionListLabels: formItem.selectionListLabels,
+						selectionListLabelKeys: formItem.selectionListLabelKeys,
 					}}
 				/>
 			),
