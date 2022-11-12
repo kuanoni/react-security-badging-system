@@ -157,6 +157,17 @@ export const credentialsEditorForm = {
 					error: numbersField,
 				},
 				{
+					key: 'badgeType',
+					label: 'Badge Type',
+					type: 'select',
+					options: [
+						{ value: 'Employee', label: 'Employee' },
+						{ value: 'Contractor', label: 'Contractor' },
+						{ value: 'Privileged Visitor', label: 'Privileged Visitor' },
+					],
+					error: () => [],
+				},
+				{
 					key: 'badgeFormat',
 					label: 'Badge Format',
 					type: 'select',
