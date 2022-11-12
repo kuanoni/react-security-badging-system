@@ -1,30 +1,29 @@
-# Security Cardholder System
+# Security Badging System
 
 An application used to display and edit cardholder data meant for a security badging system. Built with React and Sass.
 
 ### Notable features
 
--   CRUD functionality through [MockAPI](MockAPI.io)
+-   CRUD functionality through Express/MongoDB backend
+    -   [(Repository here)](https://github.com/kuanoni/security-badging-system-api)
 -   Easily read data using React Table
--   Infinite scrolling implemented using React Query
+-   Virtualized infinite scrolling implemented using React Query & React Virtual
 -   UI implemented using React & Sass
 -   Internal Routing via React Router
 
-<!-- ## Project Status
-
-#### Example:
-
-This project is currently in development. Users can filter tweets by username and keyword and see visual data representation. Functionality to sort by additional parameters is in progress. -->
-
-## Live Example
+## Live Demo
 
 [https://security-badging-system.web.app/](https://security-badging-system.web.app/)
 
-## Project Screen Shot(s)
+## Screen Shot(s)
 
 ![Cardholder table](screenshot_01.png)
 
-![Individual cardholder view](screenshot_02.png)
+![Individual credential view](screenshot_02.png)
+
+![New cardholder view](screenshot_03.png)
+
+![Mobile views collage](screenshot_mobile.png)
 
 ## Installation and Setup Instructions
 
