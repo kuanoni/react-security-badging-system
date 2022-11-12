@@ -69,13 +69,13 @@ const BuildForm = ({ formTemplate, defaultData, updateData, isDataNew, isEditing
 			['left', 'right'].map((columnKey) => (
 				<div className='column' key={columnKey}>
 					{formTemplate[columnKey].map((section, i) => {
-						if (section.hideIfNew && isDataNew) return <></>;
+						if (section.hideIfNew && isDataNew) return <div key={i}></div>;
 						else
 							return (
 								<section key={i}>
 									<h1 className='title'>{section.label}</h1>
 									{section.form.map((formItem) => {
-										if (formItem.hideIfNew && isDataNew) return <></>;
+										if (formItem.hideIfNew && isDataNew) return <div key={formItem.key}></div>;
 										else
 											return formTypeComponents[formItem.type](formItem, defaultData, !isEditing);
 									})}
@@ -84,7 +84,7 @@ const BuildForm = ({ formTemplate, defaultData, updateData, isDataNew, isEditing
 					})}
 				</div>
 			)),
-		[formTemplate, formTypeComponents, defaultData, isEditing]
+		[formTemplate, formTypeComponents, defaultData, isEditing, isDataNew]
 	);
 
 	return formItems;
