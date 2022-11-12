@@ -1,14 +1,15 @@
 import '../../styles/TablePage.scss';
 
 import { Outlet, useNavigate } from 'react-router-dom';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { Suspense, useCallback, useMemo, useState } from 'react';
 import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Searchbar from '../../components/forms/Searchbar';
-import Table from '../../components/Table';
 import { faIdCard } from '@fortawesome/free-regular-svg-icons';
 import { useCredentials } from '../../helpers/api/queries';
+
+const Table = React.lazy(() => import('../../components/Table'));
 
 const CredentialsPage = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
@@ -117,7 +118,15 @@ const CredentialsPage = () => {
 
 	return (
 		<>
-			<Outlet />
+			<Suspense
+				fallback={
+					<div className='container'>
+						<div className='loader'></div>
+					</div>
+				}
+			>
+				<Outlet />
+			</Suspense>
 			<div className={'table-page'}>
 				<div className='table-page-container'>
 					<div className='table-header'>
@@ -137,7 +146,17 @@ const CredentialsPage = () => {
 							</div>
 						</button>
 					</div>
-					<div className='table-body'>{tableComponent}</div>
+					<div className='table-body'>
+						<Suspense
+							fallback={
+								<div className='container'>
+									<div className='loader'></div>
+								</div>
+							}
+						>
+							{tableComponent}
+						</Suspense>
+					</div>
 				</div>
 			</div>
 		</>

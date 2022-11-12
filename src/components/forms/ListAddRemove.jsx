@@ -1,12 +1,13 @@
 import '../../styles/ListAddRemove.scss';
 
+import React, { Suspense } from 'react';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../Modal';
-import React from 'react';
-import SelectionList from '../SelectionListContainer';
 import { useState } from 'react';
+
+const SelectionList = React.lazy(() => import('../SelectionListContainer'));
 
 const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, selectionListProps }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,14 +58,22 @@ const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, 
 				overlayClassName={'overlay selection-list'}
 				modalClassName={'modal'}
 			>
-				<SelectionList
-					{...selectionListProps}
-					label={label}
-					dataKey={listKey}
-					initialSelected={list}
-					saveNewList={onAdd}
-					closeModal={() => setIsModalOpen(false)}
-				/>
+				<Suspense
+					fallback={
+						<div className='container'>
+							<div className='loader'></div>
+						</div>
+					}
+				>
+					<SelectionList
+						{...selectionListProps}
+						label={label}
+						dataKey={listKey}
+						initialSelected={list}
+						saveNewList={onAdd}
+						closeModal={() => setIsModalOpen(false)}
+					/>
+				</Suspense>
 			</Modal>
 		</>
 	);
