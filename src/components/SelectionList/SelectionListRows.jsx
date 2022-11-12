@@ -53,6 +53,18 @@ const SelectionListRows = ({ query, selectionListLabelKeys, onlyShowSelected, se
 
 	const virtualRows = rowVirtualizer.getVirtualItems();
 
+	const selectedListItemComponents = useMemo(() => {
+			return selectedList.map((item) => (
+				<SelectionListRow
+					key={item._id}
+					item={item}
+					labelKeys={selectionListLabelKeys}
+					defaultChecked={checkIfSelected(item)}
+					toggleSelected={toggleSelected}
+				/>
+			));
+	}, [selectedList, selectionListLabelKeys, checkIfSelected, toggleSelected]);
+
 	const listItemComponents = useMemo(() => {
 		return virtualRows.map((virtualRow) => {
 			const isLoaderRow = virtualRow.index > flatData.length - 1;
@@ -83,7 +95,7 @@ const SelectionListRows = ({ query, selectionListLabelKeys, onlyShowSelected, se
 				</div>
 			);
 		});
-	}, [virtualRows, flatData, selectionListLabelKeys, checkIfSelected, hasNextPage, toggleSelected]);
+	}, [virtualRows, flatData, selectionListLabelKeys, checkIfSelected, toggleSelected, hasNextPage]);
 
 	if (isError)
 		return (
@@ -100,17 +112,7 @@ const SelectionListRows = ({ query, selectionListLabelKeys, onlyShowSelected, se
 				</div>
 			) : null}
 			<div className='list' ref={containerRef} onScroll={(e) => fetchMoreOnBottomReached(e.target)}>
-				{onlyShowSelected
-					? selectedList.map((item) => (
-							<SelectionListRow
-								key={item._id}
-								item={item}
-								labelKeys={selectionListLabelKeys}
-								defaultChecked={checkIfSelected(item)}
-								toggleSelected={toggleSelected}
-							/>
-					  ))
-					: listItemComponents}
+				{onlyShowSelected ? selectedListItemComponents : listItemComponents}
 				{isFetchingNextPage ? (
 					<div
 						className='container'
