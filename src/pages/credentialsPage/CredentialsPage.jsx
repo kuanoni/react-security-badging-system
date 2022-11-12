@@ -1,12 +1,15 @@
 import '../../styles/TablePage.scss';
 
-import React, { useMemo, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import React, { Suspense, useCallback, useMemo, useState } from 'react';
+import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Searchbar from '../../components/forms/Searchbar';
-import Table from '../../components/Table';
 import { faIdCard } from '@fortawesome/free-regular-svg-icons';
 import { useCredentials } from '../../helpers/api/queries';
+
+const Table = React.lazy(() => import('../../components/Table'));
 
 const CredentialsPage = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');
@@ -16,6 +19,23 @@ const CredentialsPage = () => {
 	const query = useCredentials(
 		{ value: searchbarValue, filter: searchFilter },
 		sorting.length ? { by: sorting[0].id, order: sorting[0].desc ? 'desc' : 'asc' } : { by: '', order: '' }
+	);
+
+	const navigate = useNavigate();
+
+	/* =======================
+              HANDLERS
+       ======================= */
+
+	const openCredentialsEditorNew = () => {
+		navigate('./newCredential');
+	};
+
+	const openCredentialEditor = useCallback(
+		(id) => {
+			navigate('./' + id);
+		},
+		[navigate]
 	);
 
 	const tableColumns = useMemo(
@@ -64,12 +84,49 @@ const CredentialsPage = () => {
 				header: 'Partition',
 				accessorKey: 'partition',
 			},
+			{
+				header: '',
+				id: 'editBtn',
+				accessorKey: '_id',
+				size: 60,
+				enableResizing: false,
+				enableSorting: false,
+				cell: (info) => {
+					return (
+						<button className='btn-edit-user' onClick={() => openCredentialEditor(info.getValue())}>
+							<FontAwesomeIcon icon={faPenToSquare} />
+						</button>
+					);
+				},
+			},
 		],
-		[]
+		[openCredentialEditor]
+	);
+
+	const tableComponent = useMemo(
+		() => (
+			<Table
+				query={query}
+				columns={tableColumns}
+				sorting={sorting}
+				setSorting={setSorting}
+				onRowClick={openCredentialEditor}
+			/>
+		),
+		[query, tableColumns, sorting, setSorting, openCredentialEditor]
 	);
 
 	return (
 		<>
+			<Suspense
+				fallback={
+					<div className='container'>
+						<div className='loader'></div>
+					</div>
+				}
+			>
+				<Outlet />
+			</Suspense>
 			<div className={'table-page'}>
 				<div className='table-page-container'>
 					<div className='table-header'>
@@ -80,10 +137,25 @@ const CredentialsPage = () => {
 							<option value='badgeType'>Badge Type</option>
 							<option value='badgeOwnerName'>Badge Owner</option>
 							<option value='badgeOwnerId'>Badge Owner ID</option>
+							<option value='partition'>Partition</option>
 						</select>
+						<button className='add-btn' onClick={openCredentialsEditorNew}>
+							<span>Create Credential</span>
+							<div className='icon'>
+								<FontAwesomeIcon icon={faSquarePlus} />
+							</div>
+						</button>
 					</div>
 					<div className='table-body'>
-						<Table query={query} columns={tableColumns} sorting={sorting} setSorting={setSorting} />
+						<Suspense
+							fallback={
+								<div className='container'>
+									<div className='loader'></div>
+								</div>
+							}
+						>
+							{tableComponent}
+						</Suspense>
 					</div>
 				</div>
 			</div>

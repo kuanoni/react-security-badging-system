@@ -1,63 +1,60 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Editor from '../../components/Editor';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import ToggleButton from '../../components/forms/ToggleButton';
-import { cardholderEditorForm } from '../../helpers/utils/formTemplates';
+import { credentialsEditorForm } from '../../helpers/utils/formTemplates';
 import { editorMutationOptionsBuilder } from '../../helpers/api/mutations';
+import { faIdCard } from '@fortawesome/free-solid-svg-icons';
 import { fetchGetById } from '../../helpers/api/fetch';
 import { useQueryClient } from 'react-query';
 
-const blankCardholder = {
+const blankCredential = {
 	_id: '',
-	firstName: '',
-	lastName: '',
-	email: '',
-	jobTitle: '',
-	profileStatus: true,
+	badgeType: 'Employee',
+	badgeOwnerName: '',
+	badgeOwnerId: '',
+	partition: '',
+	status: true,
 	activationDate: new Date(),
 	expirationDate: new Date(),
-	profileType: 'Employee',
-	accessGroups: [],
-	credentials: [],
 };
 
-const cardholderByIdQuery = (id) => ({
-	queryKey: ['cardholders-id-data', id],
-	queryFn: async () => fetchGetById('cardholders', id),
+const credentialByIdQuery = (id) => ({
+	queryKey: ['credentials-id-data', id],
+	queryFn: async () => fetchGetById('credentials', id),
 	options: {
 		keepPreviousData: true,
 		refetchOnWindowFocus: false,
 	},
 });
 
-export const cardholderEditorLoader =
+export const credentialEditorLoader =
 	(queryClient) =>
 	async ({ params }) => {
-		const query = cardholderByIdQuery(params.id);
+		const query = credentialByIdQuery(params.id);
 
 		return queryClient.getQueryData(query.queryKey) ?? (await queryClient.fetchQuery(query));
 	};
 
-const CardholderEditor = () => {
+const CredentialEditor = () => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const queryClient = useQueryClient();
 
-	const getHeaderComponent = (cardholder, isNew, isSaving, isEditing, setIsEditing) => {
-		if (isNew) return <h1 className='title'>New cardholder</h1>;
+	const getHeaderComponent = (credential, isNew, isSaving, isEditing, setIsEditing) => {
+		if (isNew) return <h1 className='title'>New credential</h1>;
 		else
 			return (
 				<>
 					<div className='avatar'>
-						<img src={cardholder?.avatar} alt='' />
+						<FontAwesomeIcon icon={faIdCard} />
 					</div>
 					<div className='cardholder-info'>
-						<h1 className='title'>{cardholder?.firstName + ' ' + cardholder?.lastName}</h1>
-						<div className='label'>Email</div>
-						<div>{cardholder?.email}</div>
+						<h1 className='title'>{credential?._id}</h1>
 						<div className='label'>Status</div>
-						{cardholder?.profileStatus ? (
+						{credential?.status ? (
 							<div className='green-txt'>Active</div>
 						) : (
 							<div className='red-txt'>Inactive</div>
@@ -78,15 +75,15 @@ const CardholderEditor = () => {
 	return (
 		<>
 			<Editor
-				blankFormData={blankCardholder}
-				queryOptions={cardholderByIdQuery}
-				formTemplate={cardholderEditorForm}
+				blankFormData={blankCredential}
+				queryOptions={credentialByIdQuery}
+				formTemplate={credentialsEditorForm}
 				getHeaderComponent={getHeaderComponent}
 				mutationOptions={editorMutationOptionsBuilder(
-					'cardholders',
-					'cardholder',
+					'credentials',
+					'credential',
 					queryClient,
-					[['cardholders-data'], cardholderByIdQuery(params.id).queryKey],
+					[['credentials-data'], ['credentials-id-data', params.id]],
 					navigate
 				)}
 			/>
@@ -94,4 +91,4 @@ const CardholderEditor = () => {
 	);
 };
 
-export default CardholderEditor;
+export default CredentialEditor;

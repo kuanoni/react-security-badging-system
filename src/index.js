@@ -1,15 +1,19 @@
 import './index.scss';
 
-import CardholderEditor, { cardholderEditorLoader } from './pages/cardholdersPage/CardholderEditor';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import CardholdersPage from './pages/cardholdersPage/CardholdersPage';
-import CredentialsPage from './pages/credentialsPage/CredentialsPage';
 import ErrorPage from './pages/ErrorPage';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import RootPage from './pages/RootPage';
+import { cardholderEditorLoader } from './pages/cardholdersPage/CardholderEditor';
+import { credentialEditorLoader } from './pages/credentialsPage/CredentialEditor';
+
+const CardholdersPage = React.lazy(() => import('./pages/cardholdersPage/CardholdersPage'));
+const CredentialsPage = React.lazy(() => import('./pages/credentialsPage/CredentialsPage'));
+const CardholderEditor = React.lazy(() => import('./pages/cardholdersPage/CardholderEditor'));
+const CredentialEditor = React.lazy(() => import('./pages/credentialsPage/CredentialEditor'));
 
 const queryClient = new QueryClient();
 
@@ -36,14 +40,28 @@ const router = createBrowserRouter([
 						path: '/cardholders/newCardholder',
 						element: <CardholderEditor />,
 						loader: () => ({
-							isCreatingCardholder: true,
+							isCreatingData: true,
 						}),
 					},
 				],
 			},
 			{
-				path: 'credentials',
+				path: '/credentials',
 				element: <CredentialsPage />,
+				children: [
+					{
+						path: '/credentials/:id',
+						element: <CredentialEditor />,
+						loader: credentialEditorLoader(queryClient),
+					},
+					{
+						path: '/credentials/newCredential',
+						element: <CredentialEditor />,
+						loader: () => ({
+							isCreatingData: true,
+						}),
+					},
+				],
 			},
 		],
 	},

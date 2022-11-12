@@ -1,8 +1,9 @@
+import { Suspense, useState } from 'react';
+
 import Navbar from '../components/Navbar';
 import { Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useColorTheme } from '../hooks/useColorTheme';
-import { useState } from 'react';
 
 const RootPage = () => {
 	const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -22,7 +23,15 @@ const RootPage = () => {
 				}}
 			/>
 			<Navbar isNavbarOpen={isNavbarOpen} setIsNavbarOpen={setIsNavbarOpen} pageName={'cardholders'} />
-			<Outlet />
+			<Suspense
+				fallback={
+					<div className='container'>
+						<div className='loader'></div>
+					</div>
+				}
+			>
+				<Outlet />
+			</Suspense>
 		</div>
 	);
 };

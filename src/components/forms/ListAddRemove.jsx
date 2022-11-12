@@ -1,12 +1,13 @@
 import '../../styles/ListAddRemove.scss';
 
+import React, { Suspense } from 'react';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../Modal';
-import React from 'react';
-import SelectionList from '../SelectionListContainer';
 import { useState } from 'react';
+
+const SelectionList = React.lazy(() => import('../SelectionListContainer'));
 
 const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, selectionListProps }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,24 +31,26 @@ const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, 
 
 	return (
 		<>
-			<div className='list-add-remove'>
-				<div className='list-header'>
-					<label className='label'>{label}</label>
-					<button onClick={() => setIsModalOpen(true)} disabled={isDisabled}>
-						<FontAwesomeIcon icon={faPlus} />
-					</button>
+			<div className='labeled-input'>
+				<div className='list-add-remove'>
+					<div className='list-header'>
+						<label className='label'>{label}</label>
+						<button onClick={() => setIsModalOpen(true)} disabled={isDisabled}>
+							<FontAwesomeIcon icon={faPlus} />
+						</button>
+					</div>
+					<ul className='list-body'>
+						{list.map((item, i) => (
+							<li className='list-item' key={i}>
+								<span>{item[listKey]}</span>
+								<button onClick={() => onRemove(item)} disabled={isDisabled}>
+									<FontAwesomeIcon icon={faMinus} />
+								</button>
+							</li>
+						))}
+						{list.length === 0 && <span>No items...</span>}
+					</ul>
 				</div>
-				<ul className='list-body'>
-					{list.map((item, i) => (
-						<li className='list-item' key={i}>
-							<span>{item[listKey]}</span>
-							<button onClick={() => onRemove(item)} disabled={isDisabled}>
-								<FontAwesomeIcon icon={faMinus} />
-							</button>
-						</li>
-					))}
-					{list.length === 0 && <span>No items...</span>}
-				</ul>
 			</div>
 			<Modal
 				isOpen={isModalOpen}
@@ -55,14 +58,22 @@ const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, 
 				overlayClassName={'overlay selection-list'}
 				modalClassName={'modal'}
 			>
-				<SelectionList
-					{...selectionListProps}
-					label={label}
-					dataKey={listKey}
-					initialSelected={list}
-					saveNewList={onAdd}
-					closeModal={() => setIsModalOpen(false)}
-				/>
+				<Suspense
+					fallback={
+						<div className='container'>
+							<div className='loader'></div>
+						</div>
+					}
+				>
+					<SelectionList
+						{...selectionListProps}
+						label={label}
+						dataKey={listKey}
+						initialSelected={list}
+						saveNewList={onAdd}
+						closeModal={() => setIsModalOpen(false)}
+					/>
+				</Suspense>
 			</Modal>
 		</>
 	);

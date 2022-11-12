@@ -85,24 +85,26 @@ const CustomDatePicker = ({ label, defaultDate, handleChange, minDate, maxDate, 
 
 	return (
 		<>
-			<label className='label'>{label}</label>
-			<div className='datepicker-container'>
-				<DatePicker
-					ref={pickerRef}
-					selected={selectedDate}
-					onChange={(date) => onChange(date)}
-					onChangeRaw={(e) => {
-						e.preventDefault();
-					}}
-					minDate={minDate}
-					maxDate={maxDate}
-					renderCustomHeader={customHeader}
-					className='input'
-					popperClassName='custom-datepicker-popper'
-					popperPlacement='top'
-					fixedHeight
-					disabled={isDisabled}
-				/>
+			<div className='labeled-input'>
+				<label className='label'>{label}</label>
+				<div className='datepicker-container'>
+					<DatePicker
+						ref={pickerRef}
+						selected={selectedDate}
+						onChange={(date) => onChange(date)}
+						onChangeRaw={(e) => {
+							e.preventDefault();
+						}}
+						minDate={minDate}
+						maxDate={maxDate}
+						renderCustomHeader={customHeader}
+						className='input'
+						popperClassName='custom-datepicker-popper'
+						popperPlacement='top'
+						fixedHeight
+						disabled={isDisabled}
+					/>
+				</div>
 			</div>
 		</>
 	);
