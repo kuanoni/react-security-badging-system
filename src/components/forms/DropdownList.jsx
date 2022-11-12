@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 const DropdownList = ({ label, defaultValue, options, handleChange, isDisabled }) => {
 	useEffect(() => {
-		if (!defaultValue) handleChange(options[0].value);
+		if (defaultValue === undefined) handleChange(options[0].value);
 	}, [defaultValue, handleChange, options]);
 
 	return (
@@ -12,7 +12,7 @@ const DropdownList = ({ label, defaultValue, options, handleChange, isDisabled }
 				<label className='label'>{label}</label>
 				<select
 					className='input'
-					defaultValue={defaultValue ? defaultValue : options[0].value}
+					defaultValue={defaultValue !== undefined ? defaultValue : options[0].value}
 					onChange={(e) => handleChange(e.target.value)}
 					disabled={isDisabled}
 				>
