@@ -32,7 +32,7 @@ const LabeledInput = ({ label, defaultValue, handleChange, checkErrors, isDisabl
 				type='text'
 				defaultValue={defaultValue}
 				onChange={(e) => setValue(e.target.value)}
-				placeholder={'Enter ' + label.toLowerCase() + '...'}
+				placeholder={isDisabled ? '' : 'Enter ' + label.toLowerCase() + '...'}
 				disabled={isDisabled}
 			/>
 			<div
