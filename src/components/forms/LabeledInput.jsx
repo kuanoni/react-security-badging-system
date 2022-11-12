@@ -1,37 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useCallback } from 'react';
+import { useRef } from 'react';
 
 const LabeledInput = ({ label, defaultValue, handleChange, checkErrors, isDisabled }) => {
-	const [value, setValue] = useState(checkErrors(defaultValue));
 	const [errors, setErrors] = useState(checkErrors(defaultValue));
+	const inputRef = useRef(null);
 
 	const onChange = useCallback(
 		(value) => {
 			const newErrors = checkErrors(value);
 			setErrors(newErrors);
-
 			handleChange(newErrors.length ? { label, errors: newErrors } : value);
+			inputRef.current.value = value;
 		},
 		[setErrors, checkErrors, handleChange, label]
 	);
-
-	useEffect(() => {
-		onChange(value);
-	}, [onChange, value]);
-
-	useEffect(() => {
-		onChange(defaultValue);
-	}, [onChange, defaultValue]);
 
 	return (
 		<div className='labeled-input'>
 			<label className='label'>{label}</label>
 			<input
-				className={'input' + (errors.length ? ' blank' : '')}
 				type='text'
+				ref={inputRef}
+				className={'input' + (errors.length ? ' blank' : '')}
 				defaultValue={defaultValue}
-				onChange={(e) => setValue(e.target.value)}
+				onChange={(e) => onChange(e.target.value)}
 				placeholder={isDisabled ? '' : 'Enter ' + label.toLowerCase() + '...'}
 				disabled={isDisabled}
 			/>
