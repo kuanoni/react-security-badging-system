@@ -40,7 +40,6 @@ const Table = ({ query, columns, onRowClick, sorting, setSorting }) => {
 			setSorting(sort);
 		},
 		manualSorting: true,
-		columnResizeMode: 'onChange',
 		getCoreRowModel: getCoreRowModel(),
 	});
 
@@ -83,13 +82,6 @@ const Table = ({ query, columns, onRowClick, sorting, setSorting }) => {
 									) : null}
 								</div>
 							)}
-							<div
-								{...{
-									onMouseDown: header.getResizeHandler(),
-									onTouchStart: header.getResizeHandler(),
-									className: `resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`,
-								}}
-							/>
 						</th>
 					);
 				})}
