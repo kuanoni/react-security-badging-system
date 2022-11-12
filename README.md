@@ -2,14 +2,14 @@
 
 An application used to display and edit cardholder data meant for a security badging system. Built with React and Sass.
 
-### Notable features
+## Notable features
 
--   Full CRUD functionality through Express/MongoDB backend
-    -   [(Repository here)](https://github.com/kuanoni/security-badging-system-api)
--   Easily read data using React Table
--   Virtualized infinite scrolling implemented using React Query & React Virtual
--   UI implemented using React & Sass
--   Internal Routing via React Router
+- Full CRUD functionality through Express/MongoDB backend
+  - [(Repository here)](https://github.com/kuanoni/security-badging-system-api)
+- Easily read data using React Table
+- Virtualized infinite scrolling implemented using React Query & React Virtual
+- UI implemented using React & Sass
+- Internal Routing via React Router
 
 ## Live Demo
 
@@ -26,8 +26,6 @@ An application used to display and edit cardholder data meant for a security bad
 ![Mobile views collage](screenshot_mobile.png)
 
 ## Installation and Setup Instructions
-
-#### Example:
 
 Clone down this repository. You will need `node` and `npm` installed globally on your machine.
 
