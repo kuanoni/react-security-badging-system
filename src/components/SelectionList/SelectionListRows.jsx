@@ -54,6 +54,7 @@ const SelectionListRows = ({ query, selectionListLabelKeys, onlyShowSelected, se
 	const virtualRows = rowVirtualizer.getVirtualItems();
 
 	const selectedListItemComponents = useMemo(() => {
+		if (selectedList.length)
 			return selectedList.map((item) => (
 				<SelectionListRow
 					key={item._id}
@@ -63,6 +64,12 @@ const SelectionListRows = ({ query, selectionListLabelKeys, onlyShowSelected, se
 					toggleSelected={toggleSelected}
 				/>
 			));
+		else
+			return (
+				<div className='list'>
+					<div style={{ fontSize: '1.5em', padding: '1rem' }}>None selected.</div>
+				</div>
+			);
 	}, [selectedList, selectionListLabelKeys, checkIfSelected, toggleSelected]);
 
 	const listItemComponents = useMemo(() => {
