@@ -4,7 +4,7 @@ An application used to display and edit cardholder data meant for a security bad
 
 ### Notable features
 
--   CRUD functionality through Express/MongoDB backend
+-   Full CRUD functionality through Express/MongoDB backend
     -   [(Repository here)](https://github.com/kuanoni/security-badging-system-api)
 -   Easily read data using React Table
 -   Virtualized infinite scrolling implemented using React Query & React Virtual
