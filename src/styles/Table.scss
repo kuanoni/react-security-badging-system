@@ -225,9 +225,10 @@
 		}
 
 		td {
-			height: 3rem;
 			padding: 0.25rem 0.5rem;
 			border-right: 1px solid var(--clr-lighter);
+			white-space: nowrap;
+			text-overflow: ellipsis;
 
 			.avatar {
 				display: block;
