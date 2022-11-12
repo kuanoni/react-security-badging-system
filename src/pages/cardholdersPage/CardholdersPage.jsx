@@ -9,7 +9,7 @@ import Searchbar from '../../components/forms/Searchbar';
 import { useCallback } from 'react';
 import { useCardholders } from '../../helpers/api/queries';
 
-const Table = React.lazy(() => import('../../components/Table'));
+const Table = React.lazy(() => import('../../components/Table/Table'));
 
 const CardholdersPage = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');

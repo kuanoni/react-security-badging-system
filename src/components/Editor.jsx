@@ -1,4 +1,4 @@
-import '../styles/CardholderEditor.scss';
+import '../styles/Editor.scss';
 
 import React, { useState } from 'react';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';

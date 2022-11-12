@@ -1,10 +1,10 @@
-import '../styles/SelectionList.scss';
+import '../../styles/SelectionList.scss';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Searchbar from './forms/Searchbar';
+import Searchbar from '../forms/Searchbar';
 import SelectionListRows from './SelectionListRows';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';

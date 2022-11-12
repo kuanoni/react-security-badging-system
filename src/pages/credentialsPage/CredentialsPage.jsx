@@ -9,7 +9,7 @@ import Searchbar from '../../components/forms/Searchbar';
 import { faIdCard } from '@fortawesome/free-regular-svg-icons';
 import { useCredentials } from '../../helpers/api/queries';
 
-const Table = React.lazy(() => import('../../components/Table'));
+const Table = React.lazy(() => import('../../components/Table/Table'));
 
 const CredentialsPage = () => {
 	const [searchbarValue, setSearchbarValue] = useState('');

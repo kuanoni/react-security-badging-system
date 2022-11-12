@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../Modal';
 import { useState } from 'react';
 
-const SelectionList = React.lazy(() => import('../SelectionListContainer'));
+const SelectionList = React.lazy(() => import('../SelectionList/SelectionListContainer'));
 
 const ListAddRemove = ({ label, defaultList, listKey, handleChange, isDisabled, selectionListProps }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);

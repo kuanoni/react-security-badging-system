@@ -1,4 +1,4 @@
-import '../styles/Table.scss';
+import '../../styles/Table.scss';
 
 import React, { useCallback, useMemo, useRef } from 'react';
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
