@@ -8,6 +8,7 @@ import { useState } from 'react';
 const Popup = ({ isPopupOpen, setIsPopupOpen, onConfirm }) => {
 	const [isDisabled, setIsDisabled] = useState(true);
 
+	// Wait X seconds before enabling confirm button
 	useEffect(() => {
 		if (isPopupOpen)
 			setTimeout(() => {
@@ -24,7 +25,7 @@ const Popup = ({ isPopupOpen, setIsPopupOpen, onConfirm }) => {
 			modalClassName={'popup'}
 		>
 			<div>
-				Are you sure you want to <b>delete</b> this cardholder?
+				Are you sure you want to <b>delete</b> this?
 			</div>
 			<div className='red-txt'>This action can not be undone.</div>
 			<div className='btns'>
