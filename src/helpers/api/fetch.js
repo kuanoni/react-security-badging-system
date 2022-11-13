@@ -7,8 +7,8 @@ export const fetchGet = async ({ collection, page, search, props, sort }) => {
 
 	fetchUrl += '?page=' + (page + 1) + '&limit=' + fetchSize;
 
-	if (search.value) fetchUrl += `&filter=${search.filter}&value=${search.value}`;
-	if (sort) fetchUrl += `&sortBy=${sort.by}&order=${sort.order}`;
+	if (search.filter && search.value) fetchUrl += `&filter=${search.filter}&value=${search.value}`;
+	if (sort.by && sort.order) fetchUrl += `&sortBy=${sort.by}&order=${sort.order}`;
 	if (props) fetchUrl += '&props=' + props;
 
 	// console.log(fetchUrl);
