@@ -20,7 +20,7 @@ export const editorMutationOptionsBuilder = (
 		},
 		onSuccess: () => {
 			toast.success(<b>{titleCase(itemName)} saved!</b>);
-			queryKeysToInvalidate.forEach((key) => queryClient.invalidateQueries(key));
+			queryKeysToInvalidate.forEach((key) => queryClient.invalidateQueries({ queryKey: key, exact: true }));
 			navigate('../');
 		},
 		onSettled: () => {
@@ -35,7 +35,7 @@ export const editorMutationOptionsBuilder = (
 		},
 		onSuccess: async () => {
 			toast.success(<b>{titleCase(itemName)} updated!</b>);
-			queryKeysToInvalidate.forEach((key) => queryClient.invalidateQueries(key));
+			queryKeysToInvalidate.forEach((key) => queryClient.invalidateQueries({ queryKey: key, exact: true }));
 		},
 		onSettled: () => {
 			toast.remove('loadingToast');
@@ -47,9 +47,9 @@ export const editorMutationOptionsBuilder = (
 		onError: () => {
 			toast.error(<b>Failed to delete {itemName}.</b>);
 		},
-		onSuccess: () => {
+		onSuccess: async () => {
 			toast.success(<b>{titleCase(itemName)} deleted!</b>);
-			queryKeysToInvalidate.forEach((key) => queryClient.invalidateQueries(key));
+			queryKeysToInvalidate.forEach((key) => queryClient.invalidateQueries({ queryKey: key, exact: true }));
 			navigate('../');
 		},
 		onSettled: () => {

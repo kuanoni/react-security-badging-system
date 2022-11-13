@@ -8,6 +8,8 @@ import { credentialsEditorForm } from '../../helpers/utils/formTemplates';
 import { editorMutationOptionsBuilder } from '../../helpers/api/mutations';
 import { faIdCard } from '@fortawesome/free-solid-svg-icons';
 import { fetchGetById } from '../../helpers/api/fetch';
+import toast from 'react-hot-toast';
+import { useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 
 const blankCredential = {
@@ -72,6 +74,31 @@ const CredentialEditor = () => {
 			);
 	};
 
+	const editorMutationOptions = useMemo(() => {
+		// Related query keys must be refetched/invalidated
+		const queryKeysToInvalidate = [['credentials-data'], ['credentials-id-data', params.id]];
+		const credentialOwnerId = queryClient.getQueryData(['credentials-id-data', params.id]).badgeOwnerId;
+		const credentialOwnerQueryKey = ['cardholders-id-data', credentialOwnerId];
+
+		const options = editorMutationOptionsBuilder(
+			'credentials',
+			'credential',
+			queryClient,
+			queryKeysToInvalidate,
+			navigate
+		);
+
+		options.delete.onSuccess = () => {
+			toast.success(<b>Credential deleted!</b>);
+			queryKeysToInvalidate.forEach((key) => queryClient.invalidateQueries({ queryKey: key, exact: true }));
+			// refetch any cardholder owner queries
+			queryClient.refetchQueries({ key: credentialOwnerQueryKey, exact: true });
+			navigate('../');
+		};
+
+		return options;
+	}, [params.id, queryClient, navigate]);
+
 	return (
 		<>
 			<Editor
@@ -79,13 +106,7 @@ const CredentialEditor = () => {
 				queryOptions={credentialByIdQuery}
 				formTemplate={credentialsEditorForm}
 				getHeaderComponent={getHeaderComponent}
-				mutationOptions={editorMutationOptionsBuilder(
-					'credentials',
-					'credential',
-					queryClient,
-					[['credentials-data'], ['credentials-id-data', params.id]],
-					navigate
-				)}
+				mutationOptions={editorMutationOptions}
 			/>
 		</>
 	);

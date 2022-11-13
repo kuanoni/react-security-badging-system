@@ -1,11 +1,12 @@
+import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Editor from '../../components/Editor';
-import React from 'react';
 import ToggleButton from '../../components/forms/ToggleButton';
 import { cardholderEditorForm } from '../../helpers/utils/formTemplates';
 import { editorMutationOptionsBuilder } from '../../helpers/api/mutations';
 import { fetchGetById } from '../../helpers/api/fetch';
+import toast from 'react-hot-toast';
 import { useQueryClient } from 'react-query';
 
 const blankCardholder = {
@@ -34,6 +35,7 @@ const cardholderByIdQuery = (id) => ({
 export const cardholderEditorLoader =
 	(queryClient) =>
 	async ({ params }) => {
+		console.log(queryClient);
 		const query = cardholderByIdQuery(params.id);
 
 		return queryClient.getQueryData(query.queryKey) ?? (await queryClient.fetchQuery(query));
@@ -75,6 +77,32 @@ const CardholderEditor = () => {
 			);
 	};
 
+	const editorMutationOptions = useMemo(() => {
+		// Related query keys must be refetched/invalidated
+		const queryKeysToInvalidate = [['cardholders-data'], cardholderByIdQuery(params.id).queryKey];
+		const cardholderCredentials = queryClient.getQueryData(['cardholders-id-data', params.id]).credentials;
+
+		const options = editorMutationOptionsBuilder(
+			'cardholders',
+			'cardholder',
+			queryClient,
+			queryKeysToInvalidate,
+			navigate
+		);
+
+		options.delete.onSuccess = () => {
+			toast.success(<b>Cardholder deleted!</b>);
+			queryKeysToInvalidate.forEach((key) => queryClient.refetchQueries({ queryKey: key, exact: true }));
+			// refetch any owned credentials queries
+			cardholderCredentials.forEach((credential) =>
+				queryClient.refetchQueries({ key: ['credentials-id-data', credential._id], exact: true })
+			);
+			navigate('../');
+		};
+
+		return options;
+	}, [params.id, queryClient, navigate]);
+
 	return (
 		<>
 			<Editor
@@ -82,13 +110,7 @@ const CardholderEditor = () => {
 				queryOptions={cardholderByIdQuery}
 				formTemplate={cardholderEditorForm}
 				getHeaderComponent={getHeaderComponent}
-				mutationOptions={editorMutationOptionsBuilder(
-					'cardholders',
-					'cardholder',
-					queryClient,
-					[['cardholders-data'], cardholderByIdQuery(params.id).queryKey],
-					navigate
-				)}
+				mutationOptions={editorMutationOptions}
 			/>
 		</>
 	);
