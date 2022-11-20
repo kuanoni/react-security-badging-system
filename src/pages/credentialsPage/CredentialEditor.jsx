@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 
 import Editor from '../../components/Editor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -44,6 +44,7 @@ const CredentialEditor = () => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const queryClient = useQueryClient();
+	const isCreatingData = useLoaderData()?.isCreatingData === true;
 
 	const getHeaderComponent = (credential, isNew, isSaving, isEditing, setIsEditing) => {
 		if (isNew) return <h1 className='title'>New credential</h1>;
@@ -77,7 +78,6 @@ const CredentialEditor = () => {
 	const editorMutationOptions = useMemo(() => {
 		// Related query keys must be refetched/invalidated
 		const queryKeysToInvalidate = [['credentials-data'], ['credentials-id-data', params.id]];
-		const credentialOwnerId = queryClient.getQueryData(['credentials-id-data', params.id]).badgeOwnerId;
 		const credentialOwnerQueryKey = ['cardholders-id-data', credentialOwnerId];
 
 		const options = editorMutationOptionsBuilder(
@@ -88,6 +88,10 @@ const CredentialEditor = () => {
 			navigate
 		);
 
+		// Use default options if creating new cardholder
+		if (isCreatingData) return options;
+
+		const credentialOwnerId = queryClient.getQueryData(['credentials-id-data', params.id]).badgeOwnerId;
 		options.delete.onSuccess = () => {
 			toast.success(<b>Credential deleted!</b>);
 			queryKeysToInvalidate.forEach((key) => queryClient.invalidateQueries({ queryKey: key, exact: true }));

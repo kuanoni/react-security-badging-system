@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 
 import Editor from '../../components/Editor';
 import ToggleButton from '../../components/forms/ToggleButton';
@@ -35,7 +35,6 @@ const cardholderByIdQuery = (id) => ({
 export const cardholderEditorLoader =
 	(queryClient) =>
 	async ({ params }) => {
-		console.log(queryClient);
 		const query = cardholderByIdQuery(params.id);
 
 		return queryClient.getQueryData(query.queryKey) ?? (await queryClient.fetchQuery(query));
@@ -45,6 +44,7 @@ const CardholderEditor = () => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const queryClient = useQueryClient();
+	const isCreatingData = useLoaderData()?.isCreatingData === true;
 
 	const getHeaderComponent = (cardholder, isNew, isSaving, isEditing, setIsEditing) => {
 		if (isNew) return <h1 className='title'>New cardholder</h1>;
@@ -80,7 +80,6 @@ const CardholderEditor = () => {
 	const editorMutationOptions = useMemo(() => {
 		// Related query keys must be refetched/invalidated
 		const queryKeysToInvalidate = [['cardholders-data'], cardholderByIdQuery(params.id).queryKey];
-		const cardholderCredentials = queryClient.getQueryData(['cardholders-id-data', params.id]).credentials;
 
 		const options = editorMutationOptionsBuilder(
 			'cardholders',
@@ -90,6 +89,10 @@ const CardholderEditor = () => {
 			navigate
 		);
 
+		// Use default options if creating new cardholder
+		if (isCreatingData) return options;
+
+		const cardholderCredentials = queryClient.getQueryData(['cardholders-id-data', params.id]).credentials;
 		options.delete.onSuccess = () => {
 			toast.success(<b>Cardholder deleted!</b>);
 			queryKeysToInvalidate.forEach((key) => queryClient.refetchQueries({ queryKey: key, exact: true }));
@@ -101,7 +104,7 @@ const CardholderEditor = () => {
 		};
 
 		return options;
-	}, [params.id, queryClient, navigate]);
+	}, [params.id, queryClient, isCreatingData, navigate]);
 
 	return (
 		<>
