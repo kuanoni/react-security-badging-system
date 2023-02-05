@@ -1,5 +1,5 @@
 export const fetchSize = 30;
-const apiUrl = 'https://security-system-api.herokuapp.com/';
+const apiUrl = 'https://api-security-badging.fly.dev/';
 // const apiUrl = 'http://localhost:5000/';
 
 export const fetchGet = async ({ collection, page, search, props, sort }) => {
